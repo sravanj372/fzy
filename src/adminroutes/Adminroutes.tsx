@@ -8,6 +8,7 @@ import AdminLayout  from "../adminflow/AdminLayout"
 import Dashboard from "../adminflow/Dashboard" */
 import React, { Suspense } from "react"
 import { Box } from "@mui/system"
+import RestuarentDetails from "../adminflow/RestuarentDetails"
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
 const OrderManagement=React.lazy(()=>import('../adminflow/OrderManagement'))
@@ -28,6 +29,8 @@ const Adminroutes = () => {
     <Route path="dashboard" element={<Dashboard />}/>
     <Route path="restaurant-management" element={<RestaurantManagement />}/>
     <Route path="restaurant-management/pending-request" element={<RestaurantManagement/>}/>
+    <Route path="restaurant-management/suspend-account" element={<RestaurantManagement/>}/>
+    <Route path="restaurant-management/restaurant-details" element={<RestuarentDetails/>}/> 
     <Route path="order-management" element={<OrderManagement />}/>
     <Route path="user-management" element={<UserManagement />}/>
     <Route path="discount" element={<DiscountandPromo />}/>

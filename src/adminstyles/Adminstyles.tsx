@@ -3,8 +3,12 @@ import { styled } from '@mui/material/styles';
 
 export const Suspendedbutton=styled(Button)(({theme})=>({
     borderColor:'red',
-    color:'red' ,
-     [theme.breakpoints.down('sm')]: {
+    color:'red',
+   '&:hover':{
+    borderColor:'red',
+    background:'white'
+  },
+[theme.breakpoints.down('sm')]: {
     width: '48%', // full width on small screens
   },
 }));
@@ -43,17 +47,7 @@ export const Filterbutton=styled(Button)(({theme})=>({
   },
  [theme.breakpoints.down('sm')]: {
     width: '36%',
-   
-
-
-
-
-
-
-    
 },
-
-
 }));
 
 export const ExportBox=styled(Box)(({theme})=>({
