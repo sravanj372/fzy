@@ -1,14 +1,7 @@
 import { BrowserRouter,Routes, Route } from "react-router-dom"
-/* import RestaurantManagement from "../adminflow/RestaurantManagement"
-import OrderManagement from "../adminflow/OrderManagement"
-import UserManagement from "../adminflow/UserManagement"
-import DiscountandPromo from "../adminflow/DiscountandPromo"
-import ConfigurationSettings from "../adminflow/ConfigurationSettings"
-import AdminLayout  from "../adminflow/AdminLayout"
-import Dashboard from "../adminflow/Dashboard" */
 import React, { Suspense } from "react"
 import { Box } from "@mui/system"
-import RestuarentDetails from "../adminflow/RestuarentDetails"
+import OrderandBills from "../adminflow/OrderandBills"
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
 const OrderManagement=React.lazy(()=>import('../adminflow/OrderManagement'))
@@ -17,7 +10,7 @@ const DiscountandPromo=React.lazy(()=>import('../adminflow/DiscountandPromo'))
 const ConfigurationSettings=React.lazy(()=>import('../adminflow/ConfigurationSettings'))
 const AdminLayout=React.lazy(()=>import('../adminflow/AdminLayout'))
 const Dashboard=React.lazy(()=>import('../adminflow/Dashboard'))
-
+const RestuarentDetails=React.lazy(()=>import('../adminflow/RestuarentDetails'))
 
 const Adminroutes = () => {
   return (
@@ -32,6 +25,7 @@ const Adminroutes = () => {
     <Route path="restaurant-management/suspend-account" element={<RestaurantManagement/>}/>
     <Route path="restaurant-management/restaurant-details" element={<RestuarentDetails/>}/> 
     <Route path="order-management" element={<OrderManagement />}/>
+    <Route path="order-management/order-bills" element={<OrderandBills />}/>
     <Route path="user-management" element={<UserManagement />}/>
     <Route path="discount" element={<DiscountandPromo />}/>
     <Route path="configsetting" element={<ConfigurationSettings />}/>

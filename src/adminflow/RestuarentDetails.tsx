@@ -134,7 +134,7 @@ const restaurantinfo=[
      <Paper sx={{border: "1px solid green", mt:"12px",overflowX:{xs:'hidden'}}}>
     <Grid container p={2} >
     
-    <Grid size={{md:12,xs:12}}  >
+    <Grid size={{md:12,xs:12}} >
     
     <Stack direction="column" gap={1} >
      <Typography color="#2F7A52" fontWeight="700">Restaurant Information</Typography> 

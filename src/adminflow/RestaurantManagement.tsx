@@ -24,6 +24,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Suspendpopup from "./popups/Suspendpopup";
+import CircleIcon from '@mui/icons-material/Circle';
 
 interface Restaurentheading {
   id: number;
@@ -421,14 +422,14 @@ const handleClickOpen=()=>{
         </Grid>
         {/* restaurent details end */}
         <Box mt={2}>
-          <TableContainer component={Paper}>
+         <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {tableheading.map((headings) => (
                     <TableCell
                       sx={{
-                        color: path === "suspend-account" ? "red" : "#2F7A52",
+                         color: path === "suspend-account" ? "red" : "#2F7A52",
                         fontWeight: 700,
                       }}
                     >
@@ -534,7 +535,7 @@ const handleClickOpen=()=>{
                           component="th"
                           scope="row"
                           sx={{ color: "#2F7A52", textDecoration: "underline" }}
-                        >
+                         >
                           {tdata.restaurantname}
                         </TableCell>
                         <TableCell component="th" scope="row">
@@ -582,8 +583,8 @@ const handleClickOpen=()=>{
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ color: "#2F7A52", textDecoration: "underline" }}
-                        >
+                          sx={{ color: "#2F7A52", textDecoration: "underline",cursor:'pointer'}}
+                          onClick={()=>navigate('restaurant-details')}>
                           {tdata.restaurantname}
                         </TableCell>
                         {"vendorname" in tdata && (
@@ -611,7 +612,7 @@ const handleClickOpen=()=>{
 
                         {"status" in tdata && (
                           <TableCell component="th" scope="row">
-                            {tdata.status}
+                           <CircleIcon sx={{ marginTop: '5px', marginRight: '2px', fontSize: "11px",color:'#2F7A52' }} /> {tdata.status}
                           </TableCell>
                         )}
 
