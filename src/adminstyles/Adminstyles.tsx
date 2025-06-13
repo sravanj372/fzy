@@ -1,6 +1,7 @@
 import { Button,Box} from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+
 export const Suspendedbutton=styled(Button)(({theme})=>({
     borderColor:'red',
     color:'red',

@@ -73,7 +73,7 @@ const OrderManagement = () => {
   ];
 
   const orderheadings = [
-    { id: 1, heading: "Customer Name" },
+    { id: 1, heading: "Order ID" },
     { id: 2, heading: "Restaurant Name" },
     { id: 3, heading: "Area" },
     { id: 4, heading: "Date & Time" },
@@ -120,10 +120,10 @@ const OrderManagement = () => {
     <Box sx={{ background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
         <Grid container justifyContent="space-between">
-           <Grid size={{ md: 6, sm: 12 }}>
+           <Grid size={{ md: 6, xs: 12 }}>
             <Typography color="#2F7A52">Order Details</Typography>
            </Grid>
-           <Grid size={{ md: 6, sm: 12 }}>
+           <Grid size={{ md: 6, xs: 12 }}>
             <Stack
               display="flex"
               direction="row"
