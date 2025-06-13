@@ -1,7 +1,6 @@
 import { Divider, Paper, Stack, Typography } from "@mui/material"
 import { Box, Grid } from "@mui/system"
 
-
 const OrderandBills = () => {
 
    const orderbills=[
@@ -40,7 +39,6 @@ return (
                 <Stack direction="row" spacing={{md:50,xs:3}} >   
                 <Typography minWidth="160px" >{bill.item}<Typography component="span">{bill.quantity}</Typography></Typography>
                 <Typography minWidth="160px" >{bill.price}</Typography>
-                
                 </Stack>
                <Divider />
                

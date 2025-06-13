@@ -1,7 +1,6 @@
 import { BrowserRouter,Routes, Route } from "react-router-dom"
 import React, { Suspense } from "react"
 import { Box } from "@mui/system"
-import OrderandBills from "../adminflow/OrderandBills"
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
 const OrderManagement=React.lazy(()=>import('../adminflow/OrderManagement'))
@@ -11,6 +10,7 @@ const ConfigurationSettings=React.lazy(()=>import('../adminflow/ConfigurationSet
 const AdminLayout=React.lazy(()=>import('../adminflow/AdminLayout'))
 const Dashboard=React.lazy(()=>import('../adminflow/Dashboard'))
 const RestuarentDetails=React.lazy(()=>import('../adminflow/RestuarentDetails'))
+const OrderandBills=React.lazy(()=>import('../adminflow/OrderandBills'))
 
 const Adminroutes = () => {
   return (
