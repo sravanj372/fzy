@@ -1,4 +1,4 @@
-import {Typography,InputLabel, OutlinedInput, InputAdornment, Button } from "@mui/material"
+import {Typography, OutlinedInput, InputAdornment, Button } from "@mui/material"
 import { Box, Grid, } from "@mui/system"
 import { StyledFormControl, StyledInputLabel } from "../adminstyles/Adminstyles"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -10,7 +10,7 @@ const Addcoupon = () => {
   return (
     <Box p={2} bgcolor="#F1F4F9" height="100vh">
       <Box display="flex">
-      <ArrowBackIcon onClick={()=>navigate('/admin/discountpromo')}/><Typography color="#2F7A52" >Add Coupon</Typography></Box>
+      <ArrowBackIcon onClick={()=>navigate('/admin/discountpromo')} sx={{cursor:'pointer'}}/><Typography color="#2F7A52" >Add Coupon</Typography></Box>
      <Box sx={{maxWidth:'700px',mt:"40px" 
      }}>
       <Grid container display="flex" justifyContent="center" alignContent="center"

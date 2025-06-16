@@ -17,8 +17,11 @@ import AddIcon from "@mui/icons-material/Add";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useLocation, useNavigate } from "react-router-dom";
+import React from 'react'
+import DeleteCoupon from "./popups/DeleteCoupon";
 
-const DiscountandPromo = () => {
+const DiscountandPromo = () =>{
+  
   const navigate = useNavigate();
 
   const discountheadings = [
@@ -146,6 +149,19 @@ const DiscountandPromo = () => {
   const location = useLocation();
   const path = location.pathname.split("/").pop();
   console.log(path);
+  
+  //deletecoupon handler
+  const [deleteCoupon, setDeleteCoupon] = React.useState<boolean | null>(false);
+  
+  const deleteCouponHandler=()=>{
+     setDeleteCoupon(true)
+  }
+  
+  const closeCouponHandler=()=>{
+     setDeleteCoupon(false)
+  }
+  
+  
   return (
     <Box sx={{ background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
@@ -179,7 +195,7 @@ const DiscountandPromo = () => {
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={() => navigate("/admin/discountpromo/add-coupon")}
-              >
+               >
                 ADD COUPON
               </Button>
 
@@ -245,9 +261,9 @@ const DiscountandPromo = () => {
                         <TableCell component="th" scope="row">
                           <Button
                             variant="outlined"
-                            sx={{ color: "red", borderColor: "red" }}
+                            sx={{ color: "red", borderColor: "red",'&:hover':{borderColor:'red'} }}
                             startIcon={<DeleteOutlineIcon />}
-                          >
+                          onClick={deleteCouponHandler}>
                             Delete
                           </Button>
                         </TableCell>
@@ -290,11 +306,12 @@ const DiscountandPromo = () => {
                         <TableCell component="th" scope="row">
                           <Button
                             variant="outlined"
-                            sx={{ color: "red", borderColor: "red" }}
+                            sx={{ color: "red", borderColor: "red",'&:hover':{borderColor:'red'} }}
                             startIcon={<DeleteOutlineIcon />}
-                          >
+                            onClick={deleteCouponHandler}>
                             Delete
                           </Button>
+                         {deleteCoupon&& <DeleteCoupon deletecoupon={deleteCoupon} couponclose={closeCouponHandler}/>}
                         </TableCell>
                       </TableRow>
                     ))}

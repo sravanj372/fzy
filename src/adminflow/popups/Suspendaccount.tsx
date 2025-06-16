@@ -21,8 +21,9 @@ const Suspendaccount = ({suspenopen,supendclose}:{suspenopen:any;supendclose:any
            <Typography textAlign="center">Are you sure want to delete the Suspend Account?</Typography>
            </DialogContent>
            <DialogActions sx={{display:'flex', justifyContent:'center',marginBottom:'36px', gap:"100px"}}>
-             <Button variant="outlined" onClick={supendclose}>Cancel</Button>
-             <Button variant="contained" onClick={supendclose} autoFocus>
+             <Button variant="outlined" onClick={supendclose} sx={{border:'1px solid red',color:'red'}}>Cancel</Button>
+             <Button variant="contained" onClick={supendclose} autoFocus sx={{background:'red','&:hover':{
+              background:'red' }}}>
                Delete
              </Button>
            </DialogActions>
