@@ -1,4 +1,4 @@
-import { Button,Box} from '@mui/material';
+import { Button,Box, FormControl, InputLabel} from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 
@@ -86,3 +86,19 @@ export const ExportBox=styled(Box)(({theme})=>({
       
 }));
 
+export const StyledFormControl = styled(FormControl)(({ theme }) => ({
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: theme.palette.primary.main,
+    width:"80%",
+  },
+  '& input[type="date"]::-webkit-calendar-picker-indicator': {
+    filter: 'invert(68%) sepia(10%) saturate(1486%) hue-rotate(64deg) brightness(91%) contrast(89%);', // Adjust the filter values to change the color
+    width:"28%"
+  },
+  
+  }));
+
+  export const StyledInputLabel = styled(InputLabel)(() => ({
+   color:'#000000'
+
+  }));
