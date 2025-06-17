@@ -1,6 +1,7 @@
 import { BrowserRouter,Routes, Route } from "react-router-dom"
-import React, { lazy, Suspense } from "react"
+import React, {  lazy, Suspense } from "react"
 import { Box } from "@mui/system"
+import PartnerCommissionRule from "../adminflow/PartnerCommissionRule"
 
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
@@ -37,6 +38,9 @@ const Adminroutes = () => {
       <Route path="discountpromo/admin-coupon" element={<DiscountandPromo />}/>
       <Route path="discountpromo/add-coupon" element={<Addcoupon />}/>
       <Route path="configsetting" element={<ConfigurationSettings />}/>
+      <Route path="configsetting/partner-bankdetails" element={<ConfigurationSettings />}/>
+      <Route path="configsetting/partner-commission" element={<PartnerCommissionRule />}/>
+      <Route path="configsetting/partner-commission/addpartner" element={<PartnerCommissionRule />}/>
  </Route>
 </Routes>
 </Suspense>
