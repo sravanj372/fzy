@@ -1,11 +1,15 @@
-import { Button, Divider, OutlinedInput, Typography } from "@mui/material";
-import { Box, Grid } from "@mui/system";
+import {
+  Button,
+  Divider,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { Box} from "@mui/system";
 import Icon from "@mui/material/Icon";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PartnerCommissionRule = () => {
@@ -31,272 +35,199 @@ const PartnerCommissionRule = () => {
       value: "Fog Harbour Fish",
       value2: "5%",
     },
-  ]
+  ];
 
-const navigate= useNavigate()
-const location=useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const path=location.pathname.split('/').pop()
-console.log(path)
+  const path = location.pathname.split("/").pop();
+  console.log(path);
 
-return (
-    <Box bgcolor="#f0ffff" height="100vh">
-      <Box display="flex" justifyContent="space-between" p={2}>
-
-        <Typography color="#2F7A52">{path==='addpartner'?"Add Partner Commission Rule":"Partner Commission Rule"}</Typography>
-        <Box display="flex" justifyContent="space-between">
-           {path!=='addpartner'&&(<Icon sx={{ color: "#2F7A52" }} component="span">
-            add_circle
-          </Icon>)} 
-          
-          <Typography color="#2F7A52" sx={{ textDecoration: "underline",cursor:'pointer'}} 
-          onClick={()=>navigate('addpartner')}>
-            {path!=='addpartner'&&"Add Another Commission Rule"}
-            
+  return (
+    <Box p={1}>
+      <Box display="flex" justifyContent="space-between" color="#2F7A52">
+        <Typography>
+          {path === "addpartner"
+            ? "Add Partner Commission Rule"
+            : "Partner Commission Rule"}
+        </Typography>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          {path !== "addpartner" && (
+            <Icon sx={{ color: "#2F7A52" }} component="span">
+              add_circle
+            </Icon>
+          )}
+          <Typography onClick={() => navigate("addpartner")} sx={{cursor:'pointer'}}>
+            {" "}
+            {path !== "addpartner" && "Add Another Commission Rule"}
           </Typography>
         </Box>
       </Box>
-
-      {/* form fields */}
-     {path==='addpartner'?(
+      {/* form section */}
+      {path === "addpartner" ? (
         <>
-        <Grid
-            container
+          <Box display="flex" flexDirection={{ xs: "column", md: "row" }}>
+            <Box sx={{ width: { xs: "100%", md: "20%" } }}>
+              <Typography width="100%">Restaurant Name</Typography>
+            </Box>
+            <Box width={{ md: "22%", xs: "72%" }} display="flex" gap={3}>
+              <FormControl
+                size="small"
+                variant="outlined"
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    color: "#333",
+                    "& fieldset": {
+                      borderColor: "#68b266",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#4CAF50",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#2e7d32",
+                    },
+                  },
+                  "& .MuiSelect-icon": {
+                    color: "#68b266",
+                  },
+                }}
+              >
+                <Select>
+                  <MenuItem value={10}>The Urban Pantry</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
+
+          {/*commission row*/}
+          <Box
             display="flex"
-            justifyContent="flex-start"
-            alignContent="center"
-            gap={2}
-            spacing={2}
-            p={2}
+            flexDirection={{ xs: "column", md: "row" }}
             mt={2}
           >
-            {/* Restuarant Name */}
-
-            <Grid size={{ md: 2, xs: 12 }}>
-              <InputLabel sx={{ color: "#000000" }}>
-               Restuarant Name
-              </InputLabel>
-            </Grid>
-            <Grid size={{ md: 10, xs: 12 }}>
-              <Box
-                display="flex"
-                justifySelf="flex-start"
-                alignItems="flex-start"
-                gap={4}
-              >
-                <FormControl
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "250px",
-                    "& .MuiOutlinedInput-root": {
-                      color: "#333",
-                      "& fieldset": {
-                        borderColor: "#68b266",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#4CAF50",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#2e7d32",
-                      },
+            <Box sx={{ width: { xs: "100%", md: "20%" } }}>
+              <Typography width="100%">Commission %</Typography>
+            </Box>
+            <Box width={{ md: "22%", xs: "72%" }} display="flex" gap={3}>
+              <TextField
+                size="small"
+                sx={{
+                  width: "100%",
+                  "& .MuiOutlinedInput-root": {
+                    color: "#333",
+                    "& fieldset": {
+                      borderColor: "#68b266",
                     },
-                    "& .MuiSelect-icon": {
-                      color: "#68b266",
+                    "&:hover fieldset": {
+                      borderColor: "#4CAF50",
                     },
-                  }}
-                >
-                  <Select >
-                    <MenuItem value={10}></MenuItem>
-                  </Select>
-
-                  {/*      <OutlinedInput value={commission.value} /> */}
-                </FormControl>
-                <Button
-                  variant="outlined"
-                  startIcon={<DeleteOutlinedIcon />}
-                  sx={{ color: "red", borderColor: "red" }}
-                >
-                  Delete
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-           <Grid
-            container
-            display="flex"
-            justifyContent="flex-start"
-            alignContent="center"
-            spacing={3}
-            p={1}
-          >
-            <Grid size={{ md: 2, xs: 12 }}>
-              <InputLabel sx={{ color: "#000000",marginLeft:'10px' }} >
-                Commission %
-              </InputLabel>
-            </Grid>
-            <Grid size={{ md: 10, xs: 12 }}>
-              <Box
-                display="flex"
-                justifySelf="flex-start"
-                alignItems="flex-start"
-              >
-                <FormControl
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "250px",
-                    "& .MuiOutlinedInput-root": {
-                      color: "#333",
-                      "& fieldset": {
-                        borderColor: "#68b266",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#4CAF50",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#2e7d32",
-                      },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#2e7d32",
                     },
-                    "& .MuiSelect-icon": {
-                      color: "#68b266",
-                    },
-                  }}
-                >
-                  <OutlinedInput  />
-                </FormControl>
-              </Box>
-            </Grid>
-          </Grid>  
-
-        </>
-
-     ):(
-        commissionrule.map((commission) => (
-        <>
-          <Grid
-            container
-            display="flex"
-            justifyContent="flex-start"
-            alignContent="center"
-            gap={2}
-            spacing={2}
-            p={2}
-            mt={2}
-          >
-            {/* Restuarant Name */}
-
-            <Grid size={{ md: 2, xs: 12 }}>
-              <InputLabel sx={{ color: "#000000" }}>
-                {commission.label}
-              </InputLabel>
-            </Grid>
-            <Grid size={{ md: 10, xs: 12 }}>
-              <Box
-                display="flex"
-                justifySelf="flex-start"
-                alignItems="flex-start"
-                gap={4}
-              >
-                <FormControl
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "250px",
-                    "& .MuiOutlinedInput-root": {
-                      color: "#333",
-                      "& fieldset": {
-                        borderColor: "#68b266",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#4CAF50",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#2e7d32",
-                      },
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "#68b266",
-                    },
-                  }}
-                >
-                  <Select value={commission.value}>
-                    <MenuItem value={10}>{commission.value}</MenuItem>
-                  </Select>
-
-                  {/*      <OutlinedInput value={commission.value} /> */}
-                </FormControl>
-                <Button
-                  variant="outlined"
-                  startIcon={<DeleteOutlinedIcon />}
-                  sx={{ color: "red", borderColor: "red" }}
-                >
-                  Delete
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
-          {/* commission */}
-          <Grid
-            container
-            display="flex"
-            justifyContent="flex-start"
-            alignContent="center"
-            spacing={3}
-            p={1}
-          >
-            <Grid size={{ md: 2, xs: 12 }}>
-              <InputLabel sx={{ color: "#000000",marginLeft:'10px' }} >
-                {commission.label2}
-              </InputLabel>
-            </Grid>
-            <Grid size={{ md: 10, xs: 12 }}>
-              <Box
-                display="flex"
-                justifySelf="flex-start"
-                alignItems="flex-start"
-              >
-                <FormControl
-                  size="small"
-                  variant="outlined"
-                  sx={{
-                    width: "250px",
-                    "& .MuiOutlinedInput-root": {
-                      color: "#333",
-                      "& fieldset": {
-                        borderColor: "#68b266",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "#4CAF50",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#2e7d32",
-                      },
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "#68b266",
-                    },
-                  }}
-                >
-                  <OutlinedInput value={commission.value2} />
-                </FormControl>
-              </Box>
-            </Grid>
-          </Grid>
-          <Box mt={2} mb={2}>
-            <Divider sx={{ border: "1px solid green", width: "1000px" }} />
+                  },
+                  "& .MuiSelect-icon": {
+                    color: "#68b266",
+                  },
+                }}
+              />
+            </Box>
           </Box>
         </>
-      ))
-     )}
+      ) : (
+        commissionrule.map((commission) => (
+          <>
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", md: "row" }}
+              mt={2}
+            >
+              <Box sx={{ width: { xs: "100%", md: "20%" } }}>
+                <Typography width="100%">{commission.label}</Typography>
+              </Box>
+              <Box width={{ md: "30%", xs: "100%" }} display="flex" gap={3}>
+                <TextField
+                  size="small"
+                  value={commission.value}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      color: "#333",
+                      "& fieldset": {
+                        borderColor: "#68b266",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#4CAF50",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#2e7d32",
+                      },
+                    },
+                    "& .MuiSelect-icon": {
+                      color: "#68b266",
+                    },
+                  }}
+                />
+                <Button
+                  sx={{ color: "red", borderColor: "red" }}
+                  variant="outlined"
+                  startIcon={<DeleteOutlinedIcon />}
+                >
+                  Delete
+                </Button>
+              </Box>
+            </Box>
+            {/* commission row */}
 
-      
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", md: "row" }}
+              mt={2}
+            >
+              <Box sx={{ width: { xs: "100%", md: "20%" } }}>
+                <Typography width="100%">{commission.label2}</Typography>
+              </Box>
+              <Box width={{ md: "22%", xs: "72%" }} display="flex" gap={3}>
+                <TextField
+                  size="small"
+                  value={commission.value2}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      color: "#333",
+                      "& fieldset": {
+                        borderColor: "#68b266",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#4CAF50",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#2e7d32",
+                      },
+                    },
+                    "& .MuiSelect-icon": {
+                      color: "#68b266",
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box mt={2} mb={2}>
+              <Divider sx={{ border: "1px solid green", width: "1000px" }} />
+            </Box>
+          </>
+        ))
+      )}
       <Box display="flex" justifyContent="flex-start" alignItems="center">
         <Button
           variant="contained"
-          sx={{ marginLeft: { md: "300px" }, margin: { xs: "auto" } }}
+          sx={{
+            marginLeft: { md: "300px" },
+            margin: { xs: "auto" },
+            marginTop: { xs: "20px" },
+          }}
         >
-          {path==="addpartner"?"Add" :"Save"}
+          {path === "addpartner" ? "Add" : "Save"}
         </Button>
       </Box>
     </Box>

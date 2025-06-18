@@ -1,7 +1,7 @@
 import { BrowserRouter,Routes, Route } from "react-router-dom"
-import React, {  lazy, Suspense } from "react"
+import React, {lazy,Suspense } from "react"
 import { Box } from "@mui/system"
-import PartnerCommissionRule from "../adminflow/PartnerCommissionRule"
+import Profile from "../adminflow/Profile"
 
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
@@ -13,9 +13,11 @@ const AdminLayout=React.lazy(()=>import('../adminflow/AdminLayout'))
 const Dashboard=React.lazy(()=>import('../adminflow/Dashboard'))
 const RestuarentDetails=React.lazy(()=>import('../adminflow/RestuarentDetails'))
 const OrderandBills=React.lazy(()=>import('../adminflow/OrderandBills'))
-
 const UserprofileInfo=React.lazy(()=>import('../adminflow/Userprofile'))
 const Addcoupon=React.lazy(()=>import('../adminflow/AddCoupon'))
+const PartnerCommissionRule=React.lazy(()=>import('../adminflow/PartnerCommissionRule'))
+const Taxsettings=React.lazy(()=>import('../adminflow/Taxsettings'))
+const AddTax=React.lazy(()=>import('../adminflow/AddTax'))
 
 const Adminroutes = () => {
   return (
@@ -41,6 +43,9 @@ const Adminroutes = () => {
       <Route path="configsetting/partner-bankdetails" element={<ConfigurationSettings />}/>
       <Route path="configsetting/partner-commission" element={<PartnerCommissionRule />}/>
       <Route path="configsetting/partner-commission/addpartner" element={<PartnerCommissionRule />}/>
+      <Route path="configsetting/taxsettings" element={<Taxsettings />}/>
+      <Route path="configsetting/taxsettings/addtax" element={<AddTax />}/>
+      <Route path="profile" element={<Profile />}/>
  </Route>
 </Routes>
 </Suspense>

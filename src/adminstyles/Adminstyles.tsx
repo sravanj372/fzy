@@ -1,5 +1,6 @@
 import { Button,Box, FormControl, InputLabel} from '@mui/material';
 import { styled } from '@mui/material/styles';
+import type { maxWidth, width } from '@mui/system';
 
 
 export const Suspendedbutton=styled(Button)(({theme})=>({
@@ -10,7 +11,9 @@ export const Suspendedbutton=styled(Button)(({theme})=>({
     background:'white'
   },
 [theme.breakpoints.down('sm')]: {
-    width: '48%', // full width on small screens
+    width: '50%',
+
+    
   },
 }));
 
