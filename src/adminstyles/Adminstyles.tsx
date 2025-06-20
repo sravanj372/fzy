@@ -105,3 +105,16 @@ export const StyledFormControl = styled(FormControl)(({ theme }) => ({
    color:'#000000'
 
   }));
+
+
+export const PasswordupdateBox=styled(Box)(()=>({
+
+display:'flex',
+flexDirection:'column',
+gap:'16px',
+maxWidth:'400px',
+padding:'30px',
+border:'1px solid green',
+borderRadius:'10px'
+
+})) 

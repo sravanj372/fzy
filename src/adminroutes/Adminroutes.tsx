@@ -1,8 +1,6 @@
 import { BrowserRouter,Routes, Route } from "react-router-dom"
 import React, {lazy,Suspense } from "react"
 import { Box } from "@mui/system"
-import Profile from "../adminflow/Profile"
-
 
 const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
 const OrderManagement=React.lazy(()=>import('../adminflow/OrderManagement'))
@@ -18,6 +16,8 @@ const Addcoupon=React.lazy(()=>import('../adminflow/AddCoupon'))
 const PartnerCommissionRule=React.lazy(()=>import('../adminflow/PartnerCommissionRule'))
 const Taxsettings=React.lazy(()=>import('../adminflow/Taxsettings'))
 const AddTax=React.lazy(()=>import('../adminflow/AddTax'))
+const Profile=React.lazy(()=>import('../adminflow/Profile'))
+const ProfilePasswordupdate=lazy(()=>import('../adminflow/ProfilePasswordupdate'))
 
 const Adminroutes = () => {
   return (
@@ -46,6 +46,7 @@ const Adminroutes = () => {
       <Route path="configsetting/taxsettings" element={<Taxsettings />}/>
       <Route path="configsetting/taxsettings/addtax" element={<AddTax />}/>
       <Route path="profile" element={<Profile />}/>
+      <Route path="profile/update-password" element={<ProfilePasswordupdate />}/>
  </Route>
 </Routes>
 </Suspense>
