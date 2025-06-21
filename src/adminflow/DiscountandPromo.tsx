@@ -248,10 +248,17 @@ const DiscountandPromo = () =>{
                           <Typography
                             component="span"
                             bgcolor={
-                              coupon.status == "InActive" ? "red" : "#68B266"
+                              coupon.status == "InActive" ? "#E45040" : "transparant"
                             }
+                            color={
+                              coupon.status=="InActive"?"white":"#2F7A52"
+                            }
+                            border={
+                              coupon.status==="InActive" ?'#E45040':'1px solid #2F7A52'
+                            }
+
                             padding="5px 15px"
-                            color="white"
+                            
                             borderRadius={5}
                             fontSize={13}
                           >
@@ -293,10 +300,15 @@ const DiscountandPromo = () =>{
                           <Typography
                             component="span"
                             bgcolor={
-                              discount.status == "InActive" ? "red" : "#68B266"
+                              discount.status == "InActive" ? "#E45040" : "transparant"
                             }
                             padding="5px 15px"
-                            color="white"
+                            color={
+                              discount.status=="InActive"?"white":"#2F7A52"
+                            }
+                            border={
+                              discount.status==="InActive" ?'#E45040':'1px solid #2F7A52'
+                            }
                             borderRadius={5}
                             fontSize={13}
                           >

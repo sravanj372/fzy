@@ -161,7 +161,7 @@ return (
                                  onClose={handleClose}
                                >
                                  <MenuItem onClick={handleClose}>View</MenuItem>
-                                 <Divider sx={{border:'1px solid gray'}}/>
+                                {/*  <Divider sx={{border:'1px solid gray'}}/> */}
                                  <MenuItem onClick={handleClose}>
                                    Suspend
                                  </MenuItem>
@@ -213,7 +213,7 @@ return (
                                  onClose={handleClose}
                                >
                                  <MenuItem onClick={handleClose}>Unsuspend</MenuItem>
-                                 <Divider sx={{border:'1px solid gray'}}/>
+                                 {/* <Divider sx={{border:'1px solid gray'}}/> */}
                                  <MenuItem onClick={handleClose}>
                                    Delete
                                  </MenuItem>

@@ -1,13 +1,12 @@
 
-import { Box } from "@mui/system"
-import Adminroutes from "./adminroutes/Adminroutes"
-
-
+import { Suspense } from "react"
+import React from "react"
+const Adminroutes=React.lazy(()=>import('./adminroutes/Adminroutes'))
 const App = () => {
   return (
-    <Box>
+    <Suspense fallback={<div>Loading...</div>}>
     <Adminroutes />
-    </Box>
+    </Suspense>
   )
 }
 

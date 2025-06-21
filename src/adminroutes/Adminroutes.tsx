@@ -1,28 +1,24 @@
-import { BrowserRouter,Routes, Route } from "react-router-dom"
-import React, {lazy,Suspense } from "react"
-import { Box } from "@mui/system"
-
-const RestaurantManagement=React.lazy(()=>import('../adminflow/RestaurantManagement'))
-const OrderManagement=React.lazy(()=>import('../adminflow/OrderManagement'))
-const UserManagement=React.lazy(()=>import('../adminflow/UserManagement'))
-const DiscountandPromo=React.lazy(()=>import('../adminflow/DiscountandPromo'))
-const ConfigurationSettings=React.lazy(()=>import('../adminflow/ConfigurationSettings'))
-const AdminLayout=React.lazy(()=>import('../adminflow/AdminLayout'))
-const Dashboard=React.lazy(()=>import('../adminflow/Dashboard'))
-const RestuarentDetails=React.lazy(()=>import('../adminflow/RestuarentDetails'))
-const OrderandBills=React.lazy(()=>import('../adminflow/OrderandBills'))
-const UserprofileInfo=React.lazy(()=>import('../adminflow/Userprofile'))
-const Addcoupon=React.lazy(()=>import('../adminflow/AddCoupon'))
-const PartnerCommissionRule=React.lazy(()=>import('../adminflow/PartnerCommissionRule'))
-const Taxsettings=React.lazy(()=>import('../adminflow/Taxsettings'))
-const AddTax=React.lazy(()=>import('../adminflow/AddTax'))
-const Profile=React.lazy(()=>import('../adminflow/Profile'))
-const ProfilePasswordupdate=lazy(()=>import('../adminflow/ProfilePasswordupdate'))
+import {Routes, Route } from "react-router-dom"
+import RestaurantManagement from "../adminflow/RestaurantManagement"
+import OrderManagement from "../adminflow/OrderManagement"
+import UserManagement from "../adminflow/UserManagement"
+import DiscountandPromo from "../adminflow/DiscountandPromo"
+import ConfigurationSettings from "../adminflow/ConfigurationSettings"
+import AdminLayout from "../adminflow/AdminLayout"
+import Dashboard from "../adminflow/Dashboard"
+import RestuarentDetails from "../adminflow/RestuarentDetails"
+import OrderandBills from "../adminflow/OrderandBills"
+import UserprofileInfo from "../adminflow/Userprofile"
+import Addcoupon from "../adminflow/AddCoupon"
+import PartnerCommissionRule from "../adminflow/PartnerCommissionRule"
+import Taxsettings from "../adminflow/Taxsettings"
+import AddTax from "../adminflow/AddTax"
+import Profile from "../adminflow/Profile"
+import ProfilePasswordupdate from "../adminflow/ProfilePasswordupdate"
 
 const Adminroutes = () => {
   return (
-  <BrowserRouter>
-  <Suspense fallback={<Box>Loading...</Box>}>
+ 
   <Routes>
     <Route path="/admin" element={<AdminLayout />}>
       <Route index element={<Dashboard />}/>
@@ -49,9 +45,8 @@ const Adminroutes = () => {
       <Route path="profile/update-password" element={<ProfilePasswordupdate />}/>
  </Route>
 </Routes>
-</Suspense>
-  </BrowserRouter>
-  )
+)
+
 }
 
 export default Adminroutes

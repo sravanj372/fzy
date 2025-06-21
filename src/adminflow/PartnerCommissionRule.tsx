@@ -44,7 +44,7 @@ const PartnerCommissionRule = () => {
   console.log(path);
 
   return (
-    <Box p={1}>
+    <Box p={1} sx={{overflowX:{xs:'hidden'}}}>
       <Box display="flex" justifyContent="space-between" color="#2F7A52">
         <Typography>
           {path === "addpartner"

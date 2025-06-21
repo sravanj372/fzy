@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Addcoupon = () => {
 
-  const navigate=useNavigate()
+const navigate=useNavigate()
   return (
     <Box p={2} bgcolor="#F1F4F9" height="100vh">
       <Box display="flex">
@@ -66,7 +66,7 @@ const Addcoupon = () => {
              </StyledFormControl>
             </Grid>
            <Box mt={2}>
-            <Button variant="contained" size="large" fullWidth>Save</Button>
+            <Button variant="contained" size="large" fullWidth sx={{padding:'9px 50px'}}>Save</Button>
            </Box> 
       </Grid>
      </Box>
