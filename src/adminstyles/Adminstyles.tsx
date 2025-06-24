@@ -1,6 +1,5 @@
 import { Button,Box, FormControl, InputLabel} from '@mui/material';
 import { styled } from '@mui/material/styles';
-import type { maxWidth, width } from '@mui/system';
 
 
 export const Suspendedbutton=styled(Button)(({theme})=>({
@@ -116,5 +115,34 @@ maxWidth:'400px',
 padding:'30px',
 border:'1px solid green',
 borderRadius:'10px'
+
+})) 
+
+export const Logincontainer=styled(Box)(({theme})=>({
+  display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      height:"100vh",
+      width:"auto",
+      flexDirection:"column",
+      backgroundColor:theme.palette.secondary.main 
+  
+}));
+
+
+export const LoginBox=styled(Box)(({theme})=>({
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          padding: "40px",
+          borderRadius: "10px",
+          backgroundColor: "white",
+          width:'400px',
+          [theme.breakpoints.down('sm')]: {
+             width:"100%",
+             padding:"20px 40px "
+          }
+               
+     
 
 })) 

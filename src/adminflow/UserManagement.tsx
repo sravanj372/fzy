@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button,Paper, Stack, Typography } from "@mui/material";
 import { Grid } from "@mui/system";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Table from "@mui/material/Table";
@@ -101,7 +101,7 @@ return (
               </Stack>
           </Grid>
         </Grid>
-       {/* usermanagement table start*/}
+       {/* Usermanagement table start*/}
          <Box mt={2}>
                    <TableContainer component={Paper}>
                      <Table>
