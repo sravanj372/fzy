@@ -21,21 +21,25 @@ import ForgotPassword from "../Auth/ForgotPassword"
 import UpdatePassword from "../Auth/UpdatePassword"
 import Otpverification from "../Auth/Otpverification"
 import Header from "../adminflow/Header"
+import Sidebar from "../adminflow/Sidebar"
+
 
 const Adminroutes = () => {
   return (
  
   <Routes>
+     <Route path="/sidebar" element={<Sidebar />}/>
     <Route path="/login" element={<Login />}/>
     <Route path="/forgot-password" element={<ForgotPassword />}/>
     <Route path="/update-password" element={<UpdatePassword />}/>
     <Route path="/otp" element={<Otpverification />}/>
     <Route path="/header" element={<Header />}/>
+
     <Route path="/admin" element={<AdminLayout />}>
       <Route index element={<Dashboard />}/>
       <Route path="dashboard" element={<Dashboard />}/>
       <Route path="dashboard/home-title" element={<Homepagetitle />}/>
-            <Route path="dashboard/edit-home-title" element={<Homepagetitle />}/>
+      <Route path="dashboard/edit-home-title" element={<Homepagetitle />}/>
       <Route path="restaurant-management" element={<RestaurantManagement />}/>
       <Route path="restaurant-management/pending-request" element={<RestaurantManagement/>}/>
       <Route path="restaurant-management/suspend-account" element={<RestaurantManagement/>}/>
