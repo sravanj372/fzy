@@ -30,7 +30,7 @@ const Adminroutes = () => {
   <Routes>
      <Route path="/sidebar" element={<Sidebar />}/>
     <Route path="/login" element={<Login />}/>
-    <Route path="/forgot-password" element={<ForgotPassword />}/>
+    <Route path="/login/forgot-password" element={<ForgotPassword />}/>
     <Route path="/update-password" element={<UpdatePassword />}/>
     <Route path="/otp" element={<Otpverification />}/>
     <Route path="/header" element={<Header />}/>

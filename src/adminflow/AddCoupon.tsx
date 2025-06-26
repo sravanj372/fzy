@@ -8,7 +8,7 @@ const Addcoupon = () => {
 
 const navigate=useNavigate()
   return (
-    <Box p={2} bgcolor="#F1F4F9" height="100vh">
+    <Box p={2} height="100vh">
       <Box display="flex">
       <ArrowBackIcon onClick={()=>navigate('/admin/discountpromo')} sx={{cursor:'pointer'}}/><Typography color="#2F7A52" >Add Coupon</Typography></Box>
      <Box sx={{maxWidth:'700px',mt:"40px" 

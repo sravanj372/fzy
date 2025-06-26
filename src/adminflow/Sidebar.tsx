@@ -15,8 +15,11 @@ import Adminlogo from '../assets/adminLogo.png';
 import Avatar from '@mui/material/Avatar';
 import Userphoto from '../assets/av1.jpg';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
+export const drawerWidth = 250;
+
+const Sidebar = ({ mobileOpen, handleDrawerToggle }: { mobileOpen: boolean; handleDrawerToggle: () => void }) => {
   const menuitems = [
     { id: '1', text: 'Dashboard', icon: <DashboardIcon />, link: '/admin/dashboard' },
     { id: '2', text: 'Restaurant Management', icon: <RestaurantMenuIcon />, link: '/admin/restaurant-management' },
@@ -26,119 +29,156 @@ const Sidebar = () => {
     { id: '6', text: 'Configuration Settings', icon: <SettingsIcon />, link: '/admin/configsetting' },
   ];
 
-  return (
-    <Drawer
-      variant="permanent"
-      anchor="left"
-      sx={{
-        width: '250px',
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: '250px',
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100vh',
-        },
-      }}
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between' }}>
-        <Box>
-          <Stack direction="column" gap={1} sx={{ padding: '10px 15px' }}>
-            <Box component="img" src={Adminlogo} height="30px" width="60%" alt="Admin Logo" />
-            <Stack
-              direction="row"
-              gap={2}
-              justifyContent="flex-start"
-              alignItems="center"
-              sx={{ backgroundColor: '#DEF6DB', padding: '10px', borderRadius: '10px', width: '100%' }}
-            >
-              <Avatar src={Userphoto} />
-              <Box>
-                <Typography>Ramesh</Typography>
-                <Typography fontSize="12px" color="green">Admin</Typography>
-              </Box>
-            </Stack>
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const drawerContent = (
+    <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '100vh', justifyContent: 'space-between' }}>
+      <Box>
+        <Stack direction="column" gap={1} sx={{ padding: '10px 15px' }}>
+          <Box component="img" src={Adminlogo} height="30px" width="60%" alt="Admin Logo" />
+          <Stack
+            direction="row"
+            gap={2}
+            justifyContent="flex-start"
+            alignItems="center"
+            sx={{ backgroundColor: '#DEF6DB', padding: '10px', borderRadius: '10px', width: '100%' }}
+          >
+            <Avatar src={Userphoto} />
+            <Box>
+              <Typography>Ramesh</Typography>
+              <Typography fontSize="12px" color="#2F7A52">Admin</Typography>
+            </Box>
           </Stack>
-          <List>
-            {menuitems.map((item) => (
-              <ListItem
-                key={item.id}
-                button
-                selected={item.text === 'Dashboard'}
-                sx={{
-                  backgroundColor: item.text === 'Dashboard' ? '#2e7d32' : 'inherit',
-                  '&:hover': {
-                    backgroundColor: '#2e7d32',
-                    width: '95%',
-                    margin: '0 auto',
-                    borderRadius: '4px',
-                    '& .MuiListItemIcon-root': {
-                      color: 'white',
-                    },
-                    '& .MuiListItemText-primary': {
-                      color: 'white',
-                    },
-                  },
-                  '&.Mui-selected': {
-                    backgroundColor: '#2e7d32',
-                    width: '95%',
-                    margin: '0 auto',
-                    borderRadius: '4px',
-                    '& .MuiListItemIcon-root': {
-                      color: 'white',
-                    },
-                    '& .MuiListItemText-primary': {
-                      color: 'white',
-                    },
-                    '&:hover': {
-                      backgroundColor: '#2e7d32',
-                    },
-                  },
+        </Stack>
+        <List>
+          {menuitems.map((item) => (
+            <ListItem
+              key={item.id}
+              button
+              selected={location.pathname === item.link}
+              onClick={() => {
+                navigate(item.link);
+                if (mobileOpen) handleDrawerToggle();
+              }}
+              sx={{
+                '&:hover': {
+                  backgroundColor: '#2F7A52',
+                  width: '95%',
+                  margin: '0 auto',
+                  borderRadius: '4px',
                   '& .MuiListItemIcon-root': {
-                    color: item.text === 'Dashboard' ? 'white' : 'green',
-                    minWidth: '40px',
+                    color: 'white',
                   },
                   '& .MuiListItemText-primary': {
-                    color: item.text === 'Dashboard' ? 'white' : 'green',
+                    color: 'white',
                   },
-                }}
-              >
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  sx={{
-                    '& .MuiTypography-root': {
-                      fontSize: '14px',
-                    },
-                  }}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Box>
-          <Divider sx={{ margin: '10px 0' }} />
-          <List>
-            <ListItem button>
-              <ListItemIcon sx={{ color: 'red', minWidth: '40px' }}>
-                <LogoutIcon />
-              </ListItemIcon>
+                },
+                '&.Mui-selected': {
+                  backgroundColor: '#2F7A52',
+                  width: '95%',
+                  margin: '0 auto',
+                  borderRadius: '4px',
+                  '& .MuiListItemIcon-root': {
+                    color: 'white',
+                  },
+                  '& .MuiListItemText-primary': {
+                    color: 'white',
+                  },
+                  '&:hover': {
+                    backgroundColor: '#2F7A52',
+                  },
+                },
+                '& .MuiListItemIcon-root': {
+                  color: '#2F7A52',
+                  minWidth: '40px',
+                },
+                '& .MuiListItemText-primary': {
+                  color: '#2F7A52',
+                },
+              }}
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText
-                primary="Logout"
+                primary={item.text}
                 sx={{
                   '& .MuiTypography-root': {
                     fontSize: '14px',
-                    whiteSpace: 'nowrap',
-                    color: 'red',
                   },
                 }}
               />
             </ListItem>
-          </List>
-        </Box>
+          ))}
+        </List>
       </Box>
-    </Drawer>
+      <Box>
+        <Divider sx={{ margin: '10px 0' }} />
+        <List>
+          <ListItem
+            button
+            onClick={() => {
+              navigate('/login');
+              if (mobileOpen) handleDrawerToggle();
+            }}
+          >
+            <ListItemIcon sx={{ color: 'red', minWidth: '40px' }}>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Logout"
+              sx={{
+                '& .MuiTypography-root': {
+                  fontSize: '14px',
+                  whiteSpace: 'nowrap',
+                  color: 'red',
+                },
+              }}
+            />
+          </ListItem>
+        </List>
+      </Box>
+    </Box>
+  );
+
+  return (
+    <>
+      <Drawer
+        variant="temporary"
+        anchor="left"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: { xs: 'block', md: 'none' },
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            height: '100vh',
+            zIndex: 1201,
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+      <Drawer
+        variant="permanent"
+        anchor="left"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+            height: '100vh',
+            zIndex: 1200,
+            position: 'fixed',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
+    </>
   );
 };
 

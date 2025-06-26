@@ -117,8 +117,8 @@ const OrderManagement = () => {
   //live order button end
 
   return (
-    <Box sx={{ background: "white", height: "auto", p: 1 }}>
-      <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
+    <Box sx={{ background: "white", height: "auto", p: 1, border: "1px solid green", borderRadius: 4, }} component={Paper}>
+      <Box sx={{ p: 2 }}>
         <Grid container justifyContent="space-between">
            <Grid size={{ md: 6, xs: 12 }}>
             <Typography color="#2F7A52">Order Details</Typography>

@@ -56,7 +56,7 @@ const ConfigurationSettings = () => {
    const navigate=useNavigate()
 
    return (
-    <Box display="flex" flexDirection="column" gap={2} p={1}>  
+    <Box display="flex" flexDirection="column" gap={2}>  
     {path!=='partner-bankdetails' &&
       <>
         <Paper sx={{padding:"10px",border: "1px solid green",overflowX:{xs:'hidden'}}}>

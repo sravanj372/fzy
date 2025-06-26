@@ -337,7 +337,7 @@ const handleClickOpen=()=>{
 }
 
   return (
-    <Box sx={{ background: "white", height: "auto", p: 1 }}>
+    <Box sx={{ background: "white", height: "auto"}}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
         {/* restaurent details start */}
         <Grid container justifyContent="space-between">

@@ -68,8 +68,8 @@ const navigate=useNavigate()
 
 
 return (
-    <Box display="flex" gap={2} flexDirection="column" sx={{overflowX:'hidden'}}>  
-    <Paper  sx={{width:'100%',border:'1px solid green',p:2}}>
+    <Box display="flex" gap={2} flexDirection="column" >  
+    <Paper  sx={{border:'1px solid green',p:2}}>
      <Box display="flex" flexDirection={{md:'row',xs:'column'}} gap={15} padding={2}> 
      {dashboarddata.map((data)=>(
 
@@ -208,7 +208,7 @@ return (
     {/* graph end */}
      </Box>
 
-    <Box sx={{md:'30%',xs:'100%'}}>{/* right */}
+    <Box sx={{width:{md:'30%',xs:'100%'}}}>{/* right */}
        <Paper sx={{p:2,border:'1px solid green',width:{md:'100%',xs:'100%'}}}>
          <Box display="flex" justifyContent="space-between">
          <Typography  color="#2F7A52">Homepage Title</Typography>
