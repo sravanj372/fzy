@@ -189,7 +189,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }:any) => {
           <ListItem
             button
             onClick={() => {
-              navigate('/login');
+              navigate('/logout');
               if (mobileOpen) handleDrawerToggle();
             }}
           >
@@ -204,6 +204,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }:any) => {
                   whiteSpace: 'nowrap',
                   color: 'red',
                 },
+              
               }}
             />
           </ListItem>
