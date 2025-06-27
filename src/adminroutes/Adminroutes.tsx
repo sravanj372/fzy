@@ -29,7 +29,7 @@ const Adminroutes = () => {
  
   <Routes>
 
-    <Route path="/login" element={<Login />}/>
+    <Route path="/login11" element={<Login />}/>
     <Route path="/login/forgot-password" element={<ForgotPassword />}/>
     <Route path="/update-password" element={<UpdatePassword />}/>
     <Route path="/otp" element={<Otpverification />}/>

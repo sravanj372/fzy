@@ -17,7 +17,6 @@ import Avatar from '@mui/material/Avatar';
 import Userphoto from '../assets/av1.jpg';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -27,7 +26,7 @@ export const drawerWidth = 250;
 const Sidebar = ({ mobileOpen, handleDrawerToggle }:any) => {
 
   // State for Configuration Settings dropdown
-  const [isConfigOpen, setIsConfigOpen] = useState(false);
+const [isConfigOpen, setIsConfigOpen] = useState(false);
 
   const menuitems = [
     { id: '1', text: 'Dashboard', icon: <DashboardIcon />, link: '/admin/dashboard' },
@@ -189,7 +188,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }:any) => {
           <ListItem
             button
             onClick={() => {
-              navigate('/logout');
+              navigate('admin/logout');
               if (mobileOpen) handleDrawerToggle();
             }}
           >
