@@ -165,24 +165,17 @@ const DiscountandPromo = () =>{
   return (
     <Box sx={{ background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
-        <Grid container justifyContent="space-between">
-          <Grid size={{ md: 6, xs: 12 }}>
+        <Box display="flex" justifyContent="space-between"
+          flexWrap="wrap">
+          <Box>
             <Typography color="#2F7A52">
               {path === "admin-coupon"
                 ? "Coupons By Admin"
                 : "Discount & Promo Reimbursements Table"}
             </Typography>
-          </Grid>
-          <Grid size={{ md: 6, xs: 12 }}>
-            <Stack
-              display="flex"
-              direction="row"
-              useFlexGap
-              spacing={2}
-              flexWrap="wrap"
-              justifyContent="flex-end"
-              gap={{ xs: 1 }}
-            >
+          </Box>
+          <Box>
+            <Box display="flex" flexWrap="wrap" gap={1}>
               {path !== "admin-coupon" && (
                 <Button
                   variant="contained"
@@ -202,9 +195,9 @@ const DiscountandPromo = () =>{
               <Filterbutton variant="contained" startIcon={<FilterListIcon />}>
                 Filters
               </Filterbutton>
-            </Stack>
-          </Grid>
-        </Grid>
+            </Box>
+          </Box>
+        </Box>
 
         <Box mt={2}>
           <TableContainer component={Paper}>

@@ -69,8 +69,8 @@ const navigate=useNavigate()
 
 return (
     <Box display="flex" gap={2} flexDirection="column" >  
-    <Paper  sx={{border:'1px solid green',p:2}}>
-     <Box display="flex" flexDirection={{md:'row',xs:'column'}} gap={15} padding={2}> 
+    <Paper  sx={{border:'1px solid green'}}>
+     <Box display="flex" flexDirection={{md:'row',xs:'column'}} gap={8} padding={2}> 
      {dashboarddata.map((data)=>(
 
       <Box display="flex" gap={4} justifyContent="flex-start">

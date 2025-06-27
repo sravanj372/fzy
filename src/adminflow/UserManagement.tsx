@@ -1,5 +1,4 @@
-import { Avatar, Box, Button,Paper, Stack, Typography } from "@mui/material";
-import { Grid } from "@mui/system";
+import { Avatar, Box, Button,Paper, Typography } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -79,28 +78,24 @@ const suspenduseraccount=[
 return (
     <Box sx={{ background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
-        <Grid container justifyContent="space-between">
-          <Grid size={{ md: 6, xs: 6}}>
+        <Box display="flex" justifyContent="space-between"
+          flexWrap="wrap">
+          <Box>
             <Typography color={path==='suspend-user'?'red':'#2F7A52'}>{path==='suspend-user'? "Suspended Accounts":"User Management"}</Typography>
-          </Grid>
-          <Grid size={{ md: 6, xs: 6}}>
-            <Stack
-              display="flex"
-              direction="row"
-              useFlexGap
-              spacing={2}
-              flexWrap="wrap"
-              justifyContent="flex-end"
-              gap={{ xs: 1 }}
+          </Box>
+          <Box>
+            <Box
+              display="flex" flexWrap="wrap" 
              >
               {path=='suspend-user' ?(<Filterbutton variant="contained" startIcon={<FilterListIcon />}>
                     Filters
-              </Filterbutton>):(<Suspendedbutton variant="outlined" onClick={()=>navigate('suspend-user')}>
+              </Filterbutton>):(<Suspendedbutton variant="outlined" 
+               sx={{minWidth:'175px'}}  onClick={()=>navigate('suspend-user')}>
                 Suspended Accounts
               </Suspendedbutton>)}
-              </Stack>
-          </Grid>
-        </Grid>
+              </Box>
+          </Box>
+        </Box>
        {/* Usermanagement table start*/}
          <Box mt={2}>
                    <TableContainer component={Paper}>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -17,20 +18,43 @@ import Userphoto from '../assets/av1.jpg';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import Collapse from '@mui/material/Collapse';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
 export const drawerWidth = 250;
 
-const Sidebar = ({ mobileOpen, handleDrawerToggle }: { mobileOpen: boolean; handleDrawerToggle: () => void }) => {
+const Sidebar = ({ mobileOpen, handleDrawerToggle }:any) => {
+
+  // State for Configuration Settings dropdown
+  const [isConfigOpen, setIsConfigOpen] = useState(false);
+
   const menuitems = [
     { id: '1', text: 'Dashboard', icon: <DashboardIcon />, link: '/admin/dashboard' },
     { id: '2', text: 'Restaurant Management', icon: <RestaurantMenuIcon />, link: '/admin/restaurant-management' },
     { id: '3', text: 'Order Managements', icon: <ShoppingBagIcon />, link: '/admin/order-management' },
     { id: '4', text: 'User Management', icon: <PersonIcon />, link: '/admin/user-management' },
     { id: '5', text: 'Discount & Promo Reimbursements', icon: <SellIcon />, link: '/admin/discountpromo' },
-    { id: '6', text: 'Configuration Settings', icon: <SettingsIcon />, link: '/admin/configsetting' },
+    {
+      id: '6',
+      text: 'Configuration Settings',
+      icon: <SettingsIcon />,
+      link: '/admin/configsetting/paymentsettings',
+      subItems: [
+        { id: '6-1', text: 'Payment Settings', link: '/admin/configsetting/paymentsettings' },
+        { id: '6-2', text: 'Tax Settings', link: '/admin/configsetting/taxsettings' },
+      ],
+    },
   ];
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleMenuToggle = (id:any) => {
+    if (id === '6') {
+      setIsConfigOpen((prev) => !prev); // Toggle Configuration Settings dropdown
+    }
+  };
 
   const drawerContent = (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, height: '100vh', justifyContent: 'space-between' }}>
@@ -53,61 +77,109 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: { mobileOpen: boolean; hand
         </Stack>
         <List>
           {menuitems.map((item) => (
-            <ListItem
-              key={item.id}
-              button
-              selected={location.pathname === item.link}
-              onClick={() => {
-                navigate(item.link);
-                if (mobileOpen) handleDrawerToggle();
-              }}
-              sx={{
-                '&:hover': {
-                  backgroundColor: '#2F7A52',
-                  width: '95%',
-                  margin: '0 auto',
-                  borderRadius: '4px',
-                  '& .MuiListItemIcon-root': {
-                    color: 'white',
-                  },
-                  '& .MuiListItemText-primary': {
-                    color: 'white',
-                  },
-                },
-                '&.Mui-selected': {
-                  backgroundColor: '#2F7A52',
-                  width: '95%',
-                  margin: '0 auto',
-                  borderRadius: '4px',
-                  '& .MuiListItemIcon-root': {
-                    color: 'white',
-                  },
-                  '& .MuiListItemText-primary': {
-                    color: 'white',
-                  },
+            <Box key={item.id}>
+              <ListItem
+                button
+                selected={location.pathname === item.link}
+                onClick={() => {
+                  if (item.subItems) {
+                    handleMenuToggle(item.id); // Toggle dropdown on click
+                  } else {
+                    navigate(item.link);
+                    if (mobileOpen) handleDrawerToggle();
+                  }
+                }}
+                sx={{
                   '&:hover': {
                     backgroundColor: '#2F7A52',
+                    width: '95%',
+                    margin: '0 auto',
+                    borderRadius: '4px',
+                    '& .MuiListItemIcon-root': {
+                      color: 'white',
+                    },
+                    '& .MuiListItemText-primary': {
+                      color: 'white',
+                    },
                   },
-                },
-                '& .MuiListItemIcon-root': {
-                  color: '#2F7A52',
-                  minWidth: '40px',
-                },
-                '& .MuiListItemText-primary': {
-                  color: '#2F7A52',
-                },
-              }}
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText
-                primary={item.text}
-                sx={{
-                  '& .MuiTypography-root': {
-                    fontSize: '14px',
+                  '&.Mui-selected': {
+                    backgroundColor: '#2F7A52',
+                    width: '95%',
+                    margin: '0 auto',
+                    borderRadius: '4px',
+                    '& .MuiListItemIcon-root': {
+                      color: 'white',
+                    },
+                    '& .MuiListItemText-primary': {
+                      color: 'white',
+                    },
+                    '&:hover': {
+                      backgroundColor: '#2F7A52',
+                    },
+                  },
+                  '& .MuiListItemIcon-root': {
+                    color: '#2F7A52',
+                    minWidth: '40px',
+                  },
+                  '& .MuiListItemText-primary': {
+                    color: '#2F7A52',
                   },
                 }}
-              />
-            </ListItem>
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={{
+                    '& .MuiTypography-root': {
+                      fontSize: '14px',
+                    },
+                  }}
+                />
+                {item.subItems && (
+                  <ListItemIcon>
+                    {isConfigOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                  </ListItemIcon>
+                )}
+              </ListItem>
+              {item.subItems && (
+                <Collapse in={isConfigOpen} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    {item.subItems.map((subItem) => (
+                      <ListItem
+                        key={subItem.id}
+                        button
+                        sx={{
+                          pl: 4, // Indent sub-items
+                          '&:hover': {
+                            backgroundColor: '#2F7A52',
+                            '& .MuiListItemText-primary': {
+                              color: 'white',
+                            },
+                          },
+                          '& .MuiListItemText-primary': {
+                            color: '#2F7A52',
+                            fontSize: '13px',
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: '#2F7A52',
+                            '& .MuiListItemText-primary': {
+                              color: 'white',
+                            },
+                          },
+                        }}
+                        selected={location.pathname === subItem.link}
+                        onClick={() => {
+                          navigate(subItem.link);
+                          if (mobileOpen) handleDrawerToggle();
+                        }}
+                      >
+                        <ListItemText primary={subItem.text} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </Box>
           ))}
         </List>
       </Box>

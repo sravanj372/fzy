@@ -1,5 +1,5 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
-import { Grid } from "@mui/system";
+import { Box, Button, Paper, Typography } from "@mui/material";
+
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -119,20 +119,13 @@ const OrderManagement = () => {
   return (
     <Box sx={{ background: "white", height: "auto", p: 1, border: "1px solid green", borderRadius: 4, }} component={Paper}>
       <Box sx={{ p: 2 }}>
-        <Grid container justifyContent="space-between">
-           <Grid size={{ md: 6, xs: 12 }}>
+        <Box display="flex" justifyContent="space-between"
+          flexWrap="wrap">
+           <Box>
             <Typography color="#2F7A52">Order Details</Typography>
-           </Grid>
-           <Grid size={{ md: 6, xs: 12 }}>
-            <Stack
-              display="flex"
-              direction="row"
-              useFlexGap
-              spacing={2}
-              flexWrap="wrap"
-              justifyContent="flex-end"
-              gap={{ xs: 1 }}
-            >
+           </Box>
+           <Box>
+            <Box display="flex" gap={1} flexWrap="wrap">
               <Exportbutton
                 endIcon={<DownloadIcon />}
                 variant="contained"
@@ -180,9 +173,9 @@ const OrderManagement = () => {
               <Filterbutton variant="contained" startIcon={<FilterListIcon />}>
                 Filters
               </Filterbutton>
-            </Stack>
-          </Grid>
-        </Grid>
+            </Box>
+          </Box>
+        </Box>
         <Box mt={2}>
           <TableContainer component={Paper}>
             <Table>

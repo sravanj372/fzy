@@ -10,10 +10,8 @@ export const Suspendedbutton=styled(Button)(({theme})=>({
     background:'white'
   },
 [theme.breakpoints.down('sm')]: {
-    width: '50%',
-
-    
-  },
+    width: '60%',
+},
 }));
 
 export const Exportbutton=styled(Button)(({theme})=>({
@@ -23,7 +21,7 @@ export const Exportbutton=styled(Button)(({theme})=>({
     backgroundColor:theme.palette.primary.main
  },
       [theme.breakpoints.down('sm')]: {
-    width: '48%', // full width on small screens
+    width: '35%', // full width on small screens
     justifyConntent:'center',
 },
 
@@ -37,7 +35,7 @@ export const Pendingreqbutton=styled(Button)(({theme})=>({
     backgroundColor:theme.palette.primary.main
 },
  [theme.breakpoints.down('sm')]: {
-   width: '60%',
+   width: '70%',
    
  }
 }));
@@ -48,8 +46,9 @@ export const Filterbutton=styled(Button)(({theme})=>({
   '&:hover': {
     backgroundColor: 'white',
   },
+  border:'1px solid #2F7A52',
  [theme.breakpoints.down('sm')]: {
-    width: '36%',
+    width: '25%',
 },
 }));
 
@@ -60,7 +59,7 @@ export const Liveorders=styled(Button)(({theme})=>({
     backgroundColor:theme.palette.primary.main
  },
  [theme.breakpoints.down('sm')]: {
-   width: '50%',
+   width: '34%',
    
  }
 }));

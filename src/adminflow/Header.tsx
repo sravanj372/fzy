@@ -11,7 +11,7 @@ const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        p: { xs: 0, md: 1 }, // Remove padding on xs to minimize width
+        p: { xs: 0, md: 1 }, 
         width: '100%',
         maxWidth: { xs: '100vw', md: `calc(100vw - ${drawerWidth}px)` },
         boxSizing: 'border-box',
@@ -53,8 +53,8 @@ const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
             '&.Mui-focused fieldset': {
               borderColor: '#1B5E20',
             },
-            padding: '0 8px', // Consistent internal padding
-          },
+            padding: '0 8px',
+            marginLeft:{md:'20px'}          },
           mb: 1,
           boxSizing: 'border-box',
           overflow: 'hidden',

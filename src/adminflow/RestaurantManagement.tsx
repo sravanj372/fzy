@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -13,7 +13,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation } from "react-router-dom";
-import { Grid } from "@mui/system";
+
 import {
   Exportbutton,
   Pendingreqbutton,
@@ -340,30 +340,25 @@ const handleClickOpen=()=>{
     <Box sx={{ background: "white", height: "auto"}}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
         {/* restaurent details start */}
-        <Grid container justifyContent="space-between">
-          <Grid size={{ md: 6, sm: 12 }}>
-            <Typography color={path === "suspend-account" ? "red" : "#2F7A52"}>
+        <Box display="flex" justifyContent="space-between"
+          flexWrap="wrap">
+          <Box>
+            <Typography 
+            color={path === "suspend-account" ? "red" : "#2F7A52"}>
               {path === "pending-request"
                 ? "Pending Restaurant Requests"
                 : path === "suspend-account"
                 ? "Suspended Accounts"
                 : "Restaurant Details"}
             </Typography>
-          </Grid>
-          <Grid size={{ md: 6, sm: 12 }}>
+          </Box>
+          <Box>
             {path !== "suspend-account" && (
-              <Stack
-                display="flex"
-                direction="row"
-                useFlexGap
-                spacing={2}
-                flexWrap="wrap"
-                justifyContent="flex-end"
-                gap={{ xs: 1 }}
-              >
+              <Box display="flex" gap={1} flexWrap="wrap" width={{xs:'100%'}}>
                 {/* Show only Filter for pending-request */}
                 {path === "pending-request" ? (
                   <Filterbutton
+                   sx={{width:'100%'}}
                     variant="contained"
                     startIcon={<FilterListIcon />}
                   >
@@ -416,10 +411,10 @@ const handleClickOpen=()=>{
                     </Filterbutton>
                   </>
                 )}
-              </Stack>
+              </Box>
             )}
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
         {/* restaurent details end */}
         <Box mt={2}>
          <TableContainer component={Paper}>

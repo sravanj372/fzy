@@ -28,12 +28,11 @@ const Adminroutes = () => {
   return (
  
   <Routes>
-     <Route path="/sidebar" element={<Sidebar />}/>
+
     <Route path="/login" element={<Login />}/>
     <Route path="/login/forgot-password" element={<ForgotPassword />}/>
     <Route path="/update-password" element={<UpdatePassword />}/>
     <Route path="/otp" element={<Otpverification />}/>
-    <Route path="/header" element={<Header />}/>
 
     <Route path="/admin" element={<AdminLayout />}>
       <Route index element={<Dashboard />}/>
@@ -53,9 +52,10 @@ const Adminroutes = () => {
       <Route path="discountpromo/admin-coupon" element={<DiscountandPromo />}/>
       <Route path="discountpromo/add-coupon" element={<Addcoupon />}/>
       <Route path="configsetting" element={<ConfigurationSettings />}/>
-      <Route path="configsetting/partner-bankdetails" element={<ConfigurationSettings />}/>
-      <Route path="configsetting/partner-commission" element={<PartnerCommissionRule />}/>
-      <Route path="configsetting/partner-commission/addpartner" element={<PartnerCommissionRule />}/>
+      <Route path="configsetting/paymentsettings" element={<ConfigurationSettings />}/>
+      <Route path="configsetting/paymentsettings/partner-bankdetails" element={<ConfigurationSettings />}/>
+      <Route path="configsetting/paymentsettings/partner-commission" element={<PartnerCommissionRule />}/>
+      <Route path="configsetting/paymentsettings/partner-commission/addpartner" element={<PartnerCommissionRule />}/>
       <Route path="configsetting/taxsettings" element={<Taxsettings />}/>
       <Route path="configsetting/taxsettings/addtax" element={<AddTax />}/>
       <Route path="profile" element={<Profile />}/>
