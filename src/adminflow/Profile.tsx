@@ -75,7 +75,7 @@ return (
               </Typography>
             )}
             {profile.label === "Password" && (
-              <Button variant="outlined" size="small" onClick={()=>navigate('update-password..')}>
+              <Button variant="outlined" size="small" onClick={()=>navigate('update-passwordo')}>
                 Change Password
               </Button>
             )}
