@@ -19,6 +19,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useLocation, useNavigate } from "react-router-dom";
 import React from 'react'
 import DeleteCoupon from "./popups/DeleteCoupon";
+import PaginationBox from "./PaginationBox";
 
 const DiscountandPromo = () =>{
   
@@ -163,7 +164,8 @@ const DiscountandPromo = () =>{
   
   
   return (
-    <Box sx={{ background: "white", height: "auto", p: 1 }}>
+    <Box sx={{ display:'flex',flexDirection:'column',
+    gap:'30px',background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
         <Box display="flex" justifyContent="space-between"
           flexWrap="wrap">
@@ -201,7 +203,7 @@ const DiscountandPromo = () =>{
 
         <Box mt={2}>
           <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {path === "admin-coupon"
@@ -211,7 +213,7 @@ const DiscountandPromo = () =>{
                         </TableCell>
                       ))
                     : discountheadings.map((discount) => (
-                        <TableCell sx={{ color: "#2F7A52" }}>
+                        <TableCell sx={{ color: "#2F7A52"}}>
                           {discount.heading}
                         </TableCell>
                       ))}
@@ -220,8 +222,8 @@ const DiscountandPromo = () =>{
               <TableBody>
                 {path === "admin-coupon"
                   ? coupondetails.map((coupon) => (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
+                      <TableRow sx={{whiteSpace: 'nowrap'}}>
+                        <TableCell component="th" scope="row" >
                           {coupon.couponcode}
                         </TableCell>
                         <TableCell component="th" scope="row">
@@ -250,7 +252,7 @@ const DiscountandPromo = () =>{
                               coupon.status==="InActive" ?'#E45040':'1px solid #2F7A52'
                             }
 
-                            padding="5px 15px"
+                            padding={coupon.status==='Active'?'2px 15px':'4px 11px'}
                             
                             borderRadius={5}
                             fontSize={13}
@@ -270,8 +272,9 @@ const DiscountandPromo = () =>{
                       </TableRow>
                     ))
                   : discountdetails.map((discount) => (
-                      <TableRow>
-                        <TableCell component="th" scope="row">
+                      <TableRow >
+                        <TableCell component="th" scope="row" sx={{whiteSpace: 'nowrap',color:'#2F7A52',textDecoration:'underline',cursor:'pointer'}}
+                        onClick={()=>navigate('/admin/restaurant-management/restaurant-details')}>
                           {discount.restaurantname}
                         </TableCell>
                         <TableCell component="th" scope="row">
@@ -280,7 +283,7 @@ const DiscountandPromo = () =>{
                         <TableCell component="th" scope="row">
                           {discount.description}
                         </TableCell>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" sx={{color:'#2F7A52',whiteSpace:'nowrap'}}>
                           {discount.vaidtill}
                         </TableCell>
                         <TableCell component="th" scope="row">
@@ -295,7 +298,7 @@ const DiscountandPromo = () =>{
                             bgcolor={
                               discount.status == "InActive" ? "#E45040" : "transparant"
                             }
-                            padding="5px 15px"
+                            padding={discount.status==='Active'?'2px 16px':'4px 11px'}
                             color={
                               discount.status=="InActive"?"white":"#2F7A52"
                             }
@@ -324,6 +327,9 @@ const DiscountandPromo = () =>{
             </Table>
           </TableContainer>
         </Box>
+      </Box>
+      <Box>
+        <PaginationBox />
       </Box>
     </Box>
   );

@@ -14,7 +14,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import adminLogo from '../assets/adminLogo.png'
 const Login = () => {
 
 const navigate=useNavigate()
@@ -83,7 +83,7 @@ const navigate=useNavigate()
 return (
     <Logincontainer>
       <Box>
-        <Box component="img" alt="LOGO" />
+        <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
       </Box>
       <LoginBox>
         <Box>

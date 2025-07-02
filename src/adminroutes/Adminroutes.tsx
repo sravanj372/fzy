@@ -22,6 +22,7 @@ import UpdatePassword from "../Auth/UpdatePassword"
 import Otpverification from "../Auth/Otpverification"
 import Header from "../adminflow/Header"
 import Sidebar from "../adminflow/Sidebar"
+import PaginationBox from "../adminflow/PaginationBox"
 
 
 const Adminroutes = () => {
@@ -29,10 +30,11 @@ const Adminroutes = () => {
  
   <Routes>
 
-    <Route path="/login11" element={<Login />}/>
+    <Route path="/login" element={<Login />}/>
     <Route path="/login/forgot-password" element={<ForgotPassword />}/>
     <Route path="/update-password" element={<UpdatePassword />}/>
     <Route path="/otp" element={<Otpverification />}/>
+    <Route path="/pagination" element={<PaginationBox />} />
     <Route path="/admin" element={<AdminLayout />}>
       <Route index element={<Dashboard />}/>
       <Route path="dashboard" element={<Dashboard />}/>

@@ -59,7 +59,8 @@ const ConfigurationSettings = () => {
     <Box display="flex" flexDirection="column" gap={2}>  
     {path!=='partner-bankdetails' &&
       <>
-        <Paper sx={{padding:"10px",border: "1px solid green",overflowX:{xs:'hidden'}}}>
+        <Paper sx={{padding:"10px",border: "1px solid green",
+          overflowX:{xs:'hidden'}}}>
          <Typography mb={2} color="#2F7A52">Payment Settings</Typography>
          <Box>
          <Typography mb={2} sx={{textDecoration:'underline',color:'#2F7A52'}}>Commission Settings</Typography> 
@@ -80,12 +81,12 @@ const ConfigurationSettings = () => {
 
         <Paper sx={{padding:"10px",border: "1px solid green",overflowX:{xs:'hidden'}}}>
           <Typography mb={2} color="#2F7A52">Payment Cycle</Typography>
-          <FormControl>
+          <FormControl >
              <RadioGroup
               row>
               <FormControlLabel value="weekly"  control={<Radio size="small"/>} label="Weekly" />
               <FormControlLabel value="bi-weekly" control={<Radio size="small"/>} label="Bi-Weekly" />
-              <FormControlLabel value="monthly" control={<Radio size="small"/>} label="Monthly" />
+              <FormControlLabel value="monthly" checked control={<Radio size="small"/>} label="Monthly" />
 
              </RadioGroup>
           </FormControl>
@@ -100,7 +101,9 @@ const ConfigurationSettings = () => {
        <Box display="flex" justifyContent="space-between">
        <Typography mb={2} color="#2F7A52" sx={{textDecoration:'underline'}}>Partner Bank Details</Typography>
        
-       <Exportbutton
+       {path==='partner-bankdetails'?
+     <>
+    <Exportbutton
                              variant="contained"
                              endIcon={<DownloadIcon />}
                              id="basic-button"
@@ -120,8 +123,10 @@ const ConfigurationSettings = () => {
                              <MenuItem onClick={handleCloses}>Week</MenuItem>
                              <MenuItem onClick={handleCloses}>Month</MenuItem>
                              <MenuItem onClick={handleCloses}>Year</MenuItem>
-                           </Menu>
+                           </Menu></>
 
+       :''}
+       
        </Box>   
        
        

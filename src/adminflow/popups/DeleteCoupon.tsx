@@ -14,8 +14,14 @@ const DeleteCoupon = ({deletecoupon,couponclose}:{deletecoupon:any,couponclose:a
                 sx: {
                   width: '400px',  
                   height: '200px',
+                  background:'white'
                 },
-        }}
+                }}
+                BackdropProps={{
+                sx: {
+                 backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              },
+            }} 
               >
               <DialogContent>
               <Typography textAlign="center">Are you sure want to Cancel the Coupon?</Typography>

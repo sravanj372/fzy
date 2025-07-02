@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { LoginBox, Logincontainer } from '../adminstyles/Adminstyles';
 import OtpInput from 'react-otp-input';
-
+import adminLogo from '../assets/adminLogo.png'
 const OtpVerification: React.FC = () => {
   const [otp, setOtp] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ const OtpVerification: React.FC = () => {
   return (
     <Logincontainer>
       <Box>
-        <Box component="img" alt="LOGO" sx={{ width: '100px' }} /> {/* Add src="/path/to/logo.png" if needed */}
+        <Box component="img" alt="LOGO" src={adminLogo}  width="200px" height="50px" /> 
       </Box>
       <LoginBox>
         <Box sx={{ mb: 2 }}>

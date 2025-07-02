@@ -13,7 +13,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden' }}> {/* Global overflow fix */}
+    <Box sx={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden'}}> {/* Global overflow fix */}
       <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
       <Box
         component="main"
@@ -43,6 +43,7 @@ const AdminLayout = () => {
             background: 'inherit',
             overflowX: 'hidden',
             boxSizing: 'border-box',
+            
           }}
         >
           <Header handleDrawerToggle={handleDrawerToggle} />

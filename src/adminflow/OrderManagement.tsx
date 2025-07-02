@@ -17,6 +17,7 @@ import {
 } from "../adminstyles/Adminstyles";
 import DownloadIcon from "@mui/icons-material/Download";
 import React from "react";
+import PaginationBox from "./PaginationBox";
 
 const OrderManagement = () => {
   const orderdetails = [
@@ -117,8 +118,11 @@ const OrderManagement = () => {
   //live order button end
 
   return (
-    <Box sx={{ background: "white", height: "auto", p: 1, border: "1px solid green", borderRadius: 4, }} component={Paper}>
-      <Box sx={{ p: 2 }}>
+    <Box sx={{display:'flex',flexDirection:'column',
+    gap:'30px',
+     }} >
+      <Box sx={{ p: 2,background: "white", height: "auto", border: "1px solid green", borderRadius: 4, }}
+      component={Paper}>
         <Box display="flex" justifyContent="space-between"
           flexWrap="wrap">
            <Box>
@@ -178,11 +182,11 @@ const OrderManagement = () => {
         </Box>
         <Box mt={2}>
           <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
+            <Table size="small" sx={{whiteSpace:'nowrap'}}>
+              <TableHead >
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {orderheadings.map((heading) => (
-                    <TableCell>{heading.heading}</TableCell>
+                    <TableCell sx={{p:2}}>{heading.heading}</TableCell>
                   ))}
                 </TableRow>
               </TableHead>
@@ -252,6 +256,9 @@ const OrderManagement = () => {
             </Table>
           </TableContainer>
         </Box>
+      </Box>
+      <Box>
+        <PaginationBox />
       </Box>
     </Box>
   );

@@ -11,6 +11,7 @@ import LockOutlineIcon from "@mui/icons-material/LockOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import { useState } from "react";
+import adminLogo from '../assets/adminLogo.png'
 
 
 const UpdatePassword = () => {
@@ -45,7 +46,7 @@ function confirmpasswordClosehandler(){
   return (
    <Logincontainer>
        <Box>
-        <Box component="img" alt="LOGO" />
+        <Box component="img" alt="LOGO" src={adminLogo}  width="200px" height="50px" />
       </Box>
       <LoginBox>
         <Box>

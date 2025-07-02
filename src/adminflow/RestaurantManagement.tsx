@@ -25,6 +25,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Suspendpopup from "./popups/Suspendpopup";
 import CircleIcon from '@mui/icons-material/Circle';
+import PaginationBox from "./PaginationBox";
+
 
 interface Restaurentheading {
   id: number;
@@ -164,7 +166,7 @@ const RestaurantManagement = () => {
     },
     {
       id: 2,
-      restaurantname: "Green Kitchen Co",
+      restaurantname: "Burma Superstar",
       vendorname: "John Smith",
       email: "example@gmail.com",
       contactno: "+61 400 123 456",
@@ -175,7 +177,7 @@ const RestaurantManagement = () => {
     },
     {
       id: 3,
-      restaurantname: "Green Kitchen Co",
+      restaurantname: "Tartine Bakery",
       vendorname: "John Smith",
       email: "example@gmail.com",
       contactno: "+61 400 123 456",
@@ -186,7 +188,7 @@ const RestaurantManagement = () => {
     },
     {
       id: 4,
-      restaurantname: "Green Kitchen Co",
+      restaurantname: "Brenda's French",
       vendorname: "John Smith",
       email: "example@gmail.com",
       contactno: "+61 400 123 456",
@@ -337,7 +339,9 @@ const handleClickOpen=()=>{
 }
 
   return (
-    <Box sx={{ background: "white", height: "auto"}}>
+    <Box sx={{ display:'flex',flexDirection:'column',
+    gap:'30px',
+    background: "white", height:"auto"}}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
         {/* restaurent details start */}
         <Box display="flex" justifyContent="space-between"
@@ -418,14 +422,15 @@ const handleClickOpen=()=>{
         {/* restaurent details end */}
         <Box mt={2}>
          <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {tableheading.map((headings) => (
                     <TableCell
                       sx={{
                          color: path === "suspend-account" ? "red" : "#2F7A52",
-                        fontWeight: 700,
+                         fontWeight: 700,
+                         whiteSpace: path === "pending-request" ?'nowrap':'wrap'
                       }}
                     >
                       {headings.heading}
@@ -433,15 +438,16 @@ const handleClickOpen=()=>{
                   ))}
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{whiteSpace: path === "pending-request" ?'nowrap':'wrap'}}>
                 {tabledetails.map((tdata) => (
                   <TableRow key={tdata.id}>
                     {path === "pending-request" ? (
                       <>
                         <TableCell
-                          component="th"
+                         component="th"
                           scope="row"
-                          sx={{ color: "#2F7A52", textDecoration: "underline" }}
+                          sx={{ color: "#2F7A52", textDecoration: "underline",
+                            }}
                         >
                           {tdata.restaurantname}
                         </TableCell>
@@ -569,7 +575,7 @@ const handleClickOpen=()=>{
                             open={open}
                             onClose={handleClose}
                           >
-                            <MenuItem onClick={handleClose}>UnSuspend</MenuItem>
+                            <MenuItem onClick={handleClose}>Unsuspend</MenuItem>
                           </Menu>
                         </TableCell>
                       </>
@@ -642,6 +648,9 @@ const handleClickOpen=()=>{
             </Table>
           </TableContainer>
         </Box>
+      </Box>
+      <Box>
+      <PaginationBox />
       </Box>
     </Box>
   );

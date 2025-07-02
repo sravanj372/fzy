@@ -16,6 +16,11 @@ const Suspendaccount = ({suspenopen,supendclose}:{suspenopen:any;supendclose:any
                height: '200px',
              },
      }}
+          BackdropProps={{
+                    sx: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                  },
+                }} 
            >
            <DialogContent>
            <Typography textAlign="center">Are you sure want to delete the Suspend Account?</Typography>

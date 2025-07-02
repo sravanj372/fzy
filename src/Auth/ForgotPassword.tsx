@@ -10,12 +10,13 @@ import {
 
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { Logincontainer,LoginBox } from "../adminstyles/Adminstyles";
+import adminLogo from '../assets/adminLogo.png'
 
 const ForgotPassword = () => {
   return (
    <Logincontainer>
        <Box>
-        <Box component="img" alt="LOGO" />
+        <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
       </Box>
     <LoginBox>
         <Box>

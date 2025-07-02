@@ -99,7 +99,7 @@ return (
        {/* Usermanagement table start*/}
          <Box mt={2}>
                    <TableContainer component={Paper}>
-                     <Table>
+                     <Table size="small" >
                        <TableHead>
                          <TableRow sx={{ background: "#F1F4F9" }}>
                           { path=='suspend-user'?(
@@ -186,8 +186,8 @@ return (
                              <TableCell component="th" scope="row">
                                {user.foodpostedno}
                              </TableCell>
-                            <TableCell component="th" scope="row">
-                             <CircleIcon sx={{ marginTop: '5px', marginRight: '2px', fontSize: "11px",color:'#2F7A52' }} />  {user.status}
+                            <TableCell component="th" scope="row" >
+                             <CircleIcon sx={{fontSize:'12px',color:'#2F7A52' }} /> {user.status}
                              </TableCell>
                              <TableCell component="th" scope="row">
                                <Button

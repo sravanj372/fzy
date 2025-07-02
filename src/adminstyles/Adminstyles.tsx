@@ -1,6 +1,5 @@
-import { Button,Box, FormControl, InputLabel} from '@mui/material';
+import { Button,Box, FormControl, InputLabel, Stack, Pagination} from '@mui/material';
 import { styled } from '@mui/material/styles';
-
 
 export const Suspendedbutton=styled(Button)(({theme})=>({
     borderColor:'red',
@@ -124,8 +123,8 @@ export const Logincontainer=styled(Box)(({theme})=>({
       height:"100vh",
       width:"auto",
       flexDirection:"column",
-      backgroundColor:theme.palette.secondary.main 
-  
+      backgroundColor:theme.palette.secondary.main,
+      gap:20
 }));
 
 
@@ -142,6 +141,18 @@ export const LoginBox=styled(Box)(({theme})=>({
              padding:"20px 40px "
           }
                
-     
-
 })) 
+
+//pagination
+ interface PaginationProps {
+  path?: string;
+}
+
+export const PaginationStack = styled(Stack)<PaginationProps>(({ path }) => ({
+  border: path === 'suspend-account' ? '1px solid red' : '1px solid green',
+  width: 'fit-content',
+  padding: '5px',
+  borderRadius: '10px',
+  margin: 'auto',
+  background:'white'
+  }));
