@@ -13,7 +13,10 @@ const Profile = () => {
  const navigate= useNavigate()
 
   const [state, setState] = useState(false);
+  
   /* const [email, setEmail] = useState(""); */
+  
+  
   const updateEmailhandler = (profile: any) => {
     
      if(profile.id === 2) {
@@ -37,7 +40,7 @@ const emailchangeHandler = (event: any) => {
 return (
     <Box padding={1} gap={2}>
       <Paper sx={{ border: "1px solid green", overflowX: { xs: "hidden" } }}>
-        <Typography color="#2F7A52" pl={2}>
+        <Typography color="#2F7A52" pl={2} pt={2}>
           Profile
         </Typography>
         <Typography fontWeight="700" color="#2F7A52" pl={2} mt={2}>
@@ -57,6 +60,7 @@ return (
               <TextField
                 size="small"
                 onChange={emailchangeHandler}
+                value={updatedemail}
               />
             ) : (
               <Typography>{profile.value}</Typography>

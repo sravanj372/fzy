@@ -65,8 +65,11 @@ const [isConfigOpen, setIsConfigOpen] = useState(false);
             gap={2}
             justifyContent="flex-start"
             alignItems="center"
-            sx={{ backgroundColor: '#DEF6DB', padding: '10px', borderRadius: '10px', width: '100%' }}
-          >
+            sx={{ backgroundColor: '#DEF6DB', padding: '10px', borderRadius: '10px', width: '100%',
+              cursor:'pointer'
+             }}
+            onClick={()=>navigate('profile')}
+            >
             <Avatar src={Userphoto} />
             <Box>
               <Typography>Ramesh</Typography>
