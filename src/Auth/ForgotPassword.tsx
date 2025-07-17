@@ -29,8 +29,7 @@ const ForgotPassword = () => {
         </Box> 
          <FormControl fullWidth variant="outlined">
           <TextField
-            label="Email ID"
-            size="small"
+            placeholder="Email ID"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -41,6 +40,13 @@ const ForgotPassword = () => {
               ),
             }}
             sx={{
+                "& input::placeholder":{
+                  fontSize:'13px',
+                  color:'#000',
+                  fontWeight:'600',
+                  position:'absolute',
+                  top:"0px"
+                },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
               },

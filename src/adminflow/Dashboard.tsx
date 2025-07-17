@@ -69,23 +69,59 @@ const navigate=useNavigate()
 
 return (
     <Box display="flex" gap={2} flexDirection="column" >  
-    <Paper  sx={{border:'1px solid green'}}>
-     <Box display="flex" flexDirection={{md:'row',xs:'column'}} gap={20} padding={2}> 
-     {dashboarddata.map((data)=>(
+  <Paper sx={{ border: '1px solid green' }}>
+  <Box display="flex" flexDirection={{ md: 'row', xs: 'column' }} padding={2}>
+    {dashboarddata.map((data, index) => (
+     <Box
+        key={data.id}
+        display="flex"
+        flexDirection={{ md: 'row', xs: 'column' }}
+        alignItems="center"
+        width="100%"
+        sx={{ pr: { md: index < dashboarddata.length - 1 ? 4 : 0 } }}
+      >
+        {/* Icon + Label */}
+        <Box display="flex" gap={2} alignItems="center" flex={1}>
+          <Box color="#2F7A52" fontSize="24px">
+            {data.icon}
+          </Box>
+          <Box>
+            <Typography color="#2F7A52" fontSize="24px">
+              {data.count}
+            </Typography>
+            <Typography fontSize="14px">{data.label}</Typography>
+          </Box>
+        </Box>
 
-      <Box display="flex" gap={4} justifyContent="flex-start">
-      <Box color="#2F7A52" fontSize="24px">{data.icon}</Box>
-      <Box>
-      <Typography color="#2F7A52" fontSize="24px">{data.count}</Typography>
-      <Typography sx={{marginBottom:{xs:'10px'}}}>{data.label}</Typography>
-       <Divider sx={{border:'1px solid gray',display:{md:'none'},width:'100%'}}/>
-     </Box>
-     {data.id===4?null:<Divider sx={{border:'1px solid gray',display:{md:'block',xs:'none'}}}/>} 
-     </Box>
+        {/* Divider only between items */}
+        {index < dashboarddata.length - 1 && (
+          <>
+            {/* Vertical Divider (desktop only) */}
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                display: { xs: 'none', md: 'block' },
+                borderColor: '#E9ECEF',
+              }}
+            />
+
+            {/* Horizontal Divider (mobile only) */}
+            <Divider
+              sx={{
+                display: { xs: 'block', md: 'none' },
+                borderColor: 'gray',
+                width: '100%',
+                my: 2, // small margin only on Y-axis
+              }}
+            />
+          </>
+        )}
+      </Box>
     ))}
-   
-    </Box>
-    </Paper>
+  </Box>
+</Paper>
+
    
     {/* second section start */}
    
@@ -102,10 +138,11 @@ return (
        flexDirection:'column',
        justifyContent:'center',
        fontFamily:'Nunito Sans',
-       borderColor:'#979797',borderRadius:'10px',width:{md:'360px',xs:'100%'},
+       paddingLeft:'12px',
+       borderColor:'#979797',borderRadius:'26px',width:{md:'280px',xs:'100%'},
        height:'120px',whiteSpace:"wrap"}}>
       <CardContent sx={{fontSize:'18px'}}>{deliverydata.label}</CardContent>
-      <CardContent  sx={{fontSize:'20px',color:'#2F7A52',fontWeight:'700'}}>{deliverydata.count}</CardContent>
+      <CardContent  sx={{fontSize:'20px',color:'#2F7A52',fontWeight:'700',paddingLeft:'12px'}}>{deliverydata.count}</CardContent>
       </Card>
     
     ))}
@@ -215,7 +252,8 @@ return (
          <Button variant="contained" startIcon={<AddIcon />}
            onClick={()=>navigate('home-title')}>Add New</Button>
          </Box>
-         {festdata.map((data)=>(
+         {festdata.map((data,index)=>(
+          <>
           <Box display="flex" justifyContent="space-between" alignItems="center"
            gap={2} padding={1}>{/* images text flow start */}
            <Box
@@ -230,15 +268,20 @@ return (
           />
           <Box>{/* middle */}
           <Typography sx={{ marginRight:data.id===1 ?"20px":null }}>{data.title}</Typography>
-          <Typography>{data.date}</Typography>
+          <Typography color="#8A92A6">{data.date}</Typography>
           </Box>
           <Box display="flex"  gap={1}>{/* Icons */}
            <Box color="#2F7A52">{data.edit}</Box>
             <Box color="#FF3326">{data.deleteicon}</Box>
           </Box>
-           </Box>
+          </Box>
+          {index <festdata.length-1&&(
+           <Divider sx={{border:'1px solid #E9ECEF', width:'100%'}}/>
+          )}
+                   
+          </> 
+          ))}
           
-         ))}
     </Paper>
     
     </Box>

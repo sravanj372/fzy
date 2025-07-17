@@ -20,8 +20,6 @@ import Login from "../Auth/Login"
 import ForgotPassword from "../Auth/ForgotPassword"
 import UpdatePassword from "../Auth/UpdatePassword"
 import Otpverification from "../Auth/Otpverification"
-import Header from "../adminflow/Header"
-import Sidebar from "../adminflow/Sidebar"
 import PaginationBox from "../adminflow/PaginationBox"
 
 

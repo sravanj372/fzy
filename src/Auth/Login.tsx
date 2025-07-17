@@ -86,19 +86,19 @@ return (
         <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
       </Box>
       <LoginBox>
-        <Box>
+        <Box display="flex" flexDirection="column" gap={1} justifyContent="center">
           <Typography variant="h4" textAlign="center" color="#2F7A52">
             Login to Account
           </Typography>
-          <Typography color="#202224E5" fontSize="14px">
+          <Typography color="#202224E5" fontSize="16px" mb={2}>
             Please enter your email and password to continue
           </Typography>
         </Box>
 
         <FormControl fullWidth variant="outlined">
           <TextField
-            label="Email ID"
-            size="small"
+            placeholder="Email ID" 
+            
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -109,8 +109,16 @@ return (
               ),
             }}
             sx={{
-              "& .MuiOutlinedInput-root": {
+              "& input::placeholder":{
+                  fontSize:'13px',
+                  color:'#000',
+                  fontWeight:'600',
+                  position:'absolute',
+                  top:"0px",
+                 },
+                "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
+                
               },
             }}
             onChange={emailChangeHandler}
@@ -126,13 +134,13 @@ return (
           <Box display="flex" justifyContent="flex-end">
             <Typography color="#202224" fontSize="14px" sx={{cursor:'pointer'}}
             onClick={()=>navigate('forgot-password')}>
-              Forget Password?
+              Forgot Password?
             </Typography>
           </Box>
           <TextField
             type={pwdValue}
-            label="Password"
-            size="small"
+            placeholder="Password"
+            /* size="small" */
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -154,6 +162,13 @@ return (
               ),
             }}
             sx={{
+              "& input::placeholder":{
+                  fontSize:'13px',
+                  color:'#000',
+                  fontWeight:'600',
+                  position:'absolute',
+                  top:"0px"
+                },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
               },

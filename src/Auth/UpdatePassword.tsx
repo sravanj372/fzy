@@ -49,11 +49,11 @@ function confirmpasswordClosehandler(){
         <Box component="img" alt="LOGO" src={adminLogo}  width="200px" height="50px" />
       </Box>
       <LoginBox>
-        <Box>
+        <Box display="flex" flexDirection="column" gap={2}>
           <Typography variant="h4" textAlign="center" color="#2F7A52">
             New Password
           </Typography>
-          <Typography color="#202224E5" fontSize="14px">
+          <Typography color="#202224E5" fontSize="19px">
             Set the new password for your account so you can login.
           </Typography>
         </Box>
@@ -62,8 +62,8 @@ function confirmpasswordClosehandler(){
          <FormControl fullWidth variant="outlined">
           <TextField
           type={pwdValue}
-            label="Password"
-            size="small"
+            placeholder="Password"
+            /* size="small" */
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -77,6 +77,13 @@ function confirmpasswordClosehandler(){
               ),
             }}
             sx={{
+                 "& input::placeholder":{
+                  fontSize:'13px',
+                  color:'#000',
+                  fontWeight:'600',
+                  position:'absolute',
+                  top:"0px"
+                },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
               },
@@ -88,8 +95,8 @@ function confirmpasswordClosehandler(){
         
           <TextField
           type={confirmpwdValue}
-            label="Confirm Password"
-            size="small"
+            placeholder="Confirm Password"
+            /* size="small" */
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -103,6 +110,13 @@ function confirmpasswordClosehandler(){
               ),
             }}
             sx={{
+                 "& input::placeholder":{
+                  fontSize:'13px',
+                  color:'#000',
+                  fontWeight:'600',
+                  position:'absolute',
+                  top:"0px"
+                },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
               },

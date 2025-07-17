@@ -133,12 +133,12 @@ export const LoginBox=styled(Box)(({theme})=>({
           flexDirection: "column",
           gap: "16px",
           padding: "40px",
-          borderRadius: "10px",
+          borderRadius: "12px",
           backgroundColor: "white",
-          width:'400px',
+          width:'450px',
           [theme.breakpoints.down('sm')]: {
              width:"100%",
-             padding:"20px 40px "
+             padding:"30px 40px "
           }
                
 })) 
