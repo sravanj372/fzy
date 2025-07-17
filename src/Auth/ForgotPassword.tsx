@@ -11,8 +11,12 @@ import {
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { Logincontainer,LoginBox } from "../adminstyles/Adminstyles";
 import adminLogo from '../assets/adminLogo.png'
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+
+const navigate=useNavigate()
+
   return (
    <Logincontainer>
        <Box>
@@ -66,7 +70,7 @@ const ForgotPassword = () => {
                 color: "white",
               },
             }}
-          >
+          onClick={()=>navigate('/update-password')}>
             Continue
           </Button>
         </Box>
