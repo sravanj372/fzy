@@ -13,7 +13,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useLocation } from "react-router-dom";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
   Exportbutton,
   Pendingreqbutton,
@@ -347,12 +347,23 @@ const handleClickOpen=()=>{
         <Box display="flex" justifyContent="space-between"
           flexWrap="wrap">
           <Box>
-            <Typography 
+             
+            <Typography display="flex" alignItems="center"
             color={path === "suspend-account" ? "red" : "#2F7A52"}>
               {path === "pending-request"
-                ? "Pending Restaurant Requests"
+                ? (<>
+                <ArrowBackIcon 
+                onClick={()=>navigate('/admin/restaurant-management')} 
+                sx={{cursor:'pointer',color:'#2F7A52',fontSize:'20px'}}/>Pending Restaurant Requests
+                  </>
+                  )
                 : path === "suspend-account"
-                ? "Suspended Accounts"
+                ? (<>
+                <ArrowBackIcon 
+                onClick={()=>navigate('/admin/restaurant-management')} 
+                sx={{cursor:'pointer',color:'#f42f25ff',fontSize:'20px'}}/>Suspended Accounts
+                  </>
+                  )
                 : "Restaurant Details"}
             </Typography>
           </Box>
@@ -452,7 +463,8 @@ const handleClickOpen=()=>{
                          component="th"
                           scope="row"
                           sx={{ color: "#2F7A52", textDecoration: "underline",
-                            }}
+                            cursor:'pointer'}}
+                           onClick={()=>navigate('/admin/restaurant-management/restaurant-details')} 
                         >
                           {tdata.restaurantname}
                         </TableCell>
@@ -540,7 +552,8 @@ const handleClickOpen=()=>{
                         <TableCell
                           component="th"
                           scope="row"
-                          sx={{ color: "#2F7A52", textDecoration: "underline" }}
+                          sx={{ color: "#2F7A52", textDecoration: "underline",cursor:'pointer' }}
+                          onClick={()=>navigate('/admin/restaurant-management/restaurant-details')}
                          >
                           {tdata.restaurantname}
                         </TableCell>
