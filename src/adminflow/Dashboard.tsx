@@ -15,7 +15,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
@@ -63,9 +63,23 @@ const highestearningsdata=[
 {id:3,restaurantname:'Chicken Flame',vendorname:'James Murphy',contact:'+61 412 545 679',totalrevenue:`$${12350.00}`,location:'Sydney'},
 {id:4,restaurantname:'Mutton Flame',vendorname:'James Murphy',contact:'+61 412 645 672',totalrevenue:`$${12350.00}`,location:'Sydney'},
 ]
-
 const navigate=useNavigate()
+const location=useLocation()
+const path=location.pathname
 
+
+function homeTilteNavigate(){
+
+  if(path=="/admin" || "/admin/dashboard"){
+    navigate('/admin/dashboard/home-title')
+  }
+}
+
+function editHomeTilte(){
+  if(path=="/admin" || "/admin/dashboard"){
+    navigate('/admin/dashboard/edit-home-title/')
+  }
+}
 
 return (
     <Box display="flex" gap={2} flexDirection="column" >  
@@ -86,17 +100,17 @@ return (
             {data.icon}
           </Box>
           <Box>
-            <Typography color="#2F7A52" fontSize="24px">
+            <Typography color="#2F7A52" fontSize="25px">
               {data.count}
             </Typography>
-            <Typography fontSize="14px">{data.label}</Typography>
+            <Typography fontSize="23px">{data.label}</Typography>
           </Box>
         </Box>
 
         {/* Divider only between items */}
         {index < dashboarddata.length - 1 && (
           <>
-            {/* Vertical Divider (desktop only) */}
+            {/* Vertical Divider (md screens) */}
             <Divider
               orientation="vertical"
               flexItem
@@ -106,7 +120,7 @@ return (
               }}
             />
 
-            {/* Horizontal Divider (mobile only) */}
+            {/* Horizontal Divider (xs only) */}
             <Divider
               sx={{
                 display: { xs: 'block', md: 'none' },
@@ -128,22 +142,46 @@ return (
     <Box sx={{width:"100%",p:"2px",display:'flex',flexDirection:{md:'row', xs:'column',gap:"10px"}}}>
      <Box display="flex"  flexDirection="column" gap={2} sx={{width:{md:'70%'}}}>    
       {/* pickup and delivery status */}
-      <Paper sx={{p:2,border:'1px solid green',width:{md:'100%',xs:'100%'}}}>
-      <Typography color="#2F7A52" fontWeight="600" >Pickup and Delivery Status</Typography>
-      <Box display="flex" alignItems="center" pt={2} flexDirection={{md:'row',xs:'column'}} 
-      justifyContent="space-between" gap={2}>
-      {deliverystatusdata.map((deliverydata)=>(
-      <Card variant="outlined" sx={{
+      <Paper sx={{p:2,border:'1px solid green',width:'100%'}}>
+      <Typography color="#2F7A52" fontWeight="600" >
+        Pickup and Delivery Status
+      </Typography>
+      <Box 
+      display="flex" 
+      alignItems="stretch" 
+      pt={2} 
+      flexDirection={{md:'row',xs:'column'}} 
+      justifyContent="space-between" 
+      gap={2}>
+      {deliverystatusdata.map((deliverydata,index)=>(
+      <Card key={index} 
+       variant="outlined" 
+       sx={{
        display:'flex',
+       alignItems:'flex-start', 
        flexDirection:'column',
-       justifyContent:'center',
+       justifyContent:'flex-start',
        fontFamily:'Nunito Sans',
-       paddingLeft:'12px',
-       borderColor:'#979797',borderRadius:'26px',width:{md:'280px',xs:'100%'},
-       height:'120px',whiteSpace:"wrap"}}>
-      <CardContent sx={{fontSize:'18px'}}>{deliverydata.label}</CardContent>
-      <CardContent  sx={{fontSize:'20px',color:'#2F7A52',fontWeight:'700',paddingLeft:'12px'}}>{deliverydata.count}</CardContent>
-      </Card>
+       borderColor:'#979797',
+       borderRadius:'26px',
+       width:{md:'320px',xs:'100%'},
+       height:'120px',
+       textAlign:'center',
+       p:2}}>
+      <Box 
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      alignItems="flex-start"
+      >
+      <Typography sx={{fontSize:'18px',mb:1}}> 
+        {deliverydata.label}
+      </Typography>
+      <Typography sx={{ fontSize: '35px', color: '#2F7A52', fontWeight: 700 }}>
+        {deliverydata.count}
+      </Typography>
+      </Box>
+     </Card>
     
     ))}
   </Box> 
@@ -250,7 +288,7 @@ return (
          <Box display="flex" justifyContent="space-between">
          <Typography  color="#2F7A52">Homepage Title</Typography>
          <Button variant="contained" startIcon={<AddIcon />}
-           onClick={()=>navigate('home-title')}>Add New</Button>
+           onClick={homeTilteNavigate}>Add New</Button>
          </Box>
          {festdata.map((data,index)=>(
           <>
@@ -271,8 +309,8 @@ return (
           <Typography color="#8A92A6">{data.date}</Typography>
           </Box>
           <Box display="flex"  gap={1}>{/* Icons */}
-           <Box color="#2F7A52">{data.edit}</Box>
-            <Box color="#FF3326">{data.deleteicon}</Box>
+           <Box color="#2F7A52" onClick={editHomeTilte} sx={{cursor:'pointer'}}>{data.edit}</Box>
+            <Box color="#FF3326" sx={{cursor:'pointer'}}>{data.deleteicon}</Box>
           </Box>
           </Box>
           {index <festdata.length-1&&(
@@ -290,7 +328,7 @@ return (
     {/* third section */}
      <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
        <Box display="flex" justifyContent="space-between">
-       <Typography color="#2F7A52">Highest-earning restuarents </Typography>
+       <Typography color="#2F7A52" fontWeight="600" fontSize="17px">Highest-earning restuarents </Typography>
        <Select
             value="2025"
             variant="standard"
@@ -307,12 +345,14 @@ return (
           </Select>
           </Box>
          <Box mt={2}>
-                 <TableContainer component={Paper}>
+                 <TableContainer component={Paper} 
+                 sx={{ boxShadow: 'none'
+                 }}>
                    <Table>
                      <TableHead>
-                       <TableRow sx={{ background: "#F1F4F9" }}>
+                       <TableRow sx={{ background: "#F1F4F9"}}>
                          {highestearningsheadings.map((heading) => (
-                           <TableCell>{heading.heading}</TableCell>
+                           <TableCell sx={{color:"#2F7A52",fontWeight:700}}>{heading.heading}</TableCell>
                          ))}
                        </TableRow>
                      </TableHead>

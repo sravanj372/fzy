@@ -403,8 +403,12 @@ const handleClickOpen=()=>{
                     <Pendingreqbutton
                       variant="contained"
                       onClick={pendingRestaurentHandler}
+                      
                     >
                       Pending Restaurant Request
+                    <CircleIcon 
+                      sx={{position:'absolute',fontSize:'14px',
+                      top:"-3px",color:'red',right:'-3px'}}/>
                     </Pendingreqbutton>
 
                     <Filterbutton
@@ -421,8 +425,9 @@ const handleClickOpen=()=>{
         </Box>
         {/* restaurent details end */}
         <Box mt={2}>
-         <TableContainer component={Paper}>
-            <Table size="small">
+         <TableContainer component={Paper}
+         sx={{boxShadow:'none'}}>
+            <Table >
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {tableheading.map((headings) => (

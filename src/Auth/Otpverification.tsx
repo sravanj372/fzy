@@ -58,17 +58,21 @@ const OtpVerification: React.FC = () => {
                 {...props}
                 style={{
                   ...props.style,
-                  border: `1px solid ${error ? '#d32f2f' : 'gray'}`,
+                   /* border: `1px solid ${error ? '#d32f2f' : 'gray'}`, */ 
+                   background:'#d8d8d83d'
                 }}
               />
             )}
             inputStyle={{
-              width: '40px',
-              height: '40px',
+              width: '50px',
+              height: '50px',
               margin: '5px',
               borderRadius: '5px',
               fontSize: '20px',
               textAlign: 'center',
+              boxShadow:'0 2px 6px rgba(0, 0, 0, 0.2)',
+              border:'none',
+              
             }}
             containerStyle={{ justifyContent: 'center' }}
             inputType="tel"
@@ -100,8 +104,8 @@ const OtpVerification: React.FC = () => {
             Continue
           </Button>
         </form>
-        <Box>
-          <Typography>If you didn't receive a code! <Typography component="a" color="#2F7A52">Resend</Typography></Typography>
+        <Box >
+          <Typography >If you didn't receive a code! <Typography component="a" color="#2F7A52">Resend</Typography></Typography>
         </Box>
       </LoginBox>
     </Logincontainer>

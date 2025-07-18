@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useLocation,useNavigate } from "react-router-dom";
 import Christmas11 from '../assets/christmas2.png'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const Homepagetitle = () => {
 
  const VisuallyHiddenInput = styled('input')({
@@ -30,8 +31,13 @@ const navigate=useNavigate()
     return (
     <Box>
       <Box display="flex" justifyContent="space-between">
+      <Box display="flex">
+       <ArrowBackIcon onClick={()=>navigate('/admin/dashboard')} sx={{cursor:'pointer',mt:1,color:'#2F7A52',fontSize:'20px'}}/>  
       <Typography color="#2F7A52" marginBottom={2} p={1}>
         {path==='edit-home-title'?"Edit Homepage Title":"Homepage Title"}</Typography> 
+      
+      </Box>  
+      
       <Stack direction="row">
       <Button startIcon={<EditIcon/>} onClick={()=>navigate('/admin/dashboard/edit-home-title')}>
        Edit</Button>
@@ -41,7 +47,7 @@ const navigate=useNavigate()
      <Box display="flex" flexDirection="column" gap={2}>
      <Stack direction={{md:'row',xs:'column'}} p={1} > 
        <Box sx={{ width: { xs: "100%", md: "15%" } }} >
-       <Typography width="100%">Banned Text</Typography>
+       <Typography width="100%">Banner Text</Typography>
        </Box>
       <Box width={{ md: "40%", xs: "100%" }} display="flex" gap={3}>
             <TextField
@@ -121,7 +127,7 @@ const navigate=useNavigate()
           {""}
         </Box>
         <Box display="flex" alignItems="center">
-       <Radio /><Typography component="span">Fixed</Typography>
+       <Radio size="small"/><Typography component="span">Fixed</Typography>
        </Box> 
       </Stack>
      {/* radio end */} 

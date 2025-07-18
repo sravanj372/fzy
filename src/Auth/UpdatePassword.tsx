@@ -82,7 +82,7 @@ function confirmpasswordClosehandler(){
                   color:'#000',
                   fontWeight:'600',
                   position:'absolute',
-                  top:"0px"
+                  top:"5px"
                 },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
@@ -115,7 +115,7 @@ function confirmpasswordClosehandler(){
                   color:'#000',
                   fontWeight:'600',
                   position:'absolute',
-                  top:"0px"
+                  top:"5px"
                 },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },

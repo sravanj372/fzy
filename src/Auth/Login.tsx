@@ -70,7 +70,7 @@ const navigate=useNavigate()
       setpassworderror("");
      } else {
       setpassworderror(
-        "Password must be at least 8 characterslong and include a number & special character");
+        "Password must be at least 8 characters long and include a number & special character");
         isValid=false
      }
        
@@ -114,7 +114,7 @@ return (
                   color:'#000',
                   fontWeight:'600',
                   position:'absolute',
-                  top:"0px",
+                  top:"6px",
                  },
                 "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
@@ -167,7 +167,7 @@ return (
                   color:'#000',
                   fontWeight:'600',
                   position:'absolute',
-                  top:"0px"
+                  top:"5px"
                 },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": { borderColor: "#2F7A52" },
@@ -181,9 +181,9 @@ return (
             {passworderror}
           </Typography>
         )}
-        <Box display="flex" justifyContent="flex-start" alignItems="center">
+        <Box display="flex" justifyContent="flex-start" alignItems="center" mt={-2} ml={-1}>
           <Checkbox defaultChecked />
-          <Typography fontSize="14px">Remember Me</Typography>
+          <Typography fontSize="14px" color="#333333">Remember Password</Typography>
         </Box>
         <Box>
           <Button
