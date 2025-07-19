@@ -53,7 +53,7 @@ function confirmpasswordClosehandler(){
           <Typography variant="h4" textAlign="center" color="#2F7A52">
             New Password
           </Typography>
-          <Typography color="#202224E5" fontSize="19px">
+          <Typography color="#202224E5" fontSize="19px" margin="auto">
             Set the new password for your account so you can login.
           </Typography>
         </Box>

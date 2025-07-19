@@ -42,6 +42,8 @@ const Adminroutes = () => {
       <Route path="restaurant-management/pending-request" element={<RestaurantManagement/>}/>
       <Route path="restaurant-management/suspend-account" element={<RestaurantManagement/>}/>
       <Route path="restaurant-management/restaurant-details" element={<RestuarentDetails/>}/> 
+      <Route path="restaurant-management/pending-restaurant" element={<RestuarentDetails/>}/>
+      <Route path="restaurant-management/suspend-restaurant" element={<RestuarentDetails/>}/> 
       <Route path="order-management" element={<OrderManagement />}/>
       <Route path="order-management/order-bills" element={<OrderandBills />}/>
       <Route path="user-management" element={<UserManagement />}/>

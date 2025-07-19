@@ -122,14 +122,17 @@ const navigate=useNavigate()
         </Box>
      </Stack>
      {/* radio */} 
-      <Stack direction="row" gap={{md:25}}>
-        <Box>
+     {path==='edit-home-title' &&(
+      <Stack direction={{md:'row',xs:'column'}} >
+        <Box sx={{ width: { xs: "100%", md: "15%" } }}>
           {""}
         </Box>
         <Box display="flex" alignItems="center">
        <Radio size="small"/><Typography component="span">Fixed</Typography>
        </Box> 
       </Stack>
+     )}
+      
      {/* radio end */} 
      <Stack direction={{md:'row',xs:'column'}} p={1}>
        <Box sx={{ width: { xs: "100%", md: "15%" } }} >

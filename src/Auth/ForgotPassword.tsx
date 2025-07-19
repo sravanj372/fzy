@@ -23,11 +23,12 @@ const navigate=useNavigate()
         <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
       </Box>
     <LoginBox>
-        <Box>
+        <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center" 
+        gap={2}>
           <Typography variant="h4" textAlign="center" color="#2F7A52">
             Forgot Password
           </Typography>
-          <Typography color="#202224E5" fontSize="14px">
+          <Typography color="#202224E5" fontSize="14px" >
             Please enter your email address to begin the verification process. A 4-digit code will be sent to your email.
           </Typography>
         </Box> 
@@ -57,17 +58,19 @@ const navigate=useNavigate()
             }}
           />
         </FormControl>
-       <Box>
+       <Box  mt={1}>
           <Button
             variant="outlined"
             fullWidth
             size="large"
+            
             sx={{
               backgroundColor: "#2F7A52",
               color: "white",
               "&: hover": {
                 backgroundColor: "#2F7A52",
                 color: "white",
+                
               },
             }}
           onClick={()=>navigate('/update-password')}>

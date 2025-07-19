@@ -16,15 +16,15 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import MenuItem from "@mui/material/MenuItem";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import React from "react"
 
 const Dashboard = () => {
 
 const dashboarddata=[
-  {id:1,icon:<LocalDiningIcon/>, count:80,label:'Total Restuarents'},
+  {id:1,icon:<LocalDiningIcon/>, count:80,label:'Total  Restaurants'},
   {id:2,icon:<ShoppingBagIcon/>, count:200,label:'Active Orders'},
   {id:3,icon:<PaymentsIcon/>, count:`$${30635}`,label:'Total Revenue'},
-  {id:4,icon:<CompostIcon/>, count:`$10,000Kgs`,label:'Total CO2 Saved'}, 
+  {id:4,icon:<CompostIcon/>, count:`$10,000Kgs`,label:'Total CO₂ saved'}, 
 ] 
 
 const deliverystatusdata=[
@@ -96,8 +96,8 @@ return (
       >
         {/* Icon + Label */}
         <Box display="flex" gap={2} alignItems="center" flex={1}>
-          <Box color="#2F7A52" fontSize="24px">
-            {data.icon}
+          <Box color="#2F7A52" >
+            {React.cloneElement(data.icon, { sx: { fontSize: '30px' } })}
           </Box>
           <Box>
             <Typography color="#2F7A52" fontSize="25px">

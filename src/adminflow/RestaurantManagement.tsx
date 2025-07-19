@@ -212,7 +212,7 @@ const RestaurantManagement = () => {
 
   const suspendedheadings: Suspendedheadings[] = [
     { id: 1, heading: "S.No" },
-    { id: 2, heading: "Restuarent Name" },
+    { id: 2, heading: " Restaurant Name" },
     { id: 3, heading: "User Contact" },
     { id: 4, heading: "Date Suspended" },
     { id: 5, heading: "Location" },
@@ -464,7 +464,7 @@ const handleClickOpen=()=>{
                           scope="row"
                           sx={{ color: "#2F7A52", textDecoration: "underline",
                             cursor:'pointer'}}
-                           onClick={()=>navigate('/admin/restaurant-management/restaurant-details')} 
+                           onClick={()=>navigate('/admin/restaurant-management/pending-restaurant')} 
                         >
                           {tdata.restaurantname}
                         </TableCell>
@@ -553,7 +553,7 @@ const handleClickOpen=()=>{
                           component="th"
                           scope="row"
                           sx={{ color: "#2F7A52", textDecoration: "underline",cursor:'pointer' }}
-                          onClick={()=>navigate('/admin/restaurant-management/restaurant-details')}
+                          onClick={()=>navigate('/admin/restaurant-management/suspend-restaurant')}
                          >
                           {tdata.restaurantname}
                         </TableCell>

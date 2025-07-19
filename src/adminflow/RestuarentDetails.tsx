@@ -8,6 +8,7 @@ import React from "react";
 import { ListItemIcon, ListItemText } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useLocation } from "react-router-dom";
 
 const RestuarentDetails = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -42,6 +43,11 @@ const restaurantinfo=[
   {id:5,key:'Meal Per day',value:'10 to 50'},
   {id:6,key:'Description',value:'Authentic Italian flavors with handcrafted pasta, wood-fired pizzas, and fresh ingredients. Experience the true taste of Italy!'},
 ]
+
+const location=useLocation()
+const path=location.pathname
+
+
  return (
     <Box padding={1} gap={2}>  
     <Paper  sx={{border: "1px solid green",overflowX:{xs:'hidden'}}}>
@@ -81,13 +87,15 @@ const restaurantinfo=[
         >
           Actions
         </Button>
-        <Menu
+         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
         >
-         <MenuItem> 
+        {path==="/admin/restaurant-management/pending-restaurant" ?
+        (<>
+          <MenuItem> 
          <ListItemIcon>
             <CheckCircleIcon
               fontSize="small"
@@ -97,20 +105,41 @@ const restaurantinfo=[
           <ListItemText>Approve</ListItemText>
           </MenuItem>
           <MenuItem onClick={handleClose}>
-                                        <ListItemIcon>
-                                          <CancelIcon
-                                            fontSize="small"
-                                            sx={{ color: "red" }}
-                                          />
-                                        </ListItemIcon>
-                                        <ListItemText>Reject</ListItemText>
-                                      </MenuItem>  
+            <ListItemIcon>
+              <CancelIcon
+                fontSize="small"
+                sx={{ color: "red" }}
+              />
+            </ListItemIcon>
+            <ListItemText>Reject</ListItemText>
+          </MenuItem>  
 
+        </>) :(
+        <>
+         <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <CancelIcon
+                fontSize="small"
+                sx={{ color: "red" }}
+              />
+            </ListItemIcon>
+            <ListItemText>Suspend</ListItemText>
+          </MenuItem>  
+          </>
+          )
+        }
+
+
+         
+          
         </Menu>
     </Grid>
     </Grid>    
     </Paper>
-
+    
+    {
+     path==="/admin/restaurant-management/restaurant-details"
+      &&(
     <Paper sx={{border: "1px solid green", mt:"12px",overflowX:{xs:'hidden'}}}>
     <Grid container p={2} >
     
@@ -130,7 +159,9 @@ const restaurantinfo=[
     </Grid>
     </Grid>    
     </Paper> 
-    
+    )
+    }
+   
      <Paper sx={{border: "1px solid green", mt:"12px",overflowX:{xs:'hidden'}}}>
     <Grid container p={2} >
     
