@@ -17,6 +17,7 @@ import { Exportbutton } from "../adminstyles/Adminstyles";
 import DownloadIcon from "@mui/icons-material/Download";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ConfigurationSettings = () => {
 
@@ -99,8 +100,14 @@ const ConfigurationSettings = () => {
 
       <Paper sx={{padding:"10px",border: "1px solid green",overflowX:{xs:'hidden'}}}>
        <Box display="flex" justifyContent="space-between">
+        <Box display="flex">
+        {path==="partner-bankdetails" &&
+        <ArrowBackIcon 
+                        onClick={()=>navigate('/admin/configsetting/paymentsettings')} 
+                        sx={{cursor:'pointer',color:'#2F7A52',fontSize:'20px'}}/>  }  
+        
        <Typography mb={2} color="#2F7A52" sx={{textDecoration:'underline'}}>Partner Bank Details</Typography>
-       
+       </Box>       
        {path==='partner-bankdetails'?
      <>
     <Exportbutton
@@ -133,7 +140,7 @@ const ConfigurationSettings = () => {
         <Box mt={2}>
           <TableContainer component={Paper}
           sx={{boxShadow:'none'}}>
-            
+
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>

@@ -11,6 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useLocation, useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const PartnerCommissionRule = () => {
   const commissionrule = [
@@ -46,11 +47,15 @@ const PartnerCommissionRule = () => {
   return (
     <Box p={1} sx={{overflowX:{xs:'hidden'}}}>
       <Box display="flex" justifyContent="space-between" color="#2F7A52">
-        <Typography>
+        <Box display="flex">
+        <ArrowBackIcon 
+                onClick={()=>navigate('/admin/configsetting/paymentsettings')} 
+                sx={{cursor:'pointer',color:'#2F7A52',fontSize:'20px'}}/><Typography>
           {path === "addpartner"
             ? "Add Partner Commission Rule"
             : "Partner Commission Rule"}
         </Typography>
+        </Box>
         <Box display="flex" alignItems="center" justifyContent="center">
           {path !== "addpartner" && (
             <Icon sx={{ color: "#2F7A52" }} component="span">
@@ -66,7 +71,7 @@ const PartnerCommissionRule = () => {
       {/* form section */}
       {path === "addpartner" ? (
         <>
-          <Box display="flex" flexDirection={{ xs: "column", md: "row" }}>
+          <Box display="flex" flexDirection={{ xs: "column", md: "row" }} mt={2}>
             <Box sx={{ width: { xs: "100%", md: "20%" } }}>
               <Typography width="100%">Restaurant Name</Typography>
             </Box>

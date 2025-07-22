@@ -1,10 +1,18 @@
 import { Box,Button,TextField,Typography } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const AddTax = () => {
-
+const navigate=useNavigate()
 return (
  <Box p={2}>
-   <Typography color="#2F7A52">Add Tax</Typography>
+   <Box display="flex">
+    <ArrowBackIcon 
+                    onClick={()=>navigate('/admin/configsetting/taxsettings')} 
+                    sx={{cursor:'pointer',color:'#2F7A52',fontSize:'20px'}}/>
+    <Typography color="#2F7A52">Add Tax</Typography>
+   </Box>
+   
    <Box maxWidth="800px" display="flex" flexDirection="column" gap={3} mt={2}>
    <Box display="flex" flexDirection={{md:'row',xs:'column'}} gap={2}>
     <Typography sx={{width:{md:'100px',xs:'100%'}}}>Tax Name</Typography>
