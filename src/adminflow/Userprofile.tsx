@@ -70,6 +70,7 @@ return (
          </Stack>
          </Grid>
          <Grid size={{md:2,xs:12}}>
+            <Box display='flex' justifyContent="flex-end">
              <Button
                sx={{ border: "1px groove gray", height: "48px", width: "100px" }}
                id="basic-button"
@@ -81,6 +82,7 @@ return (
              >
                Actions
              </Button>
+             </Box>
              <Menu
                id="basic-menu"
                anchorEl={anchorEl}

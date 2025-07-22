@@ -161,7 +161,7 @@ const OrderManagement = () => {
                 aria-expanded={open2 ? "true" : undefined}
                 onClick={handleClicks2}
               >
-                Liveorders
+                Live orders
               </Liveorders>
               <Menu
                 id="basic-menu"
@@ -181,12 +181,13 @@ const OrderManagement = () => {
           </Box>
         </Box>
         <Box mt={2}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} 
+          sx={{boxShadow:'none'}}>
             <Table size="small" sx={{whiteSpace:'nowrap'}}>
               <TableHead >
                 <TableRow sx={{ background: "#F1F4F9" }}>
                   {orderheadings.map((heading) => (
-                    <TableCell sx={{p:2}}>{heading.heading}</TableCell>
+                    <TableCell sx={{p:2,color:'#2F7A52',fontWeight:600}}>{heading.heading}</TableCell>
                   ))}
                 </TableRow>
               </TableHead>

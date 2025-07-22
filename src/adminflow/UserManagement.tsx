@@ -14,6 +14,8 @@ import React from "react";
 import Userpic1 from '../assets/av1.jpg' 
 import { useLocation, useNavigate } from "react-router-dom";
 import CircleIcon from '@mui/icons-material/Circle';
+import PaginationBox from "./PaginationBox";
+
 
 const UserManagement = () => {
 
@@ -98,19 +100,20 @@ return (
         </Box>
        {/* Usermanagement table start*/}
          <Box mt={2}>
-                   <TableContainer component={Paper}>
-                     <Table size="small" >
+                   <TableContainer component={Paper}
+                   sx={{boxShadow:'none'}}>
+                     <Table >
                        <TableHead>
                          <TableRow sx={{ background: "#F1F4F9" }}>
                           { path=='suspend-user'?(
                             suspenduserheadings.map((suspend)=>
-                             <TableCell  sx={{
+                             <TableCell  sx={{ 
                          color: path === "suspend-user" ? "red" : "#2F7A52",
                         fontWeight: 700,
                       }}>{suspend.suspendheading}</TableCell> 
                             ))
                            :userheading.map((heading) => (
-                             <TableCell>{heading.heading}</TableCell>
+                             <TableCell sx={{color:'#2F7A52'}}>{heading.heading}</TableCell>
                           ))}
                            
                          </TableRow>
@@ -122,7 +125,8 @@ return (
                              <TableCell component="th" scope="row" >
                               {suspenduser.id}
                              </TableCell>
-                             <TableCell component="th" scope="row" sx={{display:'flex',alignItems:'center',gap:'12px'}}>
+                             <TableCell component="th" scope="row" sx={{display:'flex',alignItems:'center',gap:'12px',cursor:'pointer'}}
+                             onClick={()=>navigate('/admin/user-management/user-profile')}>
                               <Avatar src={suspenduser.avator}/> {suspenduser.username}
                              </TableCell>
                              <TableCell component="th" scope="row">
@@ -155,10 +159,10 @@ return (
                                  open={open}
                                  onClose={handleClose}
                                >
-                                 <MenuItem onClick={handleClose}>View</MenuItem>
+                                 <MenuItem onClick={handleClose}>Unsuspend</MenuItem>
                                 {/*  <Divider sx={{border:'1px solid gray'}}/> */}
                                  <MenuItem onClick={handleClose}>
-                                   Suspend
+                                   Delete
                                  </MenuItem>
                                </Menu>
                              </TableCell>
@@ -167,7 +171,7 @@ return (
                           ))):(
                            userdata.map((user) => (
                            <TableRow>
-                             <TableCell component="th" scope="row" sx={{display:'flex',alignItems:'center',gap:'12px'}}
+                             <TableCell component="th" scope="row" sx={{display:'flex',alignItems:'center',gap:'12px',cursor:'pointer'}}
                              onClick={()=>navigate('user-profile')}>
                               <Avatar src={user.avator}/>{user.username}
                              </TableCell>
@@ -207,10 +211,10 @@ return (
                                  open={open}
                                  onClose={handleClose}
                                >
-                                 <MenuItem onClick={handleClose}>Unsuspend</MenuItem>
+                                 <MenuItem onClick={handleClose}>View</MenuItem>
                                  {/* <Divider sx={{border:'1px solid gray'}}/> */}
                                  <MenuItem onClick={handleClose}>
-                                   Delete
+                                   Suspend
                                  </MenuItem>
                                </Menu>
                              </TableCell>
@@ -221,9 +225,10 @@ return (
                      </Table>
                    </TableContainer>
                  </Box>
-
+               
        {/* user maanagement table end */} 
       </Box>
+      <PaginationBox />
     </Box>
   );
 };

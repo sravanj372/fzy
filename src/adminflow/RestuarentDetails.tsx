@@ -76,6 +76,7 @@ const path=location.pathname
     </Stack>
     </Grid>
     <Grid size={{md:2,xs:12}}>
+        <Box display="flex" justifyContent="flex-end">
         <Button
           sx={{ border: "1px groove gray", height: "48px", width: "100px" }}
           id="basic-button"
@@ -87,12 +88,13 @@ const path=location.pathname
         >
           Actions
         </Button>
+        </Box>
          <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-        >
+          >
         {path==="/admin/restaurant-management/pending-restaurant" ?
         (<>
           <MenuItem> 
@@ -120,7 +122,7 @@ const path=location.pathname
             <ListItemIcon>
               <CancelIcon
                 fontSize="small"
-                sx={{ color: "red" }}
+                sx={{ color: "red"}}
               />
             </ListItemIcon>
             <ListItemText>Suspend</ListItemText>

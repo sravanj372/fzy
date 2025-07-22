@@ -131,7 +131,9 @@ const ConfigurationSettings = () => {
        
        
         <Box mt={2}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper}
+          sx={{boxShadow:'none'}}>
+            
             <Table>
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>

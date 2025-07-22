@@ -49,7 +49,7 @@ const navigate=useNavigate()
 
            {/* date */}
            <Grid size={{md:3,xs:12}}>
-            <StyledInputLabel>valid Till</StyledInputLabel>
+            <StyledInputLabel>Valid Till</StyledInputLabel>
            </Grid>
            <Grid size={{md:9,xs:12}}>
              <StyledFormControl fullWidth size="small" variant="outlined">

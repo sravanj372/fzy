@@ -202,7 +202,8 @@ const DiscountandPromo = () =>{
         </Box>
 
         <Box mt={2}>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper}
+          sx={{boxShadow:'none'}}>
             <Table size="small">
               <TableHead>
                 <TableRow sx={{ background: "#F1F4F9" }}>
@@ -235,7 +236,7 @@ const DiscountandPromo = () =>{
                         <TableCell component="th" scope="row">
                           {coupon.eligibility}
                         </TableCell>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" sx={{paddingLeft:'50px'}}>
                           {coupon.discount}
                         </TableCell>
 
@@ -289,7 +290,7 @@ const DiscountandPromo = () =>{
                         <TableCell component="th" scope="row">
                           {discount.eligibility}
                         </TableCell>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" sx={{paddingLeft:'50px'}}>
                           {discount.discount}
                         </TableCell>
                         <TableCell component="th" scope="row">
