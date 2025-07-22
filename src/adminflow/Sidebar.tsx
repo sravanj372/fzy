@@ -31,7 +31,7 @@ const [isConfigOpen, setIsConfigOpen] = useState(false);
   const menuitems = [
     { id: '1', text: 'Dashboard', icon: <DashboardIcon />, link: '/admin/dashboard' },
     { id: '2', text: 'Restaurant Management', icon: <RestaurantMenuIcon />, link: '/admin/restaurant-management' },
-    { id: '3', text: 'Order Managements', icon: <ShoppingBagIcon />, link: '/admin/order-management' },
+    { id: '3', text: 'Order Management', icon: <ShoppingBagIcon />, link: '/admin/order-management' },
     { id: '4', text: 'User Management', icon: <PersonIcon />, link: '/admin/user-management' },
     { id: '5', text: 'Discount & Promo Reimbursements', icon: <SellIcon />, link: '/admin/discountpromo' },
     {
