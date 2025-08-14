@@ -1,208 +1,331 @@
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
   Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  TextField,
   Typography,
+  InputAdornment,
+  IconButton,
+  TextField,
+  Checkbox,
+  Button,
+  FormControlLabel,
 } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LockOutlineIcon from "@mui/icons-material/LockOutline";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import Checkbox from "@mui/material/Checkbox";
 import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import adminLogo from '../assets/adminLogo.png'
+import adminLogo from '../assets/adminLogo.png';
+import lock from '../assets/proicons_lock.png';
+import tick from "../assets/Shape.png";
+
+// Unchecked checkbox icon
+const CustomUncheckedIcon = () => (
+  <Box
+    sx={{
+      width: '20px',
+      height: '20px',
+      borderRadius: '4px',
+      border: '1.5px solid #808080',
+      backgroundColor: 'white',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  />
+);
+
+// Checked checkbox icon
+const CustomTickIcon = () => (
+  <Box
+    sx={{
+      width: '20px',
+      height: '20px',
+      borderRadius: '4px',
+      border: '1.5px solid #808080',
+      backgroundColor: 'white',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <Box
+      component="img"
+      src={tick}
+      alt="tick"
+      sx={{
+        width: '14px',
+        height: '14px',
+        objectFit: 'contain',
+      }}
+    />
+  </Box>
+);
+
 const Login = () => {
-
-const navigate=useNavigate()
-  const [pwdopen, setPwdopen] = useState(false);
-  const [pwdValue, setPwdValue] = useState("password");
-
-  function passwordOpenhandler() {
-    setPwdopen(true);
-    setPwdValue("text");
-  }
-
-  function passwordClosehandler() {
-    setPwdopen(false);
-    setPwdValue("password");
-  }
-
-  const [email, setEmail] = useState("");
-  const emailChangeHandler = (event: any) => {
-    setEmail(event.target.value);
-    console.log(email);
-  };
+  const navigate = useNavigate();
+  const [rememberPassword, setRememberPassword] = useState(false);
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const passwordInputHandler = (event: any) => {
-    setPassword(event.target.value);
-    console.log(password);
+  const handleRememberPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberPassword(event.target.checked);
   };
 
-  function emaiValidation(email: any) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
-  }
+  const validatePassword = (pwd: string) => {
+    const hasNumber = /\d/;
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
+    return pwd.length >= 8 && hasNumber.test(pwd) && hasSpecial.test(pwd);
+  };
 
-  function passwordValidation(password: any) {
-    const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-  }
+  const handleSignIn = () => {
+    if (!validatePassword(password)) {
+      setError("Password Must Be At Least 8 Characters Long And Include A Number & Special Character");
+    } else {
+      setError("");
+      navigate('/admin/dashboard');
+    }
+  };
 
-  const [emailerror, setEmailerror] = useState("");
-  const [passworderror, setpassworderror] = useState("");
-
-  const formsubmitHandler = () => {
-     let isValid=true
-    if (emaiValidation(email)) {
-       setEmailerror("");
-                                          
-      } else {
-        setEmailerror("Enter valid email address");
-        isValid=false
-     }
-     if(passwordValidation(password)) {
-      setpassworderror("");
-     } else {
-      setpassworderror(
-        "Password must be at least 8 characters long and include a number & special character");
-        isValid=false
-     }
-       
-     if(isValid==true){
-      navigate('/admin/dashboard')
-     }
-
-  }  
-
-return (
-    <Logincontainer>
-      <Box>
-        <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
+  return (
+    <Logincontainer
+      sx={{
+        backgroundColor: '#D3F3D2',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+      }}
+    >
+      <Box sx={{ mb: 4 }}>
+        <Box component="img" src={adminLogo} alt="FOODZY Logo" width="210px" height="60px" />
       </Box>
-      <LoginBox>
-        <Box display="flex" flexDirection="column" gap={1} justifyContent="center">
-          <Typography variant="h4" textAlign="center" color="#2F7A52">
+
+      <LoginBox
+        sx={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: '12px',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          padding: { xs: '24px', sm: '40px' },
+          width: '100%',
+          maxWidth: '400px',
+        }}
+      >
+        {/* Title */}
+        <Box display="flex" flexDirection="column" gap={1} justifyContent="center" mb={3}>
+          <Typography variant="h5" textAlign="center" color="#2F7A52">
             Login to Account
           </Typography>
-          <Typography color="#202224E5" fontSize="16px" mb={2}>
+          <Typography color="#666666" fontSize="14px" textAlign="center">
             Please enter your email and password to continue
           </Typography>
         </Box>
 
-        <FormControl fullWidth variant="outlined">
-          <TextField
-            placeholder="Email ID" 
-            
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton edge="start">
-                    <MailOutlineIcon sx={{ color: "#2F7A52" }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& input::placeholder":{
-                  fontSize:'13px',
-                  color:'#000',
-                  fontWeight:'600',
-                  position:'absolute',
-                  top:"6px",
-                 },
-                "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#2F7A52" },
-                
-              },
-            }}
-            onChange={emailChangeHandler}
-          />
-        </FormControl>
-        {email && (
-          <Typography color="red" fontSize="14px">
-            {emailerror}
-          </Typography>
-        )}
-        {/* password */}
-        <FormControl fullWidth variant="outlined">
-          <Box display="flex" justifyContent="flex-end">
-            <Typography color="#202224" fontSize="14px" sx={{cursor:'pointer'}}
-            onClick={()=>navigate('forgot-password')}>
+        {/* Email Field */}
+        <Box
+          sx={{
+            border: '1px solid #2F7A52',
+            borderRadius: '6px',
+            height: '45px',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '14px',
+            mb: 2,
+          }}
+        >
+          <InputAdornment position="start" sx={{ marginRight: '8px' }}>
+            <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
+              <MailOutlineIcon sx={{ color: "#2F7A52", fontSize: '20px' }} />
+            </IconButton>
+          </InputAdornment>
+          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+            <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
+              Email ID
+            </Typography>
+            <TextField
+              variant="outlined"
+              placeholder="John@gmail.com"
+              fullWidth
+              size="small"
+              margin="none"
+              InputProps={{
+                sx: {
+                  height: '25px',
+                  fontSize: '14px',
+                  padding: '0',
+                  '& input': {
+                    padding: '0',
+                  },
+                },
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  height: '25px',
+                  padding: '0',
+                  '& fieldset': {
+                    borderColor: '#ffffffff',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#ffffffff',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#ffffffff',
+                    borderWidth: '1px',
+                  },
+                },
+              }}
+            />
+          </Box>
+        </Box>
+
+        {/* Password Field */}
+        <Box sx={{ mb: 2 }}>
+          <Box display="flex" justifyContent="flex-end" mb={0.5}>
+            <Typography
+              sx={{
+                fontSize: '12px',
+                color: '#424242ff',
+                cursor: 'pointer',
+                marginRight: '4px',
+              }}
+              onClick={() => navigate('/login/forgot-password')}
+            >
               Forgot Password?
             </Typography>
           </Box>
-          <TextField
-            type={pwdValue}
-            placeholder="Password"
-            /* size="small" */
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton edge="start">
-                    {pwdopen && (
-                      <LockOpenIcon
-                        sx={{ color: "#2F7A52" }}
-                        onClick={passwordClosehandler}
-                      />
-                    )}
-                    {!pwdopen && (
-                      <LockOutlineIcon
-                        sx={{ color: "#2F7A52" }}
-                        onClick={passwordOpenhandler}
-                      />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+
+          <Box
             sx={{
-              "& input::placeholder":{
-                  fontSize:'13px',
-                  color:'#000',
-                  fontWeight:'600',
-                  position:'absolute',
-                  top:"5px"
-                },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#2F7A52" },
-              },
+              border: '1px solid #2F7A52',
+              borderRadius: '6px',
+              height: '45px',
+              display: 'flex',
+              alignItems: 'center',
+              paddingLeft: '14px',
             }}
-            onChange={passwordInputHandler}
-          />
-        </FormControl>
-        {password && (
-          <Typography color="red" fontSize="14px">
-            {passworderror}
-          </Typography>
-        )}
-        <Box display="flex" justifyContent="flex-start" alignItems="center" mt={-2} ml={-1}>
-          <Checkbox defaultChecked />
-          <Typography fontSize="14px" color="#333333">Remember Password</Typography>
-        </Box>
-        <Box>
-          <Button
-            variant="outlined"
-            fullWidth
-            size="large"
-            sx={{
-              backgroundColor: "#2F7A52",
-              color: "white",
-              "&: hover": {
-                backgroundColor: "#2F7A52",
-                color: "white",
-              },
-            }}
-            onClick={formsubmitHandler}
           >
-            Sign In
-          </Button>
+            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
+              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
+                <Box component="img" src={lock} alt="Lock Icon" sx={{ width: '20px', height: '20px' }} />
+              </IconButton>
+            </InputAdornment>
+            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+              <Typography sx={{ color: '#333333', fontSize: '10px', marginBottom: '2px' }}>
+                Password
+              </Typography>
+              <TextField
+                type="password"
+                placeholder="abd@123"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                variant="outlined"
+                fullWidth
+                size="small"
+                margin="none"
+                InputProps={{
+                  sx: {
+                    height: '25px',
+                    fontSize: '14px',
+                    padding: '0',
+                    '& input': {
+                      padding: '0',
+                    },
+                  },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: '25px',
+                    padding: '0',
+                    '& fieldset': {
+                      borderColor: '#ffffffff',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: '#ffffffff',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#ffffffff',
+                      borderWidth: '1px',
+                    },
+                  },
+                }}
+              />
+            </Box>
+          </Box>
+
+          {/* Conditional Error Message */}
+          {error && (
+  <Typography
+    sx={{
+      color: '#F93C65',
+      fontFamily: 'Nunito Sans',
+      fontWeight: 400,
+      fontStyle: 'normal',
+      fontSize: '8px',
+      lineHeight: '12px',
+      letterSpacing: '0.8px',
+      verticalAlign: 'middle',
+      textTransform: 'capitalize',
+    }}
+  >
+    {error}
+  </Typography>
+)}
+
+          {/* Remember Password */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={rememberPassword}
+                onChange={handleRememberPasswordChange}
+                icon={<CustomUncheckedIcon />}
+                checkedIcon={<CustomTickIcon />}
+                sx={{
+                  padding: '0px',
+                  '&:hover': {
+                    backgroundColor: 'transparent',
+                  },
+                }}
+              />
+            }
+            label={
+              <Typography
+                fontSize="14px"
+                color="#555353ff"
+                sx={{ userSelect: 'none', ml: 1 }}
+              >
+                Remember Password
+              </Typography>
+            }
+            sx={{
+              ml: 0,
+              mt: 1,
+              mb: 2,
+              mr: 4,
+            }}
+          />
         </Box>
+
+        {/* Sign In Button */}
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#2F7A52',
+            color: '#FFFFFF',
+            borderRadius: '6px',
+            paddingY: '10px',
+            textTransform: 'none',
+            fontWeight: 'bold',
+            fontSize: '16px',
+            width: '80%',
+            margin: '0 auto',
+            display: 'block',
+            '&:hover': {
+              backgroundColor: '#256B45',
+            },
+          }}
+          onClick={handleSignIn}
+        >
+          Sign In
+        </Button>
       </LoginBox>
     </Logincontainer>
   );

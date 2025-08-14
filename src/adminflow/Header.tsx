@@ -1,4 +1,10 @@
-import { Box, InputAdornment, Paper, TextField, IconButton } from '@mui/material';
+import {
+  Box,
+  InputAdornment,
+  Paper,
+  TextField,
+  IconButton,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from './Sidebar';
@@ -7,11 +13,11 @@ const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
   return (
     <Box
       component={Paper}
-      elevation={2}
+      elevation={1}
       sx={{
         display: 'flex',
         alignItems: 'center',
-        p: { xs: 0, md: 1 }, 
+        p: { xs: 0.5, md: 0.5 }, // Reduced vertical padding
         width: '100%',
         maxWidth: { xs: '100vw', md: `calc(100vw - ${drawerWidth}px)` },
         boxSizing: 'border-box',
@@ -25,10 +31,16 @@ const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
-        sx={{ display: { md: 'none' }, color: '#2F7A52', ml: 1, p: 1 }}
+        sx={{
+          display: { md: 'none' },
+          color: '#2F7A52',
+          ml: 1,
+          p: 0.5, // Reduced padding for smaller height
+        }}
       >
-        <MenuIcon />
+        <MenuIcon fontSize="small" />
       </IconButton>
+
       <TextField
         type="search"
         size="small"
@@ -42,20 +54,22 @@ const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
         }}
         sx={{
           flexGrow: 1,
-          maxWidth: { xs: 'calc(100vw - 56px)', md: '500px' }, // Adjusted for icon and padding
+          maxWidth: { xs: 'calc(100vw - 56px)', md: '500px' },
           '& .MuiOutlinedInput-root': {
+            height: '30px', // Reduced height
             '& fieldset': {
-              borderColor: '#2F7A52',
+              borderColor: '#ffffffff',
             },
             '&:hover fieldset': {
-              borderColor: '#1B5E20',
+              borderColor: '#f8f8f8ff',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#1B5E20',
+              borderColor: '#ffffffff',
             },
             padding: '0 8px',
-            marginLeft:{md:'20px'}          },
-          mb: 1,
+            marginLeft: { md: '20px' },
+          },
+          mb: 0.5,
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}

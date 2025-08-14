@@ -1,86 +1,136 @@
 import {
   Box,
   Button,
-  FormControl,
   IconButton,
   InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
-
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import { Logincontainer,LoginBox } from "../adminstyles/Adminstyles";
-import adminLogo from '../assets/adminLogo.png'
+import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
+import adminLogo from '../assets/adminLogo.png';
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-
-const navigate=useNavigate()
+  const navigate = useNavigate();
 
   return (
-   <Logincontainer>
-       <Box>
-        <Box component="img" src={adminLogo} alt="LOGO" width="200px" height="50px" />
+    <Logincontainer
+      sx={{
+        backgroundColor: '#D3F3D2',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+      }}
+    >
+      <Box sx={{ mb: 4 }}>
+        <Box component="img" src={adminLogo} alt="FOODZY Logo" width="210px" height="60px" />
       </Box>
-    <LoginBox>
-        <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center" 
-        gap={2}>
-          <Typography variant="h4" textAlign="center" color="#2F7A52">
+
+      <LoginBox
+        sx={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: '12px',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          padding: { xs: '24px', sm: '40px' },
+          width: '100%',
+          maxWidth: '400px',
+        }}
+      >
+        <Box display="flex" flexDirection="column" gap={1} justifyContent="center" mb={3}>
+          <Typography variant="h5" textAlign="center" color="#2F7A52">
             Forgot Password
           </Typography>
-          <Typography color="#202224E5" fontSize="14px" >
-            Please enter your email address to begin the verification process. A 4-digit code will be sent to your email.
+          <Typography color="#666666" fontSize="12px" textAlign="center">
+            Please enter your email address to begin the verification process. A 4 digit code will be sent to your email.
           </Typography>
-        </Box> 
-         <FormControl fullWidth variant="outlined">
-          <TextField
-            placeholder="Email ID"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton edge="start">
-                    <MailOutlineIcon sx={{ color: "#2F7A52" }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-                "& input::placeholder":{
-                  fontSize:'13px',
-                  color:'#000',
-                  fontWeight:'600',
-                  position:'absolute',
-                  top:"5px"
-                },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "#2F7A52" },
-              },
-            }}
-          />
-        </FormControl>
-       <Box  mt={1}>
-          <Button
-            variant="outlined"
-            fullWidth
-            size="large"
-            
-            sx={{
-              backgroundColor: "#2F7A52",
-              color: "white",
-              "&: hover": {
-                backgroundColor: "#2F7A52",
-                color: "white",
-                
-              },
-            }}
-          onClick={()=>navigate('/update-password')}>
-            Continue
-          </Button>
         </Box>
-    
-    </LoginBox>
-   </Logincontainer>
-  )
-}
 
-export default ForgotPassword
+        <Box
+          sx={{
+            border: '1px solid #2F7A52',
+            borderRadius: '6px',
+            height: '45px',
+            display: 'flex',
+            alignItems: 'center',
+            paddingLeft: '14px',
+            mb: 2,
+          }}
+        >
+          <InputAdornment position="start" sx={{ marginRight: '8px' }}>
+            <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
+              <MailOutlineIcon sx={{ color: "#2F7A52", fontSize: '20px' }} />
+            </IconButton>
+          </InputAdornment>
+          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+            <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
+              Email ID
+            </Typography>
+            <TextField
+              variant="outlined"
+              placeholder="John@gmail.com"
+              fullWidth
+              size="small"
+              margin="none"
+              InputProps={{
+                sx: {
+                  height: '25px',
+                  fontSize: '14px',
+                  padding: '0',
+                  '& input': {
+                    padding: '0',
+                  },
+                },
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  height: '25px',
+                  padding: '0',
+                  '& fieldset': {
+                    borderColor: '#ffffffff',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#ffffffff',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#ffffffff',
+                    borderWidth: '1px',
+                  },
+                },
+              }}
+            />
+          </Box>
+        </Box>
+
+
+
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: '#2F7A52',
+            color: '#FFFFFF',
+            borderRadius: '6px',
+            paddingY: '5px',
+            textTransform: 'none',
+            fontWeight: 'bold',
+            fontSize: '16px',
+            width: '80%',
+            margin: '0 auto',
+            display: 'block',
+            '&:hover': {
+              backgroundColor: '#256B45',
+            },
+          }}
+          onClick={() => navigate('/otp')}
+        >
+          Continue
+        </Button>
+      </LoginBox>
+    </Logincontainer>
+  );
+};
+
+export default ForgotPassword;

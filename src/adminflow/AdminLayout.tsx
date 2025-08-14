@@ -5,7 +5,6 @@ import Sidebar, { drawerWidth } from './Sidebar';
 import Header from './Header';
 
 const AdminLayout = () => {
-  
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -13,42 +12,54 @@ const AdminLayout = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', overflowX: 'hidden'}}> {/* Global overflow fix */}
-      <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+    <Box
+      sx={{
+        display: 'flex',
+        height: '100vh',
+        overflow: 'hidden',
+      }}
+    >
+      <Box sx={{ border: '2px dashed red' }}>
+        <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+      </Box>
+
       <Box
-        component="main"
         sx={{
           flexGrow: 1,
           width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` },
-          maxWidth: '100vw',
-          marginLeft: { md: `${drawerWidth}px` },
-          marginRight: 0,
-          padding: 0,
+          ml: { md: `${drawerWidth}px` },
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh',
-          background: '#F8FCFD',
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          position: 'relative',
+          height: '100vh',
+          overflow: 'hidden',
+          backgroundColor: '#F8FCFD',
+          
         }}
       >
+        {/* Fixed Header */}
         <Box
           sx={{
             position: 'sticky',
             top: 0,
             zIndex: 1000,
             width: '100%',
-            maxWidth: '100vw',
-            background: 'inherit',
-            overflowX: 'hidden',
-            boxSizing: 'border-box',
-            
+            bgcolor: '#F8FCFD',
           }}
         >
           <Header handleDrawerToggle={handleDrawerToggle} />
         </Box>
-        <Box sx={{ flex: 1, overflowY: 'auto', p: 2, width: '100%', maxWidth: '100vw', overflowX: 'hidden', boxSizing: 'border-box' }}>
+
+        {/* Scrollable Content */}
+        <Box
+          sx={{
+            flex: 1,
+            overflowY: 'auto',
+            px: { xs: 2 },
+            py: 2,
+            boxSizing: 'border-box',
+            
+          }}
+        >
           <Outlet />
         </Box>
       </Box>

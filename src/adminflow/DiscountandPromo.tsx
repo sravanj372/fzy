@@ -1,339 +1,297 @@
 import {
-  Box,
-  Button,
-  Paper,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box,
+    Button,
+    Paper,
+    Stack,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from "@mui/material";
-import { Grid } from "@mui/system";
-import { Filterbutton } from "../adminstyles/Adminstyles";
+import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useLocation, useNavigate } from "react-router-dom";
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import DeleteCoupon from "./popups/DeleteCoupon";
 import PaginationBox from "./PaginationBox";
+import deleteico from "../assets/1vector.png";
 
-const DiscountandPromo = () =>{
-  
-  const navigate = useNavigate();
+// --- Styled Components ---
 
-  const discountheadings = [
-    { id: 1, heading: "Restaurant Name" },
-    { id: 2, heading: "Coupon Code" },
-    { id: 3, heading: "Description" },
-    { id: 4, heading: "Valid Till" },
-    { id: 5, heading: "Eligibility Condition" },
-    { id: 6, heading: "Discount Percentage" },
-    { id: 7, heading: "Status" },
-    { id: 8, heading: "Action" },
-  ];
+const PageContainer = styled(Box)({
+    position: 'relative',
+    height: 'auto',
+    background: 'white',
+});
 
-  const discountdetails = [
-    {
-      id: 1,
-      restaurantname: "The Urban Pantry",
-      couponcode: "SAVE 10",
-      description: "10% OFF",
-      vaidtill: "May 30, 2025",
-      eligibility: "Orders above $30",
-      discount: "12%",
-      status: "Active",
-    },
-    {
-      id: 2,
-      restaurantname: "The Urban Pantry",
-      couponcode: "SAVE 10",
-      description: "10% OFF",
-      vaidtill: "May 30, 2025",
-      eligibility: "Orders above $30",
-      discount: "12%",
-      status: "Active",
-    },
-    {
-      id: 3,
-      restaurantname: "The Urban Pantry",
-      couponcode: "SAVE 10",
-      description: "10% OFF",
-      vaidtill: "May 30, 2025",
-      eligibility: "Orders above $30",
-      discount: "12%",
-      status: "InActive",
-    },
-    {
-      id: 4,
-      restaurantname: "The Urban Pantry",
-      couponcode: "SAVE 10",
-      description: "10% OFF",
-      vaidtill: "May 30, 2025",
-      eligibility: "Orders above $30",
-      discount: "12%",
-      status: "Active",
-    },
-    {
-      id: 5,
-      restaurantname: "The Urban Pantry",
-      couponcode: "SAVE 10",
-      description: "10% OFF",
-      vaidtill: "May 30, 2025",
-      eligibility: "Orders above $30",
-      discount: "12%",
-      status: "InActive",
-    },
-  ];
+const ContentBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(4),
+    padding: theme.spacing(1),
+}));
 
-  const couponheadings = [
-    { id: 1, heading: "Coupon Code" },
-    { id: 2, heading: "Description" },
-    { id: 3, heading: "Valid Till" },
-    { id: 4, heading: "Eligibility Condition" },
-    { id: 5, heading: "Discount Percentage" },
-    { id: 6, heading: "Status" },
-    { id: 6, heading: "Action" },
-  ];
+const TableCard = styled(Box)(({ theme }) => ({
+    border: "1px solid green",
+    borderRadius: theme.spacing(4),
+    padding: theme.spacing(2),
+}));
 
-  const coupondetails = [
-    {
-      id: 1,
-      couponcode: "SAVE 10",
-      description: "Winter Sale",
-      validtill: "May 30 2025",
-      eligibility: "Order Above $30",
-      discount: "10%",
-      status: "Active",
+const TableControls = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
     },
-    {
-      id: 2,
-      couponcode: "BURGER 20",
-      description: "Winter Sale",
-      validtill: "May 28 2025",
-      eligibility: "No Minimum Order required",
-      discount: "10%",
-      status: "Active",
+}));
+
+const TableTitle = styled(Typography)({
+    color: "#2F7A52",
+    fontWeight: 600,
+});
+
+const TableButtonsStack = styled(Stack)(({ theme }) => ({
+    flexDirection: "row",
+    gap: theme.spacing(2),
+    [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+        width: '100%',
+        '& > button': {
+            width: '100%',
+        },
     },
-    {
-      id: 3,
-      couponcode: "FLAT 10",
-      description: "Winter Sale",
-      validtill: "May 26 2025",
-      eligibility: "Order Above $30",
-      discount: "10%",
-      status: "InActive",
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    '&:hover': {
+        backgroundColor: theme.palette.primary.dark,
     },
-    {
-      id: 4,
-      couponcode: "SAVE 20",
-      description: "Winter Sale",
-      validtill: "May 22 2025",
-      eligibility: "Order Above $50",
-      discount: "10%",
-      status: "Active",
+}));
+
+const FilterButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.primary.main,
+    background: 'white',
+    border: '1px solid #2F7A52',
+    '&:hover': {
+        backgroundColor: 'white',
+        borderColor: theme.palette.primary.dark,
     },
-    {
-      id: 5,
-      couponcode: "SAVE 40",
-      description: "Winter Sale",
-      validtill: "May 31 2025",
-      eligibility: "Order Above $30",
-      discount: "10%",
-      status: "InActive",
-    },
-  ];
+}));
 
-  const location = useLocation();
-  const path = location.pathname.split("/").pop();
-  console.log(path);
-  
-  //deletecoupon handler
-  const [deleteCoupon, setDeleteCoupon] = React.useState<boolean | null>(false);
-  
-  const deleteCouponHandler=()=>{
-     setDeleteCoupon(true)
-  }
-  
-  const closeCouponHandler=()=>{
-     setDeleteCoupon(false)
-  }
-  
-  
-  return (
-    <Box sx={{ display:'flex',flexDirection:'column',
-    gap:'30px',background: "white", height: "auto", p: 1 }}>
-      <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
-        <Box display="flex" justifyContent="space-between"
-          flexWrap="wrap">
-          <Box>
-            <Typography color="#2F7A52">
-              {path === "admin-coupon"
-                ? "Coupons By Admin"
-                : "Discount & Promo Reimbursements Table"}
-            </Typography>
-          </Box>
-          <Box>
-            <Box display="flex" flexWrap="wrap" gap={1}>
-              {path !== "admin-coupon" && (
-                <Button
-                  variant="contained"
-                  onClick={() => navigate("admin-coupon")}
-                >
-                  Admin Coupons
-                </Button>
-              )}
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => navigate("/admin/discountpromo/add-coupon")}
-               >
-                ADD COUPON
-              </Button>
+const TableContainerStyled = styled(TableContainer)(({ theme }) => ({
+    boxShadow: "none",
+    marginTop: theme.spacing(2),
+    overflowX: 'auto',
+}));
 
-              <Filterbutton variant="contained" startIcon={<FilterListIcon />}>
-                Filters
-              </Filterbutton>
-            </Box>
-          </Box>
-        </Box>
+const TableHeadRowStyled = styled(TableRow)({
+    background: "#F1F4F9",
+});
 
-        <Box mt={2}>
-          <TableContainer component={Paper}
-          sx={{boxShadow:'none'}}>
-            <Table size="small">
-              <TableHead>
-                <TableRow sx={{ background: "#F1F4F9" }}>
-                  {path === "admin-coupon"
-                    ? couponheadings.map((coupon) => (
-                        <TableCell sx={{ color: "#2F7A52" }}>
-                          {coupon.heading}
-                        </TableCell>
-                      ))
-                    : discountheadings.map((discount) => (
-                        <TableCell sx={{ color: "#2F7A52"}}>
-                          {discount.heading}
-                        </TableCell>
-                      ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {path === "admin-coupon"
-                  ? coupondetails.map((coupon) => (
-                      <TableRow sx={{whiteSpace: 'nowrap'}}>
-                        <TableCell component="th" scope="row" >
-                          {coupon.couponcode}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {coupon.description}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {coupon.validtill}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {coupon.eligibility}
-                        </TableCell>
-                        <TableCell component="th" scope="row" sx={{paddingLeft:'50px'}}>
-                          {coupon.discount}
-                        </TableCell>
+const TableCellHeader = styled(TableCell)({
+    color: "#2F7A52",
+    fontWeight: 700,
+    whiteSpace: "nowrap",
+});
 
-                        <TableCell component="th" scope="row">
-                          <Typography
-                            component="span"
-                            bgcolor={
-                              coupon.status == "InActive" ? "#E45040" : "transparant"
-                            }
-                            color={
-                              coupon.status=="InActive"?"white":"#2F7A52"
-                            }
-                            border={
-                              coupon.status==="InActive" ?'#E45040':'1px solid #2F7A52'
-                            }
+const TableCellContent = styled(TableCell)({
+    whiteSpace: "nowrap",
+});
 
-                            padding={coupon.status==='Active'?'2px 15px':'4px 11px'}
-                            
-                            borderRadius={5}
-                            fontSize={13}
-                          >
-                            {coupon.status}
-                          </Typography>
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          <Button
-                            variant="outlined"
-                            sx={{ color: "red", borderColor: "red",'&:hover':{borderColor:'red'} }}
-                            startIcon={<DeleteOutlineIcon />}
-                          onClick={deleteCouponHandler}>
-                            Delete
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  : discountdetails.map((discount) => (
-                      <TableRow >
-                        <TableCell component="th" scope="row" sx={{whiteSpace: 'nowrap',color:'#2F7A52',textDecoration:'underline',cursor:'pointer'}}
-                        onClick={()=>navigate('/admin/restaurant-management/restaurant-details')}>
-                          {discount.restaurantname}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {discount.couponcode}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {discount.description}
-                        </TableCell>
-                        <TableCell component="th" scope="row" sx={{color:'#2F7A52',whiteSpace:'nowrap'}}>
-                          {discount.vaidtill}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {discount.eligibility}
-                        </TableCell>
-                        <TableCell component="th" scope="row" sx={{paddingLeft:'50px'}}>
-                          {discount.discount}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          <Typography
-                            component="span"
-                            bgcolor={
-                              discount.status == "InActive" ? "#E45040" : "transparant"
-                            }
-                            padding={discount.status==='Active'?'2px 16px':'4px 11px'}
-                            color={
-                              discount.status=="InActive"?"white":"#2F7A52"
-                            }
-                            border={
-                              discount.status==="InActive" ?'#E45040':'1px solid #2F7A52'
-                            }
-                            borderRadius={5}
-                            fontSize={13}
-                          >
-                            {discount.status}
-                          </Typography>
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          <Button
-                            variant="outlined"
-                            sx={{ color: "red", borderColor: "red",'&:hover':{borderColor:'red'} }}
-                            startIcon={<DeleteOutlineIcon />}
-                            onClick={deleteCouponHandler}>
-                            Delete
-                          </Button>
-                         {deleteCoupon&& <DeleteCoupon deletecoupon={deleteCoupon} couponclose={closeCouponHandler}/>}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Box>
-      <Box>
-        <PaginationBox />
-      </Box>
-    </Box>
-  );
+const StatusTypography = styled(Typography)<{ status: string }>(({ status }) => ({
+    backgroundColor: status === "In active" ? "#FF3326" : "transparent",
+    color: status === "In active" ? "white" : "#2F7A52",
+    border: `1px solid ${status === "In active" ? "#FF3326" : "#2F7A52"}`,
+    padding: status === "Active" ? "2px 16px" : "4px 11px",
+    borderRadius: "20px",
+    fontSize: "13px",
+}));
+
+const DeleteButton = styled(Button)({
+    color: "#FF3326",
+    borderColor: "#FF3326",
+    "&:hover": { borderColor: "#FF3326" },
+});
+
+const DeleteIcon = styled('img')({
+    width: "20px",
+    height: "20px",
+});
+
+const ModalOverlay = styled(Box)({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    zIndex: 1000,
+});
+
+// --- Main Component ---
+
+const DiscountandPromo = () => {
+    const navigate = useNavigate();
+
+    const discountheadings = [
+        { id: 1, heading: "Restaurant Name", align: "center" as const },
+        { id: 2, heading: "Coupon Code", align: "center" as const },
+        { id: 3, heading: "Description", align: "center" as const },
+        { id: 4, heading: "Valid Till", align: "center" as const },
+        { id: 5, heading: "Eligibility Condition", align: "center" as const },
+        { id: 6, heading: "Discount Percentage", align: "center" as const },
+        { id: 7, heading: "Status", align: "center" as const },
+        { id: 8, heading: "Action", align: "center" as const },
+    ];
+
+    const discountdetails = [
+        {
+            id: 1,
+            restaurantname: "The Urban Pantry",
+            couponcode: "SAVE 10",
+            description: "10% OFF",
+            vaidtill: "May 30, 2025",
+            eligibility: "Orders above $30",
+            discount: "12%",
+            status: "Active",
+        },
+        {
+            id: 2,
+            restaurantname: "The Urban Pantry",
+            couponcode: "SAVE 10",
+            description: "10% OFF",
+            vaidtill: "May 30, 2025",
+            eligibility: "Orders above $30",
+            discount: "12%",
+            status: "Active",
+        },
+        {
+            id: 3,
+            restaurantname: "The Urban Pantry",
+            couponcode: "SAVE 10",
+            description: "10% OFF",
+            vaidtill: "May 30, 2025",
+            eligibility: "Orders above $30",
+            discount: "12%",
+            status: "In active",
+        },
+        {
+            id: 4,
+            restaurantname: "The Urban Pantry",
+            couponcode: "SAVE 10",
+            description: "10% OFF",
+            vaidtill: "May 30, 2025",
+            eligibility: "Orders above $30",
+            discount: "12%",
+            status: "Active",
+        },
+        {
+            id: 5,
+            restaurantname: "The Urban Pantry",
+            couponcode: "SAVE 10",
+            description: "10% OFF",
+            vaidtill: "May 30, 2025",
+            eligibility: "Orders above $30",
+            discount: "12%",
+            status: "In active",
+        },
+    ];
+
+    const [deleteCoupon, setDeleteCoupon] = useState(false);
+    
+    const deleteCouponHandler = () => {
+        setDeleteCoupon(true);
+    };
+
+    const closeCouponHandler = () => {
+        setDeleteCoupon(false);
+    };
+
+    return (
+        <PageContainer>
+            <ContentBox>
+                <TableCard>
+                    <TableControls>
+                        <TableTitle>Discount & Promo Reimbursements Table</TableTitle>
+                        <TableButtonsStack direction="row" spacing={2}>
+                            <ActionButton variant="contained" onClick={() => navigate("/admin/discountpromo/admin-coupon")}>
+                                Admin Coupons
+                            </ActionButton>
+                            <ActionButton variant="contained" startIcon={<AddIcon />} onClick={() => navigate("/admin/discountpromo/add-coupon")}>
+                                ADD COUPON
+                            </ActionButton>
+                            <FilterButton variant="contained" startIcon={<FilterListIcon />}>
+                                Filters
+                            </FilterButton>
+                        </TableButtonsStack>
+                    </TableControls>
+                    
+                    <TableContainerStyled component={Paper}>
+                        <Table size="small">
+                            <TableHead>
+                                <TableHeadRowStyled>
+                                    {discountheadings.map((heading) => (
+                                        <TableCellHeader key={heading.id} align={heading.align}>
+                                            {heading.heading}
+                                        </TableCellHeader>
+                                    ))}
+                                </TableHeadRowStyled>
+                            </TableHead>
+                            <TableBody>
+                                {discountdetails.map((discount) => (
+                                    <TableRow key={discount.id} sx={{ backgroundColor: discount.id % 2 === 0 ? '#FFFFFF' : '#fcfcfc' }}>
+                                        <TableCellContent align="center" sx={{ color: "#2F7A52", textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate("/admin/restaurant-management/restaurant-details")}>
+                                            {discount.restaurantname}
+                                        </TableCellContent>
+                                        <TableCellContent align="center">{discount.couponcode}</TableCellContent>
+                                        <TableCellContent align="center">{discount.description}</TableCellContent>
+                                        <TableCellContent align="center" sx={{ color: "#2F7A52" }}>{discount.vaidtill}</TableCellContent>
+                                        <TableCellContent align="center">{discount.eligibility}</TableCellContent>
+                                        <TableCellContent align="center">{discount.discount}</TableCellContent>
+                                        <TableCellContent align="center">
+                                            <StatusTypography status={discount.status}>
+                                                {discount.status}
+                                            </StatusTypography>
+                                        </TableCellContent>
+                                        <TableCellContent align="center">
+                                            <DeleteButton
+                                                variant="outlined"
+                                                startIcon={<DeleteIcon src={deleteico} alt="Delete" />}
+                                                onClick={deleteCouponHandler}
+                                            >
+                                                Delete
+                                            </DeleteButton>
+                                        </TableCellContent>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainerStyled>
+                </TableCard>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                    <PaginationBox />
+                </Box>
+            </ContentBox>
+
+            {deleteCoupon && (
+                <ModalOverlay>
+                    <DeleteCoupon deletecoupon={deleteCoupon} couponclose={closeCouponHandler} />
+                </ModalOverlay>
+            )}
+        </PageContainer>
+    );
 };
 
 export default DiscountandPromo;

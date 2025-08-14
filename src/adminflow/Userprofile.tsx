@@ -56,12 +56,12 @@ return (
          </Grid>
          <Grid size={{md:8,xs:12}}  >
          
-         <Stack direction="column" gap={1} >
-          <Typography color="#2F7A52" fontWeight="700">James Murphy</Typography> 
+         <Stack direction="column" gap={2} >
+          <Typography color="#2F7A52" fontWeight="700" fontSize={25}>James Murphy</Typography> 
            {userprofiledata.map((user)=>(
              <Stack direction="row" spacing={{md:4,xs:3}} key={user.id}>
-             <Typography minWidth="150px" >{user.key}</Typography>
-             <Typography minWidth="160px" >{user.value}</Typography>
+             <Typography minWidth="150px" color="black" marginBottom={3} >{user.key}</Typography>
+             <Typography minWidth="160px" color="black" marginBottom={3}>{user.value}</Typography>
              </Stack>
 
            ))}
@@ -72,12 +72,13 @@ return (
          <Grid size={{md:2,xs:12}}>
             <Box display='flex' justifyContent="flex-end">
              <Button
-               sx={{ border: "1px groove gray", height: "48px", width: "100px" }}
+               sx={{ border: "1px groove green", height: "48px", width: "100px" }}
                id="basic-button"
                aria-controls={open ? "basic-menu" : undefined}
                aria-haspopup="true"
                aria-expanded={open ? "true" : undefined}
                onClick={handleClick}
+               color="black"
                endIcon={<KeyboardArrowDownIcon />}
              >
                Actions
