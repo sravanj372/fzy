@@ -63,6 +63,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [rememberPassword, setRememberPassword] = useState(false);
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
   const [error, setError] = useState("");
 
   const handleRememberPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,14 +77,47 @@ const Login = () => {
     return pwd.length >= 8 && hasNumber.test(pwd) && hasSpecial.test(pwd);
   };
 
-  const handleSignIn = () => {
-    if (!validatePassword(password)) {
-      setError("Password Must Be At Least 8 Characters Long And Include A Number & Special Character");
-    } else {
+  const validateEmail = (email: string) => {
+    // Regex for basic email validation
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (!emailTouched) {
+      setEmailTouched(true);
+    }
+    // Clear the error message related to email if the user starts typing again
+    if (error && error.includes("email")) {
       setError("");
-      navigate('/admin/dashboard');
     }
   };
+
+  const handleSignIn = () => {
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+    
+    // Set touched to true to show validation styling immediately on button click
+    setEmailTouched(true);
+    
+    if (!isEmailValid) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!isPasswordValid) {
+      setError("Password must be at least 8 characters long and include a number & special character.");
+      return;
+    } 
+    
+    // If both are valid, proceed to dashboard
+    setError("");
+    navigate('/admin/dashboard');
+  };
+
+  const isEmailValid = validateEmail(email);
+  const emailBorderColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#2F7A52';
+  const emailIconColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#2F7A52';
 
   return (
     <Logincontainer
@@ -123,7 +158,7 @@ const Login = () => {
         {/* Email Field */}
         <Box
           sx={{
-            border: '1px solid #2F7A52',
+            border: `1px solid ${emailBorderColor}`,
             borderRadius: '6px',
             height: '45px',
             display: 'flex',
@@ -134,7 +169,7 @@ const Login = () => {
         >
           <InputAdornment position="start" sx={{ marginRight: '8px' }}>
             <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-              <MailOutlineIcon sx={{ color: "#2F7A52", fontSize: '20px' }} />
+              <MailOutlineIcon sx={{ color: emailIconColor, fontSize: '20px' }} />
             </IconButton>
           </InputAdornment>
           <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
@@ -147,6 +182,9 @@ const Login = () => {
               fullWidth
               size="small"
               margin="none"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={() => setEmailTouched(true)}
               InputProps={{
                 sx: {
                   height: '25px',
@@ -162,13 +200,13 @@ const Login = () => {
                   height: '25px',
                   padding: '0',
                   '& fieldset': {
-                    borderColor: '#ffffffff',
+                    borderColor: 'transparent',
                   },
                   '&:hover fieldset': {
-                    borderColor: '#ffffffff',
+                    borderColor: 'transparent',
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: '#ffffffff',
+                    borderColor: 'transparent',
                     borderWidth: '1px',
                   },
                 },
@@ -195,7 +233,7 @@ const Login = () => {
 
           <Box
             sx={{
-              border: '1px solid #2F7A52',
+              border: `1px solid #2F7A52`,
               borderRadius: '6px',
               height: '45px',
               display: 'flex',
@@ -236,13 +274,13 @@ const Login = () => {
                     height: '25px',
                     padding: '0',
                     '& fieldset': {
-                      borderColor: '#ffffffff',
+                      borderColor: 'transparent',
                     },
                     '&:hover fieldset': {
-                      borderColor: '#ffffffff',
+                      borderColor: 'transparent',
                     },
                     '&.Mui-focused fieldset': {
-                      borderColor: '#ffffffff',
+                      borderColor: 'transparent',
                       borderWidth: '1px',
                     },
                   },
@@ -253,22 +291,22 @@ const Login = () => {
 
           {/* Conditional Error Message */}
           {error && (
-  <Typography
-    sx={{
-      color: '#F93C65',
-      fontFamily: 'Nunito Sans',
-      fontWeight: 400,
-      fontStyle: 'normal',
-      fontSize: '8px',
-      lineHeight: '12px',
-      letterSpacing: '0.8px',
-      verticalAlign: 'middle',
-      textTransform: 'capitalize',
-    }}
-  >
-    {error}
-  </Typography>
-)}
+            <Typography
+              sx={{
+                color: '#F93C65',
+                fontFamily: 'Nunito Sans',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '8px',
+                lineHeight: '12px',
+                letterSpacing: '0.8px',
+                verticalAlign: 'middle',
+                textTransform: 'capitalize',
+              }}
+            >
+              {error}
+            </Typography>
+          )}
 
           {/* Remember Password */}
           <FormControlLabel

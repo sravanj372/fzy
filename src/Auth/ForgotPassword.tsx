@@ -10,9 +10,48 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import adminLogo from '../assets/adminLogo.png';
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [error, setError] = useState("");
+
+  const validateEmail = (email: string) => {
+    // Regex for basic email validation
+    return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (!emailTouched) {
+      setEmailTouched(true);
+    }
+    // Clear the error message if the user starts typing again
+    if (error) {
+      setError("");
+    }
+  };
+
+  const handleContinue = () => {
+    const isEmailValid = validateEmail(email);
+
+    setEmailTouched(true);
+
+    if (!isEmailValid) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    
+    // If the email is valid, proceed to the OTP page
+    setError("");
+    navigate('/otp');
+  };
+
+  const isEmailValid = validateEmail(email);
+  const emailBorderColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#808080';
+  const emailIconColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#808080';
 
   return (
     <Logincontainer
@@ -51,7 +90,7 @@ const ForgotPassword = () => {
 
         <Box
           sx={{
-            border: '1px solid #2F7A52',
+            border: `1px solid ${emailBorderColor}`,
             borderRadius: '6px',
             height: '45px',
             display: 'flex',
@@ -62,7 +101,7 @@ const ForgotPassword = () => {
         >
           <InputAdornment position="start" sx={{ marginRight: '8px' }}>
             <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-              <MailOutlineIcon sx={{ color: "#2F7A52", fontSize: '20px' }} />
+              <MailOutlineIcon sx={{ color: emailIconColor, fontSize: '20px' }} />
             </IconButton>
           </InputAdornment>
           <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
@@ -75,6 +114,9 @@ const ForgotPassword = () => {
               fullWidth
               size="small"
               margin="none"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={() => setEmailTouched(true)}
               InputProps={{
                 sx: {
                   height: '25px',
@@ -105,7 +147,24 @@ const ForgotPassword = () => {
           </Box>
         </Box>
 
-
+        {error && (
+            <Typography
+              sx={{
+                color: '#F93C65',
+                fontFamily: 'Nunito Sans',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: '8px',
+                lineHeight: '12px',
+                letterSpacing: '0.8px',
+                verticalAlign: 'middle',
+                textTransform: 'capitalize',
+                mt: 1,
+              }}
+            >
+              {error}
+            </Typography>
+          )}
 
         <Button
           variant="contained"
@@ -120,11 +179,12 @@ const ForgotPassword = () => {
             width: '80%',
             margin: '0 auto',
             display: 'block',
+            mt: 3,
             '&:hover': {
               backgroundColor: '#256B45',
             },
           }}
-          onClick={() => navigate('/otp')}
+          onClick={handleContinue}
         >
           Continue
         </Button>
