@@ -23,11 +23,19 @@ const Profile: React.FC = () => {
     // Save logic here
   };
 
+  const handleUpdateEmailClose = () => {
+    setIsEmailDialogOpen(false);
+  };
+
+  const handleUpdatePasswordClose = () => {
+    setIsPasswordDialogOpen(false);
+  };
+
   return (
     <Box id="main-content">
       <Paper
         sx={{
-          border: "1px solid #2F7A52", // Changed border color to green
+          border: "1px solid #2F7A52",
           borderRadius: "8px",
           padding: 3,
         }}
@@ -190,17 +198,12 @@ const Profile: React.FC = () => {
         </Box>
       </Paper>
 
-      <UpdateEmailPopup
-        open={isEmailDialogOpen}
-        onClose={() => setIsEmailDialogOpen(false)}
-        target="#main-content"
-      />
-
-      <UpdatePasswordPopup
-        open={isPasswordDialogOpen}
-        onClose={() => setIsPasswordDialogOpen(false)}
-        target="#main-content"
-      />
+      {isPasswordDialogOpen && (
+        <UpdatePasswordPopup open={true} onClose={handleUpdatePasswordClose} />
+      )}
+      {isEmailDialogOpen && (
+        <UpdateEmailPopup open={true} onClose={handleUpdateEmailClose} />
+      )}
     </Box>
   );
 };

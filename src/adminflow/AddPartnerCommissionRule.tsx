@@ -1,24 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import {
   Button,
   TextField,
   Typography,
   Box,
+  Stack,
 } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 
-const AddPartnerCommissionRule: React.FC = () => {
-  const [restaurantName, setRestaurantName] = useState<string>('');
-  const [commission, setCommission] = useState<string>('');
+const AddPartnerCommissionRule = () => {
+  const [restaurantName, setRestaurantName] = useState('');
+  const [commission, setCommission] = useState('');
+  // State to manage validation errors
+  const [restaurantNameError, setRestaurantNameError] = useState('');
+  const [commissionError, setCommissionError] = useState('');
   const navigate = useNavigate();
 
-  const handleAdd = () => {
-    // Logic to handle adding the new rule (e.g., API call, state update)
-    console.log('Adding new rule:', { restaurantName, commission });
-    // After adding, navigate back to the list of rules
-    navigate('/admin/configsetting/partner-commission');
+  // Handler for Restaurant Name changes with dynamic validation
+  const handleRestaurantNameChange = (e) => {
+    const value = e.target.value;
+    setRestaurantName(value);
+
+    // Dynamic validation for Restaurant Name
+    if (value.trim().length < 3) {
+      setRestaurantNameError('Restaurant name must be at least 3 characters.');
+    } else {
+      setRestaurantNameError('');
+    }
   };
+
+  // Handler for Commission changes with dynamic validation
+  const handleCommissionChange = (e) => {
+    const value = e.target.value;
+    setCommission(value);
+
+    // Dynamic validation for Commission Rate
+    const rate = parseFloat(value);
+    if (isNaN(rate) || rate <= 0 || rate > 100) {
+      setCommissionError('Commission rate must be a number between 0 and 100.');
+    } else {
+      setCommissionError('');
+    }
+  };
+
+  const handleAdd = () => {
+    // Perform a final check before saving
+    const rate = parseFloat(commission);
+    const isRestaurantNameValid = restaurantName.trim().length >= 3;
+    const isCommissionValid = !isNaN(rate) && rate > 0 && rate <= 100;
+
+    // Set errors for a final validation check
+    if (!isRestaurantNameValid) {
+      setRestaurantNameError('Restaurant name must be at least 3 characters.');
+    }
+    if (!isCommissionValid) {
+      setCommissionError('Commission rate must be a number between 0 and 100.');
+    }
+
+    if (isRestaurantNameValid && isCommissionValid) {
+      // If no errors, proceed with adding the rule
+      console.log('Adding new rule:', { restaurantName, commission });
+      navigate('/admin/configsetting/partner-commission');
+    } else {
+      console.log('Form has validation errors.');
+    }
+  };
+
+  // Disable the Add button if there are any validation errors or empty fields
+  const isAddButtonDisabled = restaurantName.trim() === '' || commission.trim() === '' || !!restaurantNameError || !!commissionError;
+
 
   return (
     // Main container with the requested background color
@@ -42,10 +93,15 @@ const AddPartnerCommissionRule: React.FC = () => {
         p={2}
       >
         {/* Restaurant Name input field */}
-        <Box display="flex" flexDirection={{ md: 'row', xs: 'column' }} gap={4} alignItems={{ md: 'center', xs: 'flex-start' }}>
+        {/* Using Stack for better vertical alignment and layout control */}
+        <Stack
+          direction={{ md: 'row', xs: 'column' }} 
+          gap={4} 
+          alignItems="center"
+        >
           <Typography
             sx={{
-              width: { md: '200px', xs: '100%' }, // Increased width to prevent wrapping
+              width: { md: '200px', xs: '100%' }, 
               fontFamily: 'Nunito Sans',
               fontWeight: 400,
               fontSize: '18px',
@@ -57,32 +113,40 @@ const AddPartnerCommissionRule: React.FC = () => {
           <TextField
             sx={{
               width: { md: '379px', xs: '100%' },
-              height: '54px',
               '& .MuiOutlinedInput-root': {
-                height: '100%',
+                height: '54px',
                 borderRadius: '10px',
-                '& fieldset': {
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#2F7A52',
                 },
-                '&:hover fieldset': {
-                  borderColor: '#2F7A52',
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#2F7A52',
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
                 },
-              }
+              },
+              // This is crucial to prevent layout shifts when the helper text appears
+              '& .MuiFormHelperText-root': {
+                minHeight: '1.25em', 
+              },
             }}
-            
             value={restaurantName}
-            onChange={(e) => setRestaurantName(e.target.value)}
+            onChange={handleRestaurantNameChange}
+            error={!!restaurantNameError}
+            helperText={restaurantNameError || ' '}
           />
-        </Box>
+        </Stack>
         
         {/* Commission Rate input field */}
-        <Box display="flex" flexDirection={{ md: 'row', xs: 'column' }} gap={4} alignItems={{ md: 'center', xs: 'flex-start' }}>
+        <Stack
+          direction={{ md: 'row', xs: 'column' }} 
+          gap={4} 
+          alignItems="center"
+        >
           <Typography
             sx={{
-              width: { md: '200px', xs: '100%' }, // Increased width to prevent wrapping
+              width: { md: '200px', xs: '100%' }, 
               fontFamily: 'Nunito Sans',
               fontWeight: 400,
               fontSize: '18px',
@@ -95,18 +159,17 @@ const AddPartnerCommissionRule: React.FC = () => {
             type="number"
             sx={{
               width: { md: '379px', xs: '100%' },
-              height: '54px',
               '& .MuiOutlinedInput-root': {
-                height: '100%',
+                height: '54px',
                 borderRadius: '10px',
-                '& fieldset': {
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#2F7A52',
                 },
-                '&:hover fieldset': {
-                  borderColor: '#2F7A52',
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#2F7A52',
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
                 },
               },
               '& input[type=number]': {
@@ -119,19 +182,25 @@ const AddPartnerCommissionRule: React.FC = () => {
               '& input[type=number]::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
                 margin: 0,
-              }
+              },
+              // This is crucial to prevent layout shifts when the helper text appears
+              '& .MuiFormHelperText-root': {
+                minHeight: '1.25em', 
+              },
             }}
-            
             value={commission}
-            onChange={(e) => setCommission(e.target.value)}
+            onChange={handleCommissionChange}
+            error={!!commissionError}
+            helperText={commissionError || ' '}
           />
-        </Box>
+        </Stack>
         
         {/* Add button */}
-        <Box display="flex" justifyContent="flex-start" sx={{ mt:5,ml: 45, mr: { md: 33, xs: 0 } }}>
+        <Box display="flex" justifyContent="flex-start" sx={{ ml: { md: '216px', xs: '0' }}}>
           <Button
             variant="contained"
             onClick={handleAdd}
+            disabled={isAddButtonDisabled}
             sx={{
               width: '123px',
               height: '40px',

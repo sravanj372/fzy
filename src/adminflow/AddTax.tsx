@@ -1,30 +1,76 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 const AddTax = () => {
-  // Hook from react-router-dom to handle navigation
   const navigate = useNavigate();
 
   // State to manage the form inputs
   const [taxName, setTaxName] = useState('');
   const [taxRate, setTaxRate] = useState('');
 
-  // Function to handle form submission
-  const handleSave = () => {
-    // Here you would implement the logic to save the tax data.
-    // This could involve an API call to a backend.
-    console.log("Saving Tax:", { taxName, taxRate });
-    // After saving, you could navigate back or show a success message.
-    // For now, let's just navigate back.
-    navigate('/admin/configsetting/taxsettings');
+  // State to manage validation errors
+  const [taxNameError, setTaxNameError] = useState('');
+  const [taxRateError, setTaxRateError] = useState('');
+
+  // Handler for Tax Name changes with dynamic validation
+  const handleTaxNameChange = (e) => {
+    const value = e.target.value;
+    setTaxName(value);
+
+    // Dynamic validation for Tax Name
+    if (value.trim().length < 5) {
+      setTaxNameError('Tax name must be at least 5 letters.');
+    } else {
+      setTaxNameError('');
+    }
   };
 
+  // Handler for Tax Rate changes with dynamic validation
+  const handleTaxRateChange = (e) => {
+    const value = e.target.value;
+    setTaxRate(value);
+
+    // Dynamic validation for Tax Rate
+    const rate = parseFloat(value);
+    if (isNaN(rate) || rate <= 0) {
+      setTaxRateError('Tax rate must be a number greater than 0.');
+    } else {
+      setTaxRateError('');
+    }
+  };
+
+  // The function to handle the Save action
+  const handleSave = () => {
+    // Perform a final check before saving
+    const rate = parseFloat(taxRate);
+    const isTaxNameValid = taxName.trim().length >= 5;
+    const isTaxRateValid = !isNaN(rate) && rate > 0;
+
+    // Set errors for a final validation check
+    if (!isTaxNameValid) {
+      setTaxNameError('Tax name must be at least 5 letters.');
+    }
+    if (!isTaxRateValid) {
+      setTaxRateError('Tax rate must be a number greater than 0.');
+    }
+
+    if (isTaxNameValid && isTaxRateValid) {
+      // If no errors, proceed with saving the data
+      console.log("Saving Tax:", { taxName, taxRate });
+      // This is where you would make an API call to your backend
+      // navigate('/admin/configsetting/taxsettings');
+    } else {
+      console.log("Form has validation errors.");
+    }
+  };
+
+  // Disable the save button if there are any validation errors or empty fields
+  const isSaveButtonDisabled = taxName.trim() === '' || taxRate.trim() === '' || !!taxNameError || !!taxRateError;
+
   return (
-    // Main container with the requested background color
     <Box p={2} sx={{ backgroundColor: '#F5FAF6', minHeight: '100vh' }}>
-      {/* Header section with back button and title */}
       <Box display="flex" alignItems="center" gap={1}>
         <ArrowBackIcon 
           onClick={() => navigate('/admin/configsetting/taxsettings')} 
@@ -33,7 +79,6 @@ const AddTax = () => {
         <Typography color="#2F7A52" variant="h6" component="h1">Add Tax</Typography>
       </Box>
       
-      {/* Form section for adding tax details */}
       <Box 
         maxWidth="800px" 
         display="flex" 
@@ -43,7 +88,12 @@ const AddTax = () => {
         p={2}
       >
         {/* Tax Name input field */}
-        <Box display="flex" flexDirection={{ md: 'row', xs: 'column' }} gap={2} alignItems={{ md: 'center', xs: 'flex-start' }}>
+        {/* The alignItems="center" on the Stack is what vertically centers the label and input. */}
+        <Stack
+          direction={{ md: 'row', xs: 'column' }} 
+          gap={2} 
+          alignItems="center"
+        >
           <Typography 
             sx={{ 
               width: { md: '100px', xs: '100%' },
@@ -56,33 +106,49 @@ const AddTax = () => {
             Tax Name
           </Typography>
           <TextField 
-            // Removed size="small" to achieve the desired height
             sx={{ 
               width: { md: '379px', xs: '100%' }, 
-              height: '54px',
-              // Custom styling for the TextField border and border-radius
+              // Styling for the input box
               '& .MuiOutlinedInput-root': {
-                height: '100%',
+                height: '54px',
                 borderRadius: '10px',
-                '& fieldset': {
+                // Set the default border color
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#2F7A52',
                 },
-                '&:hover fieldset': {
-                  borderColor: '#2F7A52',
+                // Set border color on hover to be the same
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important', // Use !important to override Material-UI's default hover styles
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#2F7A52',
+                // Set border color when focused to be the same
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important', // Use !important to override Material-UI's default focused styles
                 },
-              }
+                // Set the input text color
+                '& input': {
+                  color: '#2F7A52',
+                },
+              },
+              // This style is key to preventing the layout shift
+              '& .MuiFormHelperText-root': {
+                minHeight: '1.25em', 
+              },
             }}
             placeholder="Service Tax"
             value={taxName}
-            onChange={(e) => setTaxName(e.target.value)}
+            onChange={handleTaxNameChange}
+            error={!!taxNameError}
+            helperText={taxNameError || ' '}
           />
-        </Box>
+        </Stack>
         
         {/* Tax Rate input field */}
-        <Box display="flex" flexDirection={{ md: 'row', xs: 'column' }} gap={2} alignItems={{ md: 'center', xs: 'flex-start' }}>
+        {/* The alignItems="center" on the Stack is what vertically centers the label and input. */}
+        <Stack
+          direction={{ md: 'row', xs: 'column' }} 
+          gap={2} 
+          alignItems="center"
+        >
           <Typography 
             sx={{ 
               width: { md: '100px', xs: '100%' },
@@ -95,26 +161,30 @@ const AddTax = () => {
             Tax Rate
           </Typography>
           <TextField 
-            // Removed size="small" to achieve the desired height
             type="number"
             sx={{ 
               width: { md: '379px', xs: '100%' }, 
-              height: '54px',
-              // Custom styling for the TextField border and border-radius
+              // Styling for the input box
               '& .MuiOutlinedInput-root': {
-                height: '100%',
+                height: '54px',
                 borderRadius: '10px',
-                '& fieldset': {
+                // Set the default border color
+                '& .MuiOutlinedInput-notchedOutline': {
                   borderColor: '#2F7A52',
                 },
-                '&:hover fieldset': {
-                  borderColor: '#2F7A52',
+                // Set border color on hover to be the same
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
                 },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#2F7A52',
+                // Set border color when focused to be the same
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#2F7A52 !important',
+                },
+                // Set the input text color
+                '& input': {
+                  color: '#2F7A52',
                 },
               },
-              // CSS to hide the scroll buttons for number input fields
               '& input[type=number]': {
                 '-moz-appearance': 'textfield',
               },
@@ -125,19 +195,26 @@ const AddTax = () => {
               '& input[type=number]::-webkit-outer-spin-button': {
                 '-webkit-appearance': 'none',
                 margin: 0,
-              }
+              },
+              // This style is key to preventing the layout shift
+              '& .MuiFormHelperText-root': {
+                minHeight: '1.25em', 
+              },
             }}
             placeholder="5%"
             value={taxRate}
-            onChange={(e) => setTaxRate(e.target.value)}
+            onChange={handleTaxRateChange}
+            error={!!taxRateError}
+            helperText={taxRateError || ' '}
           />
-        </Box>
+        </Stack>
         
         {/* Save button */}
-        <Box display="flex" justifyContent="flex-start" sx={{ ml: 45, mr: { md: 33, xs: 0 } }}>
+        <Box display="flex" justifyContent="flex-start" sx={{ ml: { md: '210px', xs: '0' }}}>
           <Button 
             variant="contained" 
             onClick={handleSave} 
+            disabled={isSaveButtonDisabled}
             sx={{ 
               width: '123px',
               height: '50px',

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
   Paper, Typography, Box, TextField, Button, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Menu, MenuItem, Checkbox, Radio, RadioGroup, FormControlLabel,
-  FormControl, Divider, Select
+  TableHead, TableRow, Checkbox, Radio, RadioGroup, FormControlLabel,
+  FormControl
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import DownloadIcon from "@mui/icons-material/Download";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import EyeIcon from '../assets/eye.png';
@@ -54,18 +52,28 @@ const ConfigurationSettings: React.FC = () => {
     { id: 4, restaurantname: 'Brenda French', partnername: 'Linda', accountholdername: 'Linda Nilson', bankname: 'Common Wealth', accountnumber: '****545', date: 'May 6, 2025' },
   ];
 
-  const [anchorE2, setAnchorE2] = useState<null | HTMLElement>(null);
-  const open1 = Boolean(anchorE2);
-  const handleClicks1 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorE2(event.currentTarget);
-  };
-  const handleCloses = () => {
-    setAnchorE2(null);
-  };
-
   const [selectedPaymentCycle, setSelectedPaymentCycle] = useState<string>('monthly');
   const handlePaymentCycleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPaymentCycle(event.target.value);
+  };
+
+  // Reusable radio styles with small ring effect
+  const radioStyles = {
+    '&:hover': { backgroundColor: 'transparent' },
+    '&.Mui-checked': {
+      position: 'relative',
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: '13px', // ring size
+        height: '13px',
+        borderRadius: '50%',
+        transform: 'translate(-50%, -50%)',
+        boxShadow: '0 0 4px rgba(0, 0, 0, 0.6)', // subtle green glow
+      },
+    },
   };
 
   return (
@@ -96,32 +104,43 @@ const ConfigurationSettings: React.FC = () => {
       <Paper sx={{ padding: "10px", border: "1px solid green", borderRadius: '8px' }}>
         <Typography mb={2} color="#2F7A52" fontWeight="bold">Payment Cycle</Typography>
         <FormControl>
-          <RadioGroup
-            row
-            value={selectedPaymentCycle}
-            onChange={handlePaymentCycleChange}
-          >
-            <FormControlLabel value="weekly" control={
-              <Radio
-                size="small"
-                icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-              />
-            } label="Weekly" />
-            <FormControlLabel value="bi-weekly" control={
-              <Radio
-                size="small"
-                icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-              />
-            } label="Bi-Weekly" />
-            <FormControlLabel value="monthly" control={
-              <Radio
-                size="small"
-                icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-              />
-            } label="Monthly" />
+          <RadioGroup row value={selectedPaymentCycle} onChange={handlePaymentCycleChange}>
+            <FormControlLabel
+              value="weekly"
+              control={
+                <Radio
+                  size="small"
+                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
+                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
+                  sx={radioStyles}
+                />
+              }
+              label="Weekly"
+            />
+            <FormControlLabel
+              value="bi-weekly"
+              control={
+                <Radio
+                  size="small"
+                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
+                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
+                  sx={radioStyles}
+                />
+              }
+              label="Bi-Weekly"
+            />
+            <FormControlLabel
+              value="monthly"
+              control={
+                <Radio
+                  size="small"
+                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
+                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
+                  sx={radioStyles}
+                />
+              }
+              label="Monthly"
+            />
           </RadioGroup>
         </FormControl>
       </Paper>
@@ -157,9 +176,9 @@ const ConfigurationSettings: React.FC = () => {
                 {partnerbankdetails.map((partnerdetails) => (
                   <TableRow key={partnerdetails.id}>
                     <TableCell sx={{ color: '#2F7A52' }}>
-                      <Typography 
-                        component="a" 
-                        href="#" 
+                      <Typography
+                        component="a"
+                        href="#"
                         onClick={() => navigate(`/restaurant-info/${partnerdetails.id}`)}
                         sx={{ color: '#2F7A52', textDecoration: 'underline', cursor: 'pointer' }}
                       >

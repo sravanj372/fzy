@@ -121,7 +121,7 @@ const RestuarentDetails = () => {
     <Box p={0}>
       {/* Back Button */}
       <Box display="flex" mb={1}>
-        <IconButton onClick={handleBackClick} sx={{ color: "black", p: 0.5 }}>
+        <IconButton onClick={handleBackClick} sx={{ color: "green", p: 0.5 }}>
           <ArrowBackIcon />
         </IconButton>
       </Box>

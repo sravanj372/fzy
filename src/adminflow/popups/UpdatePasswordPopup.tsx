@@ -12,34 +12,42 @@ import { useState } from "react";
 import lock from "../../assets/proicons_lock.png";
 
 const UpdatePasswordPopup = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const [newPassword, setNewPassword] = useState('');
-  const [newPasswordError, setNewPasswordError] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const handleUpdatePassword = () => {
-    let isValid = true;
-    setNewPasswordError('');
-    setConfirmPasswordError('');
-
-    if (newPassword.length < 6) {
-      setNewPasswordError('Password must be at least 6 characters long.');
-      isValid = false;
-    }
-
-    if (confirmPassword.length === 0) {
-      setConfirmPasswordError('Confirm password is required.');
-      isValid = false;
-    } else if (newPassword !== confirmPassword) {
-      setConfirmPasswordError('Passwords do not match.');
-      isValid = false;
-    }
-
-    if (isValid) {
-      // handle success logic here (e.g., call API)
-      onClose(); // close dialog on success
+  // ✅ Dynamic validation
+  const validateNewPassword = (value: string) => {
+    if (value.length < 6) {
+      setNewPasswordError("Password must be at least 6 characters long.");
+    } else {
+      setNewPasswordError("");
     }
   };
+
+  const validateConfirmPassword = (value: string) => {
+    if (value.length === 0) {
+      setConfirmPasswordError("Confirm password is required.");
+    } else if (value !== newPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+
+  const handleUpdatePassword = () => {
+    validateNewPassword(newPassword);
+    validateConfirmPassword(confirmPassword);
+
+    if (!newPasswordError && !confirmPasswordError) {
+      // handle success logic (e.g., call API)
+      onClose();
+    }
+  };
+
+  const newPasswordBorderColor = newPasswordError ? "#F93C65" : "#2F7A52";
+  const confirmPasswordBorderColor = confirmPasswordError ? "#F93C65" : "#2F7A52";
 
   return (
     <Dialog
@@ -47,19 +55,16 @@ const UpdatePasswordPopup = ({ open, onClose }: { open: boolean; onClose: () => 
       onClose={onClose}
       maxWidth="xs"
       fullWidth
-      // Add the PaperProps prop to style the Dialog's container
       PaperProps={{
         sx: {
-          borderRadius: '24px', // Increased value for a more prominent curve
+          borderRadius: "24px",
         },
       }}
     >
       <DialogContent
         sx={{
-          padding: { xs: '24px', sm: '40px' },
-          backgroundColor: '#FFFFFF',
-          // The borderRadius is now applied to PaperProps, so it's not needed here.
-          // You could keep a smaller value here if you wanted an inner curve, but it's not necessary.
+          padding: { xs: "24px", sm: "40px" },
+          backgroundColor: "#FFFFFF",
         }}
       >
         <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
@@ -71,123 +76,152 @@ const UpdatePasswordPopup = ({ open, onClose }: { open: boolean; onClose: () => 
           </Typography>
 
           {/* New Password */}
-          <Box
-            sx={{
-              border: '1px solid #2F7A52',
-              borderRadius: '6px',
-              height: '45px',
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '14px',
-              width: '100%',
-            }}
-          >
-            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-                <Box component="img" src={lock} alt="Lock Icon" sx={{ width: '20px', height: '20px' }} />
-              </IconButton>
-            </InputAdornment>
-            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-              <Typography sx={{ color: '#333333', fontSize: '10px', marginBottom: '2px' }}>
-                Create Password
-              </Typography>
-              <TextField
-                type="password"
-                placeholder="New Password"
-                fullWidth
-                size="small"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                error={!!newPasswordError}
-                helperText={newPasswordError}
-                InputProps={{
-                  sx: {
-                    height: '25px',
-                    fontSize: '14px',
-                    padding: '0',
-                    '& input': {
-                      padding: '0',
+          <Box width="100%">
+            <Box
+              sx={{
+                border: `1px solid ${newPasswordBorderColor}`,
+                borderRadius: "6px",
+                height: "45px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "14px",
+                width: "100%",
+              }}
+            >
+              <InputAdornment position="start" sx={{ marginRight: "8px" }}>
+                <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
+                  <Box
+                    component="img"
+                    src={lock}
+                    alt="Lock Icon"
+                    sx={{ width: "20px", height: "20px" }}
+                  />
+                </IconButton>
+              </InputAdornment>
+              <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                <Typography sx={{ color: "#333333", fontSize: "10px", marginBottom: "2px" }}>
+                  Create Password
+                </Typography>
+                <TextField
+                  type="password"
+                  placeholder="New Password"
+                  fullWidth
+                  size="small"
+                  value={newPassword}
+                  onChange={(e) => {
+                    setNewPassword(e.target.value);
+                    validateNewPassword(e.target.value); // ✅ live validation
+                    if (confirmPassword) validateConfirmPassword(confirmPassword); // re-check confirm field
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      height: "25px",
+                      fontSize: "14px",
+                      padding: "0",
+                      "& input": {
+                        padding: "0",
+                      },
                     },
-                  },
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    height: '25px',
-                    padding: '0',
-                    '& fieldset': {
-                      borderColor: '#ffffffff',
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      height: "25px",
+                      padding: "0",
+                      "& fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "transparent",
+                        borderWidth: "1px",
+                      },
                     },
-                    '&:hover fieldset': {
-                      borderColor: '#ffffffff',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#ffffffff',
-                      borderWidth: '1px',
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              </Box>
             </Box>
+            {newPasswordError && (
+              <Typography sx={{ color: "#F93C65", fontSize: "12px", mt: 1, textAlign: "left" }}>
+                {newPasswordError}
+              </Typography>
+            )}
           </Box>
 
           {/* Confirm Password */}
-          <Box
-            sx={{
-              border: '1px solid #2F7A52',
-              borderRadius: '6px',
-              height: '45px',
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '14px',
-              width: '100%',
-            }}
-          >
-            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-                <Box component="img" src={lock} alt="Lock Icon" sx={{ width: '20px', height: '20px' }} />
-              </IconButton>
-            </InputAdornment>
-            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-              <Typography sx={{ color: '#333333', fontSize: '10px', marginBottom: '2px' }}>
-                Confirm Password
-              </Typography>
-              <TextField
-                type="password"
-                placeholder="Re-enter Password"
-                fullWidth
-                size="small"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                error={!!confirmPasswordError}
-                helperText={confirmPasswordError}
-                InputProps={{
-                  sx: {
-                    height: '25px',
-                    fontSize: '14px',
-                    padding: '0',
-                    '& input': {
-                      padding: '0',
+          <Box width="100%">
+            <Box
+              sx={{
+                border: `1px solid ${confirmPasswordBorderColor}`,
+                borderRadius: "6px",
+                height: "45px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "14px",
+                width: "100%",
+              }}
+            >
+              <InputAdornment position="start" sx={{ marginRight: "8px" }}>
+                <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
+                  <Box
+                    component="img"
+                    src={lock}
+                    alt="Lock Icon"
+                    sx={{ width: "20px", height: "20px" }}
+                  />
+                </IconButton>
+              </InputAdornment>
+              <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                <Typography sx={{ color: "#333333", fontSize: "10px", marginBottom: "2px" }}>
+                  Confirm Password
+                </Typography>
+                <TextField
+                  type="password"
+                  placeholder="Re-enter Password"
+                  fullWidth
+                  size="small"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    validateConfirmPassword(e.target.value); // ✅ live validation
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                      height: "25px",
+                      fontSize: "14px",
+                      padding: "0",
+                      "& input": {
+                        padding: "0",
+                      },
                     },
-                  },
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    height: '25px',
-                    padding: '0',
-                    '& fieldset': {
-                      borderColor: '#ffffffff',
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      height: "25px",
+                      padding: "0",
+                      "& fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "transparent",
+                        borderWidth: "1px",
+                      },
                     },
-                    '&:hover fieldset': {
-                      borderColor: '#ffffffff',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: '#ffffffff',
-                      borderWidth: '1px',
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              </Box>
             </Box>
+            {confirmPasswordError && (
+              <Typography sx={{ color: "#F93C65", fontSize: "12px", mt: 1, textAlign: "left" }}>
+                {confirmPasswordError}
+              </Typography>
+            )}
           </Box>
 
           <Button
@@ -195,17 +229,17 @@ const UpdatePasswordPopup = ({ open, onClose }: { open: boolean; onClose: () => 
             fullWidth
             onClick={handleUpdatePassword}
             sx={{
-              backgroundColor: '#2F7A52',
-              color: '#FFFFFF',
-              borderRadius: '6px',
-              paddingY: '10px',
-              textTransform: 'none',
-              fontWeight: 'bold',
-              fontSize: '16px',
-              width: '80%',
+              backgroundColor: "#2F7A52",
+              color: "#FFFFFF",
+              borderRadius: "6px",
+              paddingY: "10px",
+              textTransform: "none",
+              fontWeight: "bold",
+              fontSize: "16px",
+              width: "80%",
               marginTop: 2,
-              '&:hover': {
-                backgroundColor: '#256B45',
+              "&:hover": {
+                backgroundColor: "#256B45",
               },
             }}
           >

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -15,6 +15,7 @@ import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import adminLogo from '../assets/adminLogo.png';
 import lock from '../assets/proicons_lock.png';
 import tick from "../assets/Shape.png";
+import eye from '../assets/Vector pwd.png';
 
 // Unchecked checkbox icon
 const CustomUncheckedIcon = () => (
@@ -63,31 +64,41 @@ const Login = () => {
   const navigate = useNavigate();
   const [rememberPassword, setRememberPassword] = useState(false);
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
   const [error, setError] = useState("");
 
-  const handleRememberPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Use useEffect to check for stored credentials on component mount
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('rememberedEmail');
+    const storedPassword = localStorage.getItem('rememberedPassword');
+    if (storedEmail && storedPassword) {
+      setEmail(storedEmail);
+      setPassword(storedPassword);
+      setRememberPassword(true);
+    }
+  }, []);
+
+  const handleRememberPasswordChange = (event) => {
     setRememberPassword(event.target.checked);
   };
 
-  const validatePassword = (pwd: string) => {
+  const validatePassword = (pwd) => {
     const hasNumber = /\d/;
     const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
     return pwd.length >= 8 && hasNumber.test(pwd) && hasSpecial.test(pwd);
   };
 
-  const validateEmail = (email: string) => {
-    // Regex for basic email validation
+  const validateEmail = (email) => {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
     if (!emailTouched) {
       setEmailTouched(true);
     }
-    // Clear the error message related to email if the user starts typing again
     if (error && error.includes("email")) {
       setError("");
     }
@@ -96,10 +107,9 @@ const Login = () => {
   const handleSignIn = () => {
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
-    
-    // Set touched to true to show validation styling immediately on button click
+
     setEmailTouched(true);
-    
+
     if (!isEmailValid) {
       setError("Please enter a valid email address.");
       return;
@@ -108,11 +118,26 @@ const Login = () => {
     if (!isPasswordValid) {
       setError("Password must be at least 8 characters long and include a number & special character.");
       return;
-    } 
-    
-    // If both are valid, proceed to dashboard
-    setError("");
-    navigate('/admin/dashboard');
+    }
+
+    const correctEmail = 'test@gmail.com';
+    const correctPassword = 'Test@123';
+
+    if (email === correctEmail && password === correctPassword) {
+      setError("");
+      // Store credentials if "Remember Password" is checked
+      if (rememberPassword) {
+        localStorage.setItem('rememberedEmail', email);
+        localStorage.setItem('rememberedPassword', password);
+      } else {
+        // Clear credentials if the checkbox is unchecked
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedPassword');
+      }
+      navigate('/admin/dashboard');
+    } else {
+      setError("Invalid email or password.");
+    }
   };
 
   const isEmailValid = validateEmail(email);
@@ -156,68 +181,90 @@ const Login = () => {
         </Box>
 
         {/* Email Field */}
-        <Box
-          sx={{
-            border: `1px solid ${emailBorderColor}`,
-            borderRadius: '6px',
-            height: '45px',
-            display: 'flex',
-            alignItems: 'center',
-            paddingLeft: '14px',
-            mb: 2,
-          }}
-        >
-          <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-            <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-              <MailOutlineIcon sx={{ color: emailIconColor, fontSize: '20px' }} />
-            </IconButton>
-          </InputAdornment>
-          <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-            <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
-              Email ID
-            </Typography>
-            <TextField
-              variant="outlined"
-              placeholder="John@gmail.com"
-              fullWidth
-              size="small"
-              margin="none"
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={() => setEmailTouched(true)}
-              InputProps={{
-                sx: {
-                  height: '25px',
-                  fontSize: '14px',
-                  padding: '0',
-                  '& input': {
+        <Box sx={{ mb: 1 }}>
+          <Box
+            sx={{
+              border: `1px solid ${emailBorderColor}`,
+              borderRadius: '6px',
+              height: '45px',
+              display: 'flex',
+              alignItems: 'center',
+              paddingLeft: '14px',
+            }}
+          >
+            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
+              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
+                <MailOutlineIcon sx={{ color: emailIconColor, fontSize: '20px' }} />
+              </IconButton>
+            </InputAdornment>
+            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+              <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
+                Email ID
+              </Typography>
+              <TextField
+                variant="outlined"
+                placeholder="John@gmail.com"
+                fullWidth
+                size="small"
+                margin="none"
+                value={email}
+                onChange={handleEmailChange}
+                onBlur={() => setEmailTouched(true)}
+                InputProps={{
+                  sx: {
+                    height: '25px',
+                    fontSize: '14px',
                     padding: '0',
+                    '& input': {
+                      padding: '0',
+                    },
                   },
-                },
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  height: '25px',
-                  padding: '0',
-                  '& fieldset': {
-                    borderColor: 'transparent',
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    height: '25px',
+                    padding: '0',
+                    '& fieldset': {
+                      borderColor: 'transparent',
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'transparent',
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: 'transparent',
+                      borderWidth: '1px',
+                    },
                   },
-                  '&:hover fieldset': {
-                    borderColor: 'transparent',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'transparent',
-                    borderWidth: '1px',
-                  },
-                },
-              }}
-            />
+                }}
+              />
+            </Box>
+          </Box>
+
+          {/* Email Error Message */}
+          <Box sx={{ minHeight: '15px', mb: 0, display: 'flex', alignItems: 'center' }}>
+            {error && error.includes("email") && (
+              <Typography
+                sx={{
+                  color: '#F93C65',
+                  fontFamily: 'Nunito Sans',
+                  fontWeight: 400,
+                  fontStyle: 'normal',
+                  fontSize: '8px',
+                  lineHeight: '12px',
+                  letterSpacing: '0.8px',
+                  verticalAlign: 'middle',
+                  textTransform: 'capitalize',
+                }}
+              >
+                {error}
+              </Typography>
+            )}
           </Box>
         </Box>
 
         {/* Password Field */}
-        <Box sx={{ mb: 2 }}>
-          <Box display="flex" justifyContent="flex-end" mb={0.5}>
+        <Box sx={{ mb: 0 }}>
+          <Box display="flex" justifyContent="flex-end" mb={0}>
             <Typography
               sx={{
                 fontSize: '12px',
@@ -239,19 +286,23 @@ const Login = () => {
               display: 'flex',
               alignItems: 'center',
               paddingLeft: '14px',
+              position: 'relative',
             }}
           >
+            {/* Lock Icon */}
             <InputAdornment position="start" sx={{ marginRight: '8px' }}>
               <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
                 <Box component="img" src={lock} alt="Lock Icon" sx={{ width: '20px', height: '20px' }} />
               </IconButton>
             </InputAdornment>
+
+            {/* Input Field */}
             <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
               <Typography sx={{ color: '#333333', fontSize: '10px', marginBottom: '2px' }}>
                 Password
               </Typography>
               <TextField
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="abd@123"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -287,60 +338,81 @@ const Login = () => {
                 }}
               />
             </Box>
-          </Box>
 
-          {/* Conditional Error Message */}
-          {error && (
-            <Typography
+            {/* Eye Icon */}
+            <IconButton
+              onClick={() => setShowPassword(!showPassword)}
               sx={{
-                color: '#F93C65',
-                fontFamily: 'Nunito Sans',
-                fontWeight: 400,
-                fontStyle: 'normal',
-                fontSize: '8px',
-                lineHeight: '12px',
-                letterSpacing: '0.8px',
-                verticalAlign: 'middle',
-                textTransform: 'capitalize',
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                padding: '4px',
               }}
             >
-              {error}
-            </Typography>
-          )}
-
-          {/* Remember Password */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={rememberPassword}
-                onChange={handleRememberPasswordChange}
-                icon={<CustomUncheckedIcon />}
-                checkedIcon={<CustomTickIcon />}
-                sx={{
-                  padding: '0px',
-                  '&:hover': {
-                    backgroundColor: 'transparent',
-                  },
-                }}
+              <Box
+                component="img"
+                src={eye}
+                alt="Show/Hide Password"
+                sx={{ width: '20px', height: '20px' }}
               />
-            }
-            label={
+            </IconButton>
+          </Box>
+
+          {/* Password Error Message */}
+          <Box sx={{ minHeight: '15px', mb: 1, display: 'flex', alignItems: 'center' }}>
+            {error && error.includes("Password") && (
               <Typography
-                fontSize="14px"
-                color="#555353ff"
-                sx={{ userSelect: 'none', ml: 1 }}
+                sx={{
+                  color: '#F93C65',
+                  fontFamily: 'Nunito Sans',
+                  fontWeight: 400,
+                  fontStyle: 'normal',
+                  fontSize: '8px',
+                  lineHeight: '12px',
+                  letterSpacing: '0.8px',
+                  verticalAlign: 'middle',
+                  textTransform: 'capitalize',
+                }}
               >
-                Remember Password
+                {error}
               </Typography>
-            }
-            sx={{
-              ml: 0,
-              mt: 1,
-              mb: 2,
-              mr: 4,
-            }}
-          />
+            )}
+          </Box>
         </Box>
+
+        {/* Remember Password */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={rememberPassword}
+              onChange={handleRememberPasswordChange}
+              icon={<CustomUncheckedIcon />}
+              checkedIcon={<CustomTickIcon />}
+              sx={{
+                padding: '0px',
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                },
+              }}
+            />
+          }
+          label={
+            <Typography
+              fontSize="14px"
+              color="#555353ff"
+              sx={{ userSelect: 'none', ml: 1 }}
+            >
+              Remember Password
+            </Typography>
+          }
+          sx={{
+            ml: 0,
+            mt: -3,
+            mb: 2,
+            mr: 4,
+          }}
+        />
 
         {/* Sign In Button */}
         <Button

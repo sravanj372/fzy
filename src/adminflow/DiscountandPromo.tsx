@@ -280,7 +280,7 @@ const DiscountandPromo = () => {
                         </Table>
                     </TableContainerStyled>
                 </TableCard>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'top', mt: 2 }}>
                     <PaginationBox />
                 </Box>
             </ContentBox>

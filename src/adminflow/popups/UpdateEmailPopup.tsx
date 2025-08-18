@@ -9,29 +9,44 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import MailOutlineIcon from "@mui/icons-material/MailOutline"; // Corrected import
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
 const UpdateEmailPopup = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const [newEmail, setNewEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
+  const handleEmailChange = (event) => {
+    const value = event.target.value;
+    setNewEmail(value);
+    // Clear the error message as the user types
+    if (emailError) {
+      setEmailError("");
+    }
+  };
+
   const handleUpdateEmail = () => {
     setEmailError("");
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let isValid = true;
+
     if (!newEmail) {
       setEmailError("Email is required.");
-      return;
-    }
-    if (!emailRegex.test(newEmail)) {
+      isValid = false;
+    } else if (!emailRegex.test(newEmail)) {
       setEmailError("Enter a valid email address.");
-      return;
+      isValid = false;
     }
 
-    // ✅ Handle success logic here (API call, etc.)
-    console.log("Updated Email:", newEmail);
-    onClose();
+    if (isValid) {
+      // ✅ Handle success logic here (API call, etc.)
+      console.log("Updated Email:", newEmail);
+      onClose();
+    }
   };
+
+  // Define dynamic border color based on validation state
+  const emailBorderColor = emailError ? '#F93C65' : '#2F7A52';
 
   return (
     <Dialog
@@ -39,6 +54,8 @@ const UpdateEmailPopup = ({ open, onClose }: { open: boolean; onClose: () => voi
       onClose={onClose}
       maxWidth="xs"
       fullWidth
+      // BackdropProps have been removed to enable the dimming effect
+      disableBackdropClick
       PaperProps={{
         sx: {
           borderRadius: "20px",
@@ -60,65 +77,79 @@ const UpdateEmailPopup = ({ open, onClose }: { open: boolean; onClose: () => voi
           </Typography>
 
           {/* Email Field */}
-          <Box
-            sx={{
-              border: "1px solid #2F7A52",
-              borderRadius: "6px",
-              height: "45px",
-              display: "flex",
-              alignItems: "center",
-              paddingLeft: "14px",
-              width: "100%",
-              
-            }}
-          >
-            <InputAdornment position="start" sx={{ marginRight: "8px" }}>
-              <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
-                {/* Corrected usage: render the icon as a component */}
-                <MailOutlineIcon sx={{ width: "20px", height: "20px" }} />
-              </IconButton>
-            </InputAdornment>
-            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-              <Typography sx={{ color: "#333333", fontSize: "10px", marginBottom: "2px" }}>
-                Email
-              </Typography>
-              <TextField
-                type="email"
-                placeholder="Enter New Email"
-                fullWidth
-                size="small"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                error={!!emailError}
-                helperText={emailError}
-                InputProps={{
-                  sx: {
-                    height: "25px",
-                    fontSize: "14px",
-                    padding: "0",
-                    "& input": {
+          <Box width="100%">
+            <Box
+              sx={{
+                // Use dynamic border color here
+                border: `1px solid ${emailBorderColor}`,
+                borderRadius: "6px",
+                height: "45px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "14px",
+                width: "100%",
+              }}
+            >
+              <InputAdornment position="start" sx={{ marginRight: "8px" }}>
+                <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
+                  <MailOutlineIcon sx={{ width: "20px", height: "20px" }} />
+                </IconButton>
+              </InputAdornment>
+              <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                <Typography sx={{ color: "#333333", fontSize: "10px", marginBottom: "2px" }}>
+                  Email
+                </Typography>
+                <TextField
+                  type="email"
+                  placeholder="Enter New Email"
+                  fullWidth
+                  size="small"
+                  value={newEmail}
+                  // Changed onChange to use the new handleEmailChange function
+                  onChange={handleEmailChange}
+                  // The helper text prop from Material-UI is already used for error messaging
+                  InputProps={{
+                    sx: {
+                      height: "25px",
+                      fontSize: "14px",
                       padding: "0",
+                      "& input": {
+                        padding: "0",
+                      },
                     },
-                  },
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    height: "25px",
-                    padding: "0",
-                    "& fieldset": {
-                      borderColor: "#ffffffff",
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      height: "25px",
+                      padding: "0",
+                      "& fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "transparent",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "transparent",
+                        borderWidth: "1px",
+                      },
                     },
-                    "&:hover fieldset": {
-                      borderColor: "#ffffffff",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#ffffffff",
-                      borderWidth: "1px",
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              </Box>
             </Box>
+            {/* Display the error message */}
+            {emailError && (
+              <Typography
+                sx={{
+                  color: '#F93C65',
+                  fontSize: '12px',
+                  mt: 1,
+                  textAlign: 'left'
+                }}
+              >
+                {emailError}
+              </Typography>
+            )}
           </Box>
 
           <Button

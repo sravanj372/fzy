@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -6,7 +7,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import adminLogo from "../assets/adminLogo.png";
@@ -14,22 +14,22 @@ import lock from "../assets/proicons_lock.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const UpdatePassword: React.FC = () => {
+const UpdatePassword = () => {
   const navigate = useNavigate();
 
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newPasswordError, setNewPasswordError] = useState<string>("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
 
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+={}[\]:;"'<,>.?/|\-`~])(?=.{6,})/;
 
-  const handleUpdatePassword = (e: React.FormEvent): void => {
+  const handleUpdatePassword = (e) => {
     e.preventDefault();
     let isValid = true;
 
@@ -38,7 +38,7 @@ const UpdatePassword: React.FC = () => {
 
     if (!passwordRegex.test(newPassword)) {
       setNewPasswordError(
-        "Password must be at least 6 characters and include one uppercase letter, one number, and one symbol."
+        "Min 6 characters, one capital, one number, one symbol."
       );
       isValid = false;
     }
@@ -69,13 +69,12 @@ const UpdatePassword: React.FC = () => {
         padding: "20px",
       }}
     >
-      <Box>
+      <Box sx={{ mb: { xs: 2, sm: 4 } }}>
         <Box
           component="img"
           alt="LOGO"
           src={adminLogo}
-          width="200px"
-          height="50px"
+          sx={{ width: { xs: '150px', sm: '210px' }, height: 'auto' }}
         />
       </Box>
 
@@ -84,21 +83,22 @@ const UpdatePassword: React.FC = () => {
           backgroundColor: "#FFFFFF",
           borderRadius: "12px",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          padding: { xs: "24px", sm: "40px" },
+          padding: { xs: "1.5rem", sm: "2.5rem" },
           width: "100%",
           maxWidth: "400px",
         }}
       >
         <form onSubmit={handleUpdatePassword}>
-          <Box display="flex" flexDirection="column" gap={4}>
+          <Box display="flex" flexDirection="column" gap={1.5}>
             <Typography variant="h4" textAlign="center" color="#2F7A52">
               New Password
             </Typography>
-            <Typography color="#7b7d7ee5" fontSize="17.5px" margin="auto" textAlign="center">
+            <Typography color="#7b7d7ee5" fontSize="17.5px" margin="auto" textAlign="center" sx={{ mb: 2 }}>
               Set the new password for your account so you can login.
             </Typography>
+
             {/* Create Password */}
-            <Box sx={{ position: "relative" }}>
+            <Box>
               <Box
                 sx={{
                   border: `1px solid ${
@@ -157,7 +157,7 @@ const UpdatePassword: React.FC = () => {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end" sx={{mr:1}}>
+                        <InputAdornment position="end" sx={{ mr: 1, height: '45px', display: 'flex', alignItems: 'center' }}>
                           <IconButton
                             onClick={() =>
                               setShowNewPassword((prev) => !prev)
@@ -193,30 +193,31 @@ const UpdatePassword: React.FC = () => {
                         },
                         "&.Mui-focused fieldset": {
                           borderColor: "transparent",
+                          borderWidth: "1px",
                         },
                       },
                     }}
                   />
                 </Box>
               </Box>
-              {newPasswordError && (
-                <Typography
-                  sx={{
-                    color: "red",
-                    fontSize: "11px",
-                    position: "absolute",
-                    bottom: "-16px",
-                    left: "4px",
-                    lineHeight: "1",
-                  }}
-                >
-                  {newPasswordError}
-                </Typography>
-              )}
+              <Box sx={{ minHeight: '15px', mt: 0.5 }}>
+                {newPasswordError && (
+                  <Typography
+                    sx={{
+                      color: "red",
+                      fontSize: "11px",
+                      lineHeight: "1",
+                      ml: '4px',
+                    }}
+                  >
+                    {newPasswordError}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             {/* Confirm Password */}
-            <Box sx={{ position: "relative" }}>
+            <Box sx={{ mt: 2 }}>
               <Box
                 sx={{
                   border: `1px solid ${
@@ -274,7 +275,7 @@ const UpdatePassword: React.FC = () => {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end" sx={{mr:1}}>
+                        <InputAdornment position="end" sx={{ mr: 1, height: '45px', display: 'flex', alignItems: 'center' }}>
                           <IconButton
                             onClick={() =>
                               setShowConfirmPassword((prev) => !prev)
@@ -310,26 +311,27 @@ const UpdatePassword: React.FC = () => {
                         },
                         "&.Mui-focused fieldset": {
                           borderColor: "transparent",
+                          borderWidth: "1px",
                         },
                       },
                     }}
                   />
                 </Box>
               </Box>
-              {confirmPasswordError && (
-                <Typography
-                  sx={{
-                    color: "red",
-                    fontSize: "11px",
-                    position: "absolute",
-                    bottom: "-16px",
-                    left: "4px",
-                    lineHeight: "1",
-                  }}
-                >
-                  {confirmPasswordError}
-                </Typography>
-              )}
+              <Box sx={{ minHeight: '15px', mt: 0.5 }}>
+                {confirmPasswordError && (
+                  <Typography
+                    sx={{
+                      color: "red",
+                      fontSize: "11px",
+                      lineHeight: "1",
+                      ml: '4px'
+                    }}
+                  >
+                    {confirmPasswordError}
+                  </Typography>
+                )}
+              </Box>
             </Box>
 
             {/* Submit button */}
@@ -348,6 +350,7 @@ const UpdatePassword: React.FC = () => {
                 width: "80%",
                 margin: "0 auto",
                 display: "block",
+                mt: 1,
                 "&:hover": {
                   backgroundColor: "#256B45",
                 },

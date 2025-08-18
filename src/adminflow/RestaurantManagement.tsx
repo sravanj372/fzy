@@ -392,7 +392,8 @@ const RestaurantManagement = () => {
                         component="th"
                         scope="row"
                         isRestaurantName={true}
-                        onClick={() => navigate("/admin/restaurant-management/pending-restaurant")}
+                        // Corrected navigation to the fixed path
+                        onClick={() => navigate("/admin/restaurant-management/pending-restaurant-info")}
                       >
                         {(tdata as PendingDetails).restaurantname}
                       </StyledTableCell>
@@ -532,7 +533,7 @@ const RestaurantManagement = () => {
                         component="th"
                         scope="row"
                         isRestaurantName={true}
-                        onClick={() => navigate("pending-restaurant-info")}
+                        onClick={() => navigate(`restaurant-details`)}
                       >
                         {(tdata as RestaurantDetails).restaurantname}
                       </StyledTableCell>
@@ -608,90 +609,90 @@ const RestaurantManagement = () => {
         <PaginationBox />
       </Box>
       {isModalOpen && modalType === 'delete' && (
-    <Box
-      sx={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        backdropFilter: 'blur(3px)',
-        WebkitBackdropFilter: 'blur(3px)',
-        zIndex: 1000,
-      }}
-    >
-      <Box
-        sx={{
-          backgroundColor: '#FF3326',
-          borderRadius: '8px',
-          p: 4,
-          boxShadow: 3,
-          textAlign: 'center',
-          maxWidth: '400px',
-          width: '90%',
-        }}
-      >
-        <Box sx={{
-          width: '140px',
-          height: '140px',
-          mb: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          mx: 'auto'
-        }}>
-          {/* Using the imported 'alert' image here */}
-          <img src={alert} alt="Alert Icon" style={{ width: '150px', height: '150px' }} />
-        </Box>
-        <Typography sx={{ color: '#ffffffff', mb: 3, fontSize: '20px' }}>
-          Are you sure you want to delete the Suspended Account?
-        </Typography>
-        <Typography sx={{
-          fontFamily: 'Nunito Sans',
-          fontSize: '15px',
-          lineHeight: '100%',
-          letterSpacing: '-0.11px',
-          textAlign: 'center',
-          mb: 4,
-          color: '#fcfcfcff',
-          opacity: 1
-        }}>
-          <Box component="span" sx={{ fontWeight: 700 }}>Note:</Box> This action is permanent. Once deleted, the <br /> account and its data cannot be recovered.
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
-          <Button
-            variant="outlined"
-            onClick={closeModal}
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            backdropFilter: 'blur(0px)',
+            WebkitBackdropFilter: 'blur(0px)',
+            zIndex: 1000,
+          }}
+        >
+          <Box
             sx={{
-              width: '100px',
-              backgroundColor: '#FFFFFF',
-              color: '#FF3326',
-              borderColor: '#FF3326',
-             
+              backgroundColor: '#FF3326',
+              borderRadius: '8px',
+              p: 4,
+              boxShadow: 3,
+              textAlign: 'center',
+              maxWidth: '400px',
+              width: '90%',
             }}
           >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleConfirmDelete}
-            sx={{
-              width: '100px',
-              backgroundColor: '#ffffffff',
-              color: '#FF3326',
-             
-            }}
-          >
-            Delete
-          </Button>
+            <Box sx={{
+              width: '140px',
+              height: '140px',
+              mb: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mx: 'auto'
+            }}>
+              {/* Using the imported 'alert' image here */}
+              <img src={alert} alt="Alert Icon" style={{ width: '150px', height: '150px' }} />
+            </Box>
+            <Typography sx={{ color: '#ffffffff', mb: 3, fontSize: '20px' }}>
+              Are you sure you want to delete the Suspended Account?
+            </Typography>
+            <Typography sx={{
+              fontFamily: 'Nunito Sans',
+              fontSize: '15px',
+              lineHeight: '100%',
+              letterSpacing: '-0.11px',
+              textAlign: 'center',
+              mb: 4,
+              color: '#fcfcfcff',
+              opacity: 1
+            }}>
+              <Box component="span" sx={{ fontWeight: 700 }}>Note:</Box> This action is permanent. Once deleted, the <br /> account and its data cannot be recovered.
+            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+              <Button
+                variant="outlined"
+                onClick={closeModal}
+                sx={{
+                  width: '100px',
+                  backgroundColor: '#FFFFFF',
+                  color: '#FF3326',
+                  borderColor: '#FF3326',
+                  
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                onClick={handleConfirmDelete}
+                sx={{
+                  width: '100px',
+                  backgroundColor: '#ffffffff',
+                  color: '#FF3326',
+                  
+                }}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
         </Box>
-      </Box>
-    </Box>
-)}
+      )}
       {isModalOpen && modalType === 'suspend' && (
         <Box
           sx={{
@@ -704,8 +705,8 @@ const RestaurantManagement = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(3px)',
-            WebkitBackdropFilter: 'blur(3px)',
+            backdropFilter: 'blur(0px)',
+            WebkitBackdropFilter: 'blur(0px)',
             zIndex: 1000,
           }}
         >
@@ -763,8 +764,8 @@ const RestaurantManagement = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(3px)',
-            WebkitBackdropFilter: 'blur(3px)',
+            backdropFilter: 'blur(0px)',
+            WebkitBackdropFilter: 'blur(0px)',
             zIndex: 1000,
           }}
         >

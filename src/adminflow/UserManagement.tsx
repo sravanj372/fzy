@@ -122,6 +122,12 @@ const UserManagement = () => {
     closeModal();
   };
 
+  // New function to handle the "View" action
+  const handleView = () => {
+    navigate("user-profile");
+    handleClose(); // Close the menu after navigation
+  };
+
   return (
     <Box sx={{ background: "white", height: "auto", p: 1 }}>
       <Box sx={{ border: "1px solid green", borderRadius: 4, p: 2 }}>
@@ -226,7 +232,7 @@ const UserManagement = () => {
                             onClick={(e) => handleClick(e, suspenduser)}
                             endIcon={<KeyboardArrowDownIcon />}
                           >
-                            Actions {/* Changed back to "Actions" */}
+                            Actions
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -269,7 +275,7 @@ const UserManagement = () => {
                                 onClick={(e) => handleClick(e, user)}
                                 endIcon={<KeyboardArrowDownIcon />}
                             >
-                                Actions {/* Changed back to "Actions" */}
+                                Actions
                             </Button>
                         </TableCell>
                       </TableRow>
@@ -303,8 +309,8 @@ const UserManagement = () => {
           </>
         ) : (
           <>
+            <MenuItem onClick={handleView}>View</MenuItem>
             <MenuItem onClick={() => openModal('suspend')}>Suspend</MenuItem>
-            <MenuItem onClick={handleClose}>View</MenuItem>
           </>
         )}
       </Menu>

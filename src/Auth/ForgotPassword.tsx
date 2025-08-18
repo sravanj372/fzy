@@ -18,12 +18,12 @@ const ForgotPassword = () => {
   const [emailTouched, setEmailTouched] = useState(false);
   const [error, setError] = useState("");
 
-  const validateEmail = (email: string) => {
+  const validateEmail = (email) => {
     // Regex for basic email validation
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
     if (!emailTouched) {
       setEmailTouched(true);
@@ -96,7 +96,8 @@ const ForgotPassword = () => {
             display: 'flex',
             alignItems: 'center',
             paddingLeft: '14px',
-            mb: 2,
+            // Adjusted margin bottom here to reduce the gap
+            mb: 0,
           }}
         >
           <InputAdornment position="start" sx={{ marginRight: '8px' }}>
@@ -105,7 +106,7 @@ const ForgotPassword = () => {
             </IconButton>
           </InputAdornment>
           <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-            <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
+            <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '0px' }}>
               Email ID
             </Typography>
             <TextField
@@ -147,24 +148,27 @@ const ForgotPassword = () => {
           </Box>
         </Box>
 
-        {error && (
+        {/* This Box is added to reserve space for the error message */}
+        <Box sx={{ minHeight: '25px', display: 'flex', alignItems: 'center' }}>
+          {error && (
             <Typography
               sx={{
                 color: '#F93C65',
                 fontFamily: 'Nunito Sans',
                 fontWeight: 400,
                 fontStyle: 'normal',
-                fontSize: '8px',
+                fontSize: '10px',
+                marginTop:'-35px',
                 lineHeight: '12px',
                 letterSpacing: '0.8px',
                 verticalAlign: 'middle',
                 textTransform: 'capitalize',
-                mt: 1,
               }}
             >
               {error}
             </Typography>
           )}
+        </Box>
 
         <Button
           variant="contained"
@@ -179,7 +183,8 @@ const ForgotPassword = () => {
             width: '80%',
             margin: '0 auto',
             display: 'block',
-            mt: 3,
+            // Adjusted margin top here
+            mt: 1,
             '&:hover': {
               backgroundColor: '#256B45',
             },
