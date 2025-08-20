@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
-import { drawerWidth } from './Sidebar';
+import { drawerWidth } from '../adminstyles/Sidebar.styles';
 
 const Header = ({ handleDrawerToggle }: { handleDrawerToggle: () => void }) => {
   return (

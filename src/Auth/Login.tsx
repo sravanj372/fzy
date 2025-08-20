@@ -2,20 +2,42 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Typography,
   InputAdornment,
   IconButton,
-  TextField,
   Checkbox,
-  Button,
   FormControlLabel,
 } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
 import adminLogo from '../assets/adminLogo.png';
 import lock from '../assets/proicons_lock.png';
 import tick from "../assets/Shape.png";
 import eye from '../assets/Vector pwd.png';
+
+// Import all styled components from the dedicated style file
+import {
+  LoginContainer,
+  LoginBox,
+  TitleText,
+  SubtitleText,
+  StyledTextFieldContainer,
+  IconAdornment,
+  StyledIconButton,
+  TextFieldContent,
+  TextFieldLabel,
+  StyledTextField,
+  PasswordContainer,
+  ForgotPasswordText,
+  StyledButton,
+  ErrorText,
+  RememberPasswordText,
+  TextFieldWrapper,
+  PasswordWrapper,
+  ForgotPasswordContainer,
+  EyeIconButton,
+  ErrorTextContainer,
+  StyledFormControlLabel,
+  StyledCheckbox,
+} from "../adminstyles/LoginStyles";
 
 // Unchecked checkbox icon
 const CustomUncheckedIcon = () => (
@@ -67,9 +89,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
   const [error, setError] = useState("");
 
-  // Use useEffect to check for stored credentials on component mount
   useEffect(() => {
     const storedEmail = localStorage.getItem('rememberedEmail');
     const storedPassword = localStorage.getItem('rememberedPassword');
@@ -80,44 +102,49 @@ const Login = () => {
     }
   }, []);
 
-  const handleRememberPasswordChange = (event) => {
+  const handleRememberPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRememberPassword(event.target.checked);
   };
 
-  const validatePassword = (pwd) => {
+  const validatePassword = (pwd: string) => {
     const hasNumber = /\d/;
     const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
     return pwd.length >= 8 && hasNumber.test(pwd) && hasSpecial.test(pwd);
   };
 
-  const validateEmail = (email) => {
+  const validateEmail = (email: string) => {
     return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
   };
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    if (!emailTouched) {
-      setEmailTouched(true);
-    }
-    if (error && error.includes("email")) {
-      setError("");
-    }
+    // Clear the error message when the user starts typing
+    if (error) setError("");
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    // Clear the error message when the user starts typing
+    if (error) setError("");
   };
 
   const handleSignIn = () => {
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
 
+    // Set touched states to true to show all errors on submit
     setEmailTouched(true);
+    setPasswordTouched(true);
 
     if (!isEmailValid) {
       setError("Please enter a valid email address.");
       return;
     }
 
+    // Since real-time validation is handled by onBlur, this check is for the final submit
     if (!isPasswordValid) {
-      setError("Password must be at least 8 characters long and include a number & special character.");
-      return;
+        setError("Password must be at least 8 characters long and include a number & special character.");
+        return;
     }
 
     const correctEmail = 'test@gmail.com';
@@ -125,12 +152,10 @@ const Login = () => {
 
     if (email === correctEmail && password === correctPassword) {
       setError("");
-      // Store credentials if "Remember Password" is checked
       if (rememberPassword) {
         localStorage.setItem('rememberedEmail', email);
         localStorage.setItem('rememberedPassword', password);
       } else {
-        // Clear credentials if the checkbox is unchecked
         localStorage.removeItem('rememberedEmail');
         localStorage.removeItem('rememberedPassword');
       }
@@ -141,67 +166,41 @@ const Login = () => {
   };
 
   const isEmailValid = validateEmail(email);
-  const emailBorderColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#2F7A52';
-  const emailIconColor = emailTouched ? (isEmailValid ? '#2F7A52' : '#F93C65') : '#2F7A52';
+  const isPasswordValid = validatePassword(password);
+
+  const showEmailError = emailTouched && !isEmailValid;
+  const showPasswordFormatError = passwordTouched && !isPasswordValid;
 
   return (
-    <Logincontainer
-      sx={{
-        backgroundColor: '#D3F3D2',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '20px',
-      }}
-    >
-      <Box sx={{ mb: 4 }}>
+    <LoginContainer>
+      <Box mb={4}>
         <Box component="img" src={adminLogo} alt="FOODZY Logo" width="210px" height="60px" />
       </Box>
 
-      <LoginBox
-        sx={{
-          backgroundColor: '#FFFFFF',
-          borderRadius: '12px',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-          padding: { xs: '24px', sm: '40px' },
-          width: '100%',
-          maxWidth: '400px',
-        }}
-      >
+      <LoginBox>
         {/* Title */}
         <Box display="flex" flexDirection="column" gap={1} justifyContent="center" mb={3}>
-          <Typography variant="h5" textAlign="center" color="#2F7A52">
+          <TitleText variant="h5">
             Login to Account
-          </Typography>
-          <Typography color="#666666" fontSize="14px" textAlign="center">
+          </TitleText>
+          <SubtitleText>
             Please enter your email and password to continue
-          </Typography>
+          </SubtitleText>
         </Box>
 
         {/* Email Field */}
-        <Box sx={{ mb: 1 }}>
-          <Box
-            sx={{
-              border: `1px solid ${emailBorderColor}`,
-              borderRadius: '6px',
-              height: '45px',
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '14px',
-            }}
-          >
-            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-                <MailOutlineIcon sx={{ color: emailIconColor, fontSize: '20px' }} />
-              </IconButton>
-            </InputAdornment>
-            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-              <Typography sx={{ color: '#050505ff', fontSize: '10px', marginBottom: '2px' }}>
+        <TextFieldWrapper>
+          <StyledTextFieldContainer emailvalid={showEmailError ? 'false' : 'true'}>
+            <IconAdornment position="start">
+              <StyledIconButton edge="start" disableRipple>
+                <MailOutlineIcon sx={{ color: showEmailError ? '#F93C65' : '#2F7A52', fontSize: '20px' }} />
+              </StyledIconButton>
+            </IconAdornment>
+            <TextFieldContent>
+              <TextFieldLabel>
                 Email ID
-              </Typography>
-              <TextField
+              </TextFieldLabel>
+              <StyledTextField
                 variant="outlined"
                 placeholder="John@gmail.com"
                 fullWidth
@@ -210,234 +209,96 @@ const Login = () => {
                 value={email}
                 onChange={handleEmailChange}
                 onBlur={() => setEmailTouched(true)}
-                InputProps={{
-                  sx: {
-                    height: '25px',
-                    fontSize: '14px',
-                    padding: '0',
-                    '& input': {
-                      padding: '0',
-                    },
-                  },
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    height: '25px',
-                    padding: '0',
-                    '& fieldset': {
-                      borderColor: 'transparent',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'transparent',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: 'transparent',
-                      borderWidth: '1px',
-                    },
-                  },
-                }}
               />
-            </Box>
-          </Box>
-
-          {/* Email Error Message */}
-          <Box sx={{ minHeight: '15px', mb: 0, display: 'flex', alignItems: 'center' }}>
-            {error && error.includes("email") && (
-              <Typography
-                sx={{
-                  color: '#F93C65',
-                  fontFamily: 'Nunito Sans',
-                  fontWeight: 400,
-                  fontStyle: 'normal',
-                  fontSize: '8px',
-                  lineHeight: '12px',
-                  letterSpacing: '0.8px',
-                  verticalAlign: 'middle',
-                  textTransform: 'capitalize',
-                }}
-              >
-                {error}
-              </Typography>
+            </TextFieldContent>
+          </StyledTextFieldContainer>
+          <ErrorTextContainer>
+            {showEmailError && (
+              <ErrorText>
+                Please enter a valid email address.
+              </ErrorText>
             )}
-          </Box>
-        </Box>
+          </ErrorTextContainer>
+        </TextFieldWrapper>
 
         {/* Password Field */}
-        <Box sx={{ mb: 0 }}>
-          <Box display="flex" justifyContent="flex-end" mb={0}>
-            <Typography
-              sx={{
-                fontSize: '12px',
-                color: '#424242ff',
-                cursor: 'pointer',
-                marginRight: '4px',
-              }}
-              onClick={() => navigate('/login/forgot-password')}
-            >
+        <PasswordWrapper>
+          <ForgotPasswordContainer>
+            <ForgotPasswordText onClick={() => navigate('/login/forgot-password')}>
               Forgot Password?
-            </Typography>
-          </Box>
+            </ForgotPasswordText>
+          </ForgotPasswordContainer>
 
-          <Box
-            sx={{
-              border: `1px solid #2F7A52`,
-              borderRadius: '6px',
-              height: '45px',
-              display: 'flex',
-              alignItems: 'center',
-              paddingLeft: '14px',
-              position: 'relative',
-            }}
-          >
+          <PasswordContainer>
             {/* Lock Icon */}
-            <InputAdornment position="start" sx={{ marginRight: '8px' }}>
-              <IconButton edge="start" disableRipple sx={{ padding: '4px' }}>
-                <Box component="img" src={lock} alt="Lock Icon" sx={{ width: '20px', height: '20px' }} />
-              </IconButton>
-            </InputAdornment>
+            <IconAdornment position="start">
+              <StyledIconButton edge="start" disableRipple>
+                <Box component="img" src={lock} alt="Lock Icon" width="20px" height="20px" />
+              </StyledIconButton>
+            </IconAdornment>
 
             {/* Input Field */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-              <Typography sx={{ color: '#333333', fontSize: '10px', marginBottom: '2px' }}>
+            <TextFieldContent>
+              <TextFieldLabel>
                 Password
-              </Typography>
-              <TextField
+              </TextFieldLabel>
+              <StyledTextField
                 type={showPassword ? "text" : "password"}
                 placeholder="abd@123"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
+                onBlur={() => setPasswordTouched(true)}
                 variant="outlined"
                 fullWidth
                 size="small"
                 margin="none"
-                InputProps={{
-                  sx: {
-                    height: '25px',
-                    fontSize: '14px',
-                    padding: '0',
-                    '& input': {
-                      padding: '0',
-                    },
-                  },
-                }}
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    height: '25px',
-                    padding: '0',
-                    '& fieldset': {
-                      borderColor: 'transparent',
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'transparent',
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: 'transparent',
-                      borderWidth: '1px',
-                    },
-                  },
-                }}
               />
-            </Box>
+            </TextFieldContent>
 
             {/* Eye Icon */}
-            <IconButton
-              onClick={() => setShowPassword(!showPassword)}
-              sx={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                padding: '4px',
-              }}
-            >
-              <Box
-                component="img"
-                src={eye}
-                alt="Show/Hide Password"
-                sx={{ width: '20px', height: '20px' }}
-              />
-            </IconButton>
-          </Box>
+            <EyeIconButton onClick={() => setShowPassword(!showPassword)}>
+              <Box component="img" src={eye} alt="Show/Hide Password" width="20px" height="20px" />
+            </EyeIconButton>
+          </PasswordContainer>
 
-          {/* Password Error Message */}
-          <Box sx={{ minHeight: '15px', mb: 1, display: 'flex', alignItems: 'center' }}>
-            {error && error.includes("Password") && (
-              <Typography
-                sx={{
-                  color: '#F93C65',
-                  fontFamily: 'Nunito Sans',
-                  fontWeight: 400,
-                  fontStyle: 'normal',
-                  fontSize: '8px',
-                  lineHeight: '12px',
-                  letterSpacing: '0.8px',
-                  verticalAlign: 'middle',
-                  textTransform: 'capitalize',
-                }}
-              >
-                {error}
-              </Typography>
+          <ErrorTextContainer>
+            {showPasswordFormatError && (
+              <ErrorText>
+                Password must be at least 8 characters long and include a number & special character.
+              </ErrorText>
             )}
-          </Box>
-        </Box>
+            {/* Display general login error here if credentials don't match */}
+            {error && !showEmailError && !showPasswordFormatError && (
+              <ErrorText>
+                {error}
+              </ErrorText>
+            )}
+          </ErrorTextContainer>
+        </PasswordWrapper>
 
         {/* Remember Password */}
-        <FormControlLabel
+        <StyledFormControlLabel
           control={
-            <Checkbox
+            <StyledCheckbox
               checked={rememberPassword}
               onChange={handleRememberPasswordChange}
               icon={<CustomUncheckedIcon />}
               checkedIcon={<CustomTickIcon />}
-              sx={{
-                padding: '0px',
-                '&:hover': {
-                  backgroundColor: 'transparent',
-                },
-              }}
             />
           }
           label={
-            <Typography
-              fontSize="14px"
-              color="#555353ff"
-              sx={{ userSelect: 'none', ml: 1 }}
-            >
+            <RememberPasswordText>
               Remember Password
-            </Typography>
+            </RememberPasswordText>
           }
-          sx={{
-            ml: 0,
-            mt: -3,
-            mb: 2,
-            mr: 4,
-          }}
         />
 
         {/* Sign In Button */}
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#2F7A52',
-            color: '#FFFFFF',
-            borderRadius: '6px',
-            paddingY: '10px',
-            textTransform: 'none',
-            fontWeight: 'bold',
-            fontSize: '16px',
-            width: '80%',
-            margin: '0 auto',
-            display: 'block',
-            '&:hover': {
-              backgroundColor: '#256B45',
-            },
-          }}
-          onClick={handleSignIn}
-        >
+        <StyledButton onClick={handleSignIn}>
           Sign In
-        </Button>
+        </StyledButton>
       </LoginBox>
-    </Logincontainer>
+    </LoginContainer>
   );
 };
 

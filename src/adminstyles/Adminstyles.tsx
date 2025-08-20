@@ -398,7 +398,7 @@ export const HomepageTitleContent = styled(Box)({
 });
 
 export const HomepageTitleTitle = styled(Typography)(({ theme }) => ({
-    fontSize: '13px',
+    fontSize: '14px',
     [theme.breakpoints.up('md')]: {
         fontSize: '14px',
     },

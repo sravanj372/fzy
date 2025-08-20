@@ -4,7 +4,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import TableRow from "@mui/material/TableRow";              
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { ListItemIcon, ListItemText, Typography, Button } from "@mui/material";
@@ -25,6 +25,7 @@ import {
   Filterbutton,
 } from "../adminstyles/Adminstyles";
 import PaginationBox from "./PaginationBox";
+import { restaurantManagementStyles } from "../adminstyles/RestaurantManagement.styles";
 
 // Assuming these assets and data files are available
 import download from "../assets/downloadicon.png";
@@ -32,6 +33,7 @@ import data from "./data.json";
 import {
   HeaderTypography,
   StyledTableCell,
+  PendingTableCell,
   StyledButton,
   SuspendedButton,
   TableHeadRow,
@@ -134,11 +136,11 @@ const RestaurantManagement = () => {
   switch (path) {
     case "pending-request":
       tableheading = pendingheadings;
-      tabledetails = data.pendingdetails as Tabledetails[];
+      tabledetails = data.pendingdetails as unknown as Tabledetails[];
       break;
     case "suspend-account":
       tableheading = suspendedheadings;
-      tabledetails = data.suspendedaccounts as Tabledetails[];
+      tabledetails = data.suspendedaccounts as unknown as Tabledetails[];
       break;
     default:
       tableheading = restaurentheading;
@@ -202,66 +204,18 @@ const RestaurantManagement = () => {
     navigate("suspend-account");
   }
 
-  const commonMenuItemSx = {
-    height: "24px",
-    fontSize: "0.875rem",
-    color: "#2F7A52",
-    marginBottom: "4px",
-    px: "10px",
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
-  };
-
-  const menuDividerSx = {
-    my: "4px",
-    backgroundColor: "#E0E0E0",
-  };
-
-  const pendingMenuItemSx = {
-    height: "20px",
-    fontSize: "0.75rem",
-    alignItems: "left",
-    color: "black",
-    padding: "0 32px 0 10px",
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
-    "& .MuiListItemIcon-root": {
-      minWidth: "20px",
-    },
-    "& .MuiListItemText-root": {
-      margin: 0,
-    },
-  };
+  const styles = restaurantManagementStyles;
 
   return (
-    <Box
-      sx={{
-        border: "1px solid #E0E0E0",
-        borderRadius: 4,
-        p: 2,
-        display: "flex",
-        flexDirection: "column",
-        gap: "30px",
-        background: "white",
-        height: "auto",
-        position: 'relative',
-      }}
-    >
-      <Box display="flex" justifyContent="space-between" flexWrap="wrap" sx={{ gap: 2 }}>
+    <Box sx={styles.mainContainer}>
+      <Box display="flex" justifyContent="space-between" flexWrap="wrap" sx={styles.headerContainer}>
         <Box>
           <HeaderTypography path={path}>
             {path === "pending-request" ? (
               <>
                 <ArrowBackIcon
                   onClick={() => navigate("/admin/restaurant-management")}
-                  sx={{
-                    cursor: "pointer",
-                    color: "#2F7A52",
-                    fontSize: "20px",
-                    mr: 1,
-                  }}
+                  sx={styles.backIconPending}
                 />
                 Pending Restaurant Requests
               </>
@@ -269,12 +223,7 @@ const RestaurantManagement = () => {
               <>
                 <ArrowBackIcon
                   onClick={() => navigate("/admin/restaurant-management")}
-                  sx={{
-                    cursor: "pointer",
-                    color: "#E45040",
-                    fontSize: "20px",
-                    mr: 1,
-                  }}
+                  sx={styles.backIconSuspended}
                 />
                 Suspended Accounts
               </>
@@ -286,7 +235,7 @@ const RestaurantManagement = () => {
         <Box display="flex" gap={2} flexWrap="wrap" alignItems="center">
           {path === "pending-request" ? (
             <Filterbutton
-              sx={{ width: "100%" }}
+              sx={styles.filterButtonFull}
               variant="contained"
               startIcon={<FilterListIcon />}
             >
@@ -307,7 +256,7 @@ const RestaurantManagement = () => {
                     <img
                       src={download}
                       alt="download"
-                      style={{ width: "18px", height: "18px" }}
+                      style={styles.downloadIcon}
                     />
                   }
                   id="basic-button-export"
@@ -326,18 +275,18 @@ const RestaurantManagement = () => {
                   elevation={0}
                   PaperProps={{
                     style: { width: anchorE2 ? anchorE2.offsetWidth : undefined },
-                    sx: { border: "1px solid #E0E0E0" },
+                    sx: styles.exportMenuPaper,
                   }}
                 >
-                  <MenuItem onClick={handleCloses} sx={commonMenuItemSx}>
+                  <MenuItem onClick={handleCloses} sx={styles.exportMenuItem}>
                     Week
                   </MenuItem>
-                  <Divider sx={menuDividerSx} />
-                  <MenuItem onClick={handleCloses} sx={commonMenuItemSx}>
+                  <Divider sx={styles.menuDivider} />
+                  <MenuItem onClick={handleCloses} sx={styles.exportMenuItem}>
                     Month
                   </MenuItem>
-                  <Divider sx={menuDividerSx} />
-                  <MenuItem onClick={handleCloses} sx={{ ...commonMenuItemSx, marginBottom: "0" }}>
+                  <Divider sx={styles.menuDivider} />
+                  <MenuItem onClick={handleCloses} sx={styles.exportMenuItemLast}>
                     Year
                   </MenuItem>
                 </Menu>
@@ -346,15 +295,7 @@ const RestaurantManagement = () => {
                   onClick={pendingRestaurentHandler}
                 >
                   Pending Restaurant Request
-                  <CircleIcon
-                    sx={{
-                      position: "absolute",
-                      fontSize: "14px",
-                      top: "-3px",
-                      color: "red",
-                      right: "-3px",
-                    }}
-                  />
+                  <CircleIcon sx={styles.notificationCircle} />
                 </Pendingreqbutton>
                 <Filterbutton
                   variant="contained"
@@ -372,7 +313,7 @@ const RestaurantManagement = () => {
           component={Paper}
           sx={{ ...TableContainerStyle, border: "1px solid #E0E0E0" }}
         >
-          <Table sx={{ tableLayout: path === "pending-request" ? "fixed" : "auto" }}>
+          <Table sx={styles.table(path)}>
             <TableHead>
               <TableRow sx={TableHeadRow}>
                 {tableheading.map((headings) => (
@@ -382,7 +323,7 @@ const RestaurantManagement = () => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody sx={{ whiteSpace: "normal" }}>
+            <TableBody sx={styles.tableBody}>
               {tabledetails.map((tdata, index) => (
                 <TableRow key={tdata.id} sx={TableBodyRow}>
                   {path === "pending-request" ? (
@@ -400,9 +341,9 @@ const RestaurantManagement = () => {
                       <StyledTableCell path={path}>
                         {(tdata as PendingDetails).vendorname}
                       </StyledTableCell>
-                      <StyledTableCell path={path} isEmailCell={true}>
+                      <PendingTableCell isEmailCell={true}>
                         {(tdata as PendingDetails).email}
-                      </StyledTableCell>
+                      </PendingTableCell>
                       <StyledTableCell path={path}>
                         {(tdata as PendingDetails).contactno}
                       </StyledTableCell>
@@ -425,7 +366,7 @@ const RestaurantManagement = () => {
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
                           onClick={handleClick}
-                          endIcon={<KeyboardArrowDownIcon sx={{ fontSize: "1rem" }} />}
+                          endIcon={<KeyboardArrowDownIcon sx={styles.arrowDown} />}
                         >
                           Actions
                         </StyledButton>
@@ -437,20 +378,20 @@ const RestaurantManagement = () => {
                           elevation={0}
                           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                           transformOrigin={{ vertical: "top", horizontal: "right" }}
-                          PaperProps={{ sx: { border: "1px solid #E0E0E0" } }}
+                          PaperProps={{ sx: styles.actionMenuPaper }}
                         >
-                          <MenuItem onClick={handleClose} sx={pendingMenuItemSx}>
+                          <MenuItem onClick={handleClose} sx={styles.pendingMenuItem}>
                             <ListItemIcon>
-                              <CheckCircleIcon fontSize="small" sx={{ color: "#2F7A52", fontSize: "16px" }} />
+                              <CheckCircleIcon fontSize="small" sx={styles.approveIcon} />
                             </ListItemIcon>
-                            <ListItemText sx={{ color: "#2F7A52" }}>Approve</ListItemText>
+                            <ListItemText sx={styles.approveText}>Approve</ListItemText>
                           </MenuItem>
-                          <Divider sx={menuDividerSx} />
-                          <MenuItem onClick={handleClose} sx={{ ...pendingMenuItemSx, marginBottom: "0" }}>
+                          <Divider sx={styles.menuDivider} />
+                          <MenuItem onClick={handleClose} sx={styles.pendingMenuItemLast}>
                             <ListItemIcon>
-                              <CancelIcon fontSize="small" sx={{ color: "#f42f25", fontSize: "16px" }} />
+                              <CancelIcon fontSize="small" sx={styles.rejectIcon} />
                             </ListItemIcon>
-                            <ListItemText sx={{ color: "#f42f25" }}>Reject</ListItemText>
+                            <ListItemText sx={styles.rejectText}>Reject</ListItemText>
                           </MenuItem>
                         </Menu>
                       </StyledTableCell>
@@ -479,14 +420,7 @@ const RestaurantManagement = () => {
                         {(tdata as Suspendaccounts).location}
                       </StyledTableCell>
                       <StyledTableCell path={path}>
-                        <CircleIcon
-                          sx={{
-                            marginTop: "5px",
-                            marginRight: "2px",
-                            fontSize: "8px",
-                            color: (tdata as Suspendaccounts).status === "Active" ? "#68B266" : "#f42f25",
-                          }}
-                        />
+                        <CircleIcon sx={styles.statusIcon((tdata as Suspendaccounts).status)} />
                         {(tdata as Suspendaccounts).status}
                       </StyledTableCell>
                       <StyledTableCell path={path}>
@@ -496,7 +430,7 @@ const RestaurantManagement = () => {
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
                           onClick={handleClick}
-                          endIcon={<KeyboardArrowDownIcon sx={{ fontSize: "1rem", color: "#E45040" }} />}
+                          endIcon={<KeyboardArrowDownIcon sx={styles.suspendArrowDown} />}
                         >
                           Actions
                         </SuspendedButton>
@@ -508,18 +442,18 @@ const RestaurantManagement = () => {
                           elevation={0}
                           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                           transformOrigin={{ vertical: "top", horizontal: "right" }}
-                          PaperProps={{ sx: { border: "1px solid #E0E0E0" } }}
+                          PaperProps={{ sx: styles.actionMenuPaper }}
                         >
                           <MenuItem
                             onClick={() => openModal('unsuspend')}
-                            sx={{ ...pendingMenuItemSx, color: "black" }}
+                            sx={styles.suspendMenuItemBlack}
                           >
                             <ListItemText>Unsuspend</ListItemText>
                           </MenuItem>
-                          <Divider sx={menuDividerSx} />
+                          <Divider sx={styles.menuDivider} />
                           <MenuItem
                             onClick={() => openModal('delete')}
-                            sx={{ ...pendingMenuItemSx, color: "black", marginBottom: "0" }}
+                            sx={styles.suspendMenuItemBlackLast}
                           >
                             <ListItemText>Delete</ListItemText>
                           </MenuItem>
@@ -553,14 +487,7 @@ const RestaurantManagement = () => {
                         {(tdata as RestaurantDetails).totalrevenue}
                       </StyledTableCell>
                       <StyledTableCell path={path}>
-                        <CircleIcon
-                          sx={{
-                            marginTop: "5px",
-                            marginRight: "2px",
-                            fontSize: "8px",
-                            color: (tdata as RestaurantDetails).status === "Active" ? "#68B266" : "#E45040",
-                          }}
-                        />
+                        <CircleIcon sx={styles.statusIcon((tdata as RestaurantDetails).status)} />
                         {(tdata as RestaurantDetails).status}
                       </StyledTableCell>
                       <StyledTableCell path={path}>
@@ -570,7 +497,7 @@ const RestaurantManagement = () => {
                           aria-haspopup="true"
                           aria-expanded={open ? "true" : undefined}
                           onClick={handleClick}
-                          endIcon={<KeyboardArrowDownIcon sx={{ fontSize: "1rem" }} />}
+                          endIcon={<KeyboardArrowDownIcon sx={styles.arrowDown} />}
                         >
                           Actions
                         </StyledButton>
@@ -582,16 +509,11 @@ const RestaurantManagement = () => {
                           elevation={0}
                           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                           transformOrigin={{ vertical: "top", horizontal: "right" }}
-                          PaperProps={{ sx: { border: "1px solid #E0E0E0" } }}
+                          PaperProps={{ sx: styles.actionMenuPaper }}
                         >
                           <MenuItem
                             onClick={() => openModal('suspend')}
-                            sx={{
-                              ...pendingMenuItemSx,
-                              color: "#000000",
-                              marginBottom: "0",
-                              pr: "36px",
-                            }}
+                            sx={styles.restaurantSuspendMenuItem}
                           >
                             <ListItemText>Suspend</ListItemText>
                           </MenuItem>
@@ -609,83 +531,30 @@ const RestaurantManagement = () => {
         <PaginationBox />
       </Box>
       {isModalOpen && modalType === 'delete' && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(0px)',
-            WebkitBackdropFilter: 'blur(0px)',
-            zIndex: 1000,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: '#FF3326',
-              borderRadius: '8px',
-              p: 4,
-              boxShadow: 3,
-              textAlign: 'center',
-              maxWidth: '400px',
-              width: '90%',
-            }}
-          >
-            <Box sx={{
-              width: '140px',
-              height: '140px',
-              mb: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mx: 'auto'
-            }}>
+        <Box sx={styles.modalOverlay}>
+          <Box sx={styles.deleteModalContent}>
+            <Box sx={styles.alertIconContainer}>
               {/* Using the imported 'alert' image here */}
-              <img src={alert} alt="Alert Icon" style={{ width: '150px', height: '150px' }} />
+              <img src={alert} alt="Alert Icon" style={styles.alertIcon} />
             </Box>
-            <Typography sx={{ color: '#ffffffff', mb: 3, fontSize: '20px' }}>
+            <Typography sx={styles.deleteModalTitle}>
               Are you sure you want to delete the Suspended Account?
             </Typography>
-            <Typography sx={{
-              fontFamily: 'Nunito Sans',
-              fontSize: '15px',
-              lineHeight: '100%',
-              letterSpacing: '-0.11px',
-              textAlign: 'center',
-              mb: 4,
-              color: '#fcfcfcff',
-              opacity: 1
-            }}>
-              <Box component="span" sx={{ fontWeight: 700 }}>Note:</Box> This action is permanent. Once deleted, the <br /> account and its data cannot be recovered.
+            <Typography sx={styles.deleteModalNote}>
+              <Box component="span" sx={styles.deleteModalNoteBold}>Note:</Box> This action is permanent. Once deleted, the <br /> account and its data cannot be recovered.
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 6 }}>
+            <Box sx={styles.modalButtonContainer}>
               <Button
                 variant="outlined"
                 onClick={closeModal}
-                sx={{
-                  width: '100px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#FF3326',
-                  borderColor: '#FF3326',
-                  
-                }}
+                sx={styles.deleteModalCancelButton}
               >
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 onClick={handleConfirmDelete}
-                sx={{
-                  width: '100px',
-                  backgroundColor: '#ffffffff',
-                  color: '#FF3326',
-                  
-                }}
+                sx={styles.deleteModalDeleteButton}
               >
                 Delete
               </Button>
@@ -694,57 +563,23 @@ const RestaurantManagement = () => {
         </Box>
       )}
       {isModalOpen && modalType === 'suspend' && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(0px)',
-            WebkitBackdropFilter: 'blur(0px)',
-            zIndex: 1000,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              p: 4,
-              boxShadow: 3,
-              textAlign: 'center',
-              maxWidth: '400px',
-              width: '90%',
-            }}
-          >
-            <Typography variant="h6" sx={{ color: '#FF3326', mb: 3 }}>
+        <Box sx={styles.modalOverlay}>
+          <Box sx={styles.suspendModalContent}>
+            <Typography variant="h6" sx={styles.suspendModalTitle}>
               Are you sure you want to Suspend the Account?
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+            <Box sx={styles.suspendModalButtonContainer}>
               <Button
                 variant="outlined"
                 onClick={closeModal}
-                sx={{
-                  color: '#FF3326',
-                  borderColor: '#FF3326',
-                  width: '100px',
-                }}
+                sx={styles.suspendModalCancelButton}
               >
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 onClick={handleConfirmSuspend}
-                sx={{
-                  backgroundColor: '#FF3326',
-                  '&:hover': {
-                    backgroundColor: '#FF3326',
-                  }
-                }}
+                sx={styles.suspendModalSuspendButton}
               >
                 Suspend
               </Button>
@@ -753,62 +588,23 @@ const RestaurantManagement = () => {
         </Box>
       )}
       {isModalOpen && modalType === 'unsuspend' && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
-            backdropFilter: 'blur(0px)',
-            WebkitBackdropFilter: 'blur(0px)',
-            zIndex: 1000,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: '#fff',
-              borderRadius: '8px',
-              p: 4,
-              boxShadow: 3,
-              textAlign: 'center',
-              maxWidth: '400px',
-              width: '90%',
-            }}
-          >
-            <Typography variant="h6" sx={{ color: '#FF3326', mb: 3 }}>
+        <Box sx={styles.modalOverlay}>
+          <Box sx={styles.unsuspendModalContent}>
+            <Typography variant="h6" sx={styles.unsuspendModalTitle}>
               Are you sure you want to Unsuspend the Account?
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
+            <Box sx={styles.unsuspendModalButtonContainer}>
               <Button
                 variant="outlined"
                 onClick={closeModal}
-                sx={{
-                  color: '#FF3326',
-                  borderColor: '#FF3326',
-                  width: '100px',
-                  '&:hover': {
-                    borderColor: '#FF3326',
-                    backgroundColor: 'rgba(47, 122, 82, 0.04)',
-                    
-                  }
-                }}
+                sx={styles.unsuspendModalCancelButton}
               >
                 Cancel
               </Button>
               <Button
                 variant="contained"
                 onClick={handleConfirmUnsuspend}
-                sx={{
-                  backgroundColor: '#FF3326',
-                  '&:hover': {
-                    backgroundColor: '#FF3326',
-                  }
-                }}
+                sx={styles.unsuspendModalUnsuspendButton}
               >
                 Unsuspend
               </Button>

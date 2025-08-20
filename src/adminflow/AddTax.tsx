@@ -1,7 +1,15 @@
-import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Box, Typography, Stack, Button, TextField } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useState, ChangeEvent } from 'react';
+import { 
+  PageContainer, 
+  FormContainer, 
+  InputStack, 
+  InputLabel, 
+  StyledTextField, 
+  SaveButton 
+} from '../adminstyles/AddTax.styles';
 
 const AddTax = () => {
   const navigate = useNavigate();
@@ -15,7 +23,7 @@ const AddTax = () => {
   const [taxRateError, setTaxRateError] = useState('');
 
   // Handler for Tax Name changes with dynamic validation
-  const handleTaxNameChange = (e) => {
+  const handleTaxNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTaxName(value);
 
@@ -28,7 +36,7 @@ const AddTax = () => {
   };
 
   // Handler for Tax Rate changes with dynamic validation
-  const handleTaxRateChange = (e) => {
+  const handleTaxRateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTaxRate(value);
 
@@ -70,7 +78,7 @@ const AddTax = () => {
   const isSaveButtonDisabled = taxName.trim() === '' || taxRate.trim() === '' || !!taxNameError || !!taxRateError;
 
   return (
-    <Box p={2} sx={{ backgroundColor: '#F5FAF6', minHeight: '100vh' }}>
+    <PageContainer>
       <Box display="flex" alignItems="center" gap={1}>
         <ArrowBackIcon 
           onClick={() => navigate('/admin/configsetting/taxsettings')} 
@@ -79,158 +87,44 @@ const AddTax = () => {
         <Typography color="#2F7A52" variant="h6" component="h1">Add Tax</Typography>
       </Box>
       
-      <Box 
-        maxWidth="800px" 
-        display="flex" 
-        flexDirection="column" 
-        gap={3} 
-        mt={2}
-        p={2}
-      >
+      <FormContainer>
         {/* Tax Name input field */}
-        {/* The alignItems="center" on the Stack is what vertically centers the label and input. */}
-        <Stack
-          direction={{ md: 'row', xs: 'column' }} 
-          gap={2} 
-          alignItems="center"
-        >
-          <Typography 
-            sx={{ 
-              width: { md: '100px', xs: '100%' },
-              fontFamily: 'Nunito Sans',
-              fontWeight: 400,
-              fontSize: '20px',
-              lineHeight: '100%',
-            }}
-          >
-            Tax Name
-          </Typography>
-          <TextField 
-            sx={{ 
-              width: { md: '379px', xs: '100%' }, 
-              // Styling for the input box
-              '& .MuiOutlinedInput-root': {
-                height: '54px',
-                borderRadius: '10px',
-                // Set the default border color
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52',
-                },
-                // Set border color on hover to be the same
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52 !important', // Use !important to override Material-UI's default hover styles
-                },
-                // Set border color when focused to be the same
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52 !important', // Use !important to override Material-UI's default focused styles
-                },
-                // Set the input text color
-                '& input': {
-                  color: '#2F7A52',
-                },
-              },
-              // This style is key to preventing the layout shift
-              '& .MuiFormHelperText-root': {
-                minHeight: '1.25em', 
-              },
-            }}
+        <InputStack>
+          <InputLabel>Tax Name</InputLabel>
+          <StyledTextField 
             placeholder="Service Tax"
             value={taxName}
             onChange={handleTaxNameChange}
             error={!!taxNameError}
             helperText={taxNameError || ' '}
           />
-        </Stack>
+        </InputStack>
         
         {/* Tax Rate input field */}
-        {/* The alignItems="center" on the Stack is what vertically centers the label and input. */}
-        <Stack
-          direction={{ md: 'row', xs: 'column' }} 
-          gap={2} 
-          alignItems="center"
-        >
-          <Typography 
-            sx={{ 
-              width: { md: '100px', xs: '100%' },
-              fontFamily: 'Nunito Sans',
-              fontWeight: 400,
-              fontSize: '20px',
-              lineHeight: '100%',
-            }}
-          >
-            Tax Rate
-          </Typography>
-          <TextField 
+        <InputStack>
+          <InputLabel>Tax Rate</InputLabel>
+          <StyledTextField 
             type="number"
-            sx={{ 
-              width: { md: '379px', xs: '100%' }, 
-              // Styling for the input box
-              '& .MuiOutlinedInput-root': {
-                height: '54px',
-                borderRadius: '10px',
-                // Set the default border color
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52',
-                },
-                // Set border color on hover to be the same
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52 !important',
-                },
-                // Set border color when focused to be the same
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#2F7A52 !important',
-                },
-                // Set the input text color
-                '& input': {
-                  color: '#2F7A52',
-                },
-              },
-              '& input[type=number]': {
-                '-moz-appearance': 'textfield',
-              },
-              '& input[type=number]::-webkit-inner-spin-button': {
-                '-webkit-appearance': 'none',
-                margin: 0,
-              },
-              '& input[type=number]::-webkit-outer-spin-button': {
-                '-webkit-appearance': 'none',
-                margin: 0,
-              },
-              // This style is key to preventing the layout shift
-              '& .MuiFormHelperText-root': {
-                minHeight: '1.25em', 
-              },
-            }}
             placeholder="5%"
             value={taxRate}
             onChange={handleTaxRateChange}
             error={!!taxRateError}
             helperText={taxRateError || ' '}
           />
-        </Stack>
+        </InputStack>
         
         {/* Save button */}
         <Box display="flex" justifyContent="flex-start" sx={{ ml: { md: '210px', xs: '0' }}}>
-          <Button 
+          <SaveButton 
             variant="contained" 
             onClick={handleSave} 
             disabled={isSaveButtonDisabled}
-            sx={{ 
-              width: '123px',
-              height: '50px',
-              borderRadius: '8px',
-              padding: '11px 16px',
-              backgroundColor: '#2F7A52', 
-              '&:hover': { 
-                backgroundColor: '#2A6A4A' 
-              } 
-            }}
           >
             Save
-          </Button>
+          </SaveButton>
         </Box>
-      </Box> 
-    </Box>
+      </FormContainer> 
+    </PageContainer>
   );
 };
 

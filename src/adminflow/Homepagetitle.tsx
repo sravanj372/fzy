@@ -1,8 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Stack, TextField, Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import calicon from '../assets/uil_calender.png';
 import upload from '../assets/Vector (1).png';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,15 +8,43 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { VisuallyHiddenInput, StyledComponents } from '../adminstyles/Homepagetitle.styles';
 
 dayjs.extend(isSameOrBefore);
 
+const {
+    MainBox,
+    HeaderBox,
+    HeaderTextContainer,
+    ArrowIcon,
+    PageTitle,
+    FormContainer,
+    StackRow,
+    LabelBox,
+    LabelText,
+    TextFieldContainer,
+    StyledTextField,
+    DurationBox,
+    DurationToText,
+    ImageLabelBox,
+    ImagePreviewContainer,
+    UploadButtonContainer,
+    UploadButton,
+    ImagePreview,
+    ErrorTextContainer,
+    ErrorText,
+    SaveButtonContainer,
+    SaveButton
+} = StyledComponents;
+
 const Homepagetitle = () => {
+    // State for form data
     const [bannerText, setBannerText] = useState('');
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
     const [uploadedImagePreview, setUploadedImagePreview] = useState<string | null>(null);
 
+    // State for validation errors
     const [bannerTextError, setBannerTextError] = useState<string | null>(null);
     const [imageError, setImageError] = useState<string | null>(null);
     const [startDateError, setStartDateError] = useState<string | null>(null);
@@ -26,19 +52,6 @@ const Homepagetitle = () => {
 
     const MAX_IMAGE_SIZE_BYTES = 1 * 1024 * 1024;
     const today = dayjs().startOf('day');
-
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
-
     const navigate = useNavigate();
 
     const handleBannerTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +158,7 @@ const Homepagetitle = () => {
             setEndDateError('End date must be after the start date.');
             isFormValid = false;
         }
-        
+
         if (imageError || startDateError || endDateError || bannerTextError) {
             isFormValid = false;
         }
@@ -156,64 +169,44 @@ const Homepagetitle = () => {
             console.log("Form has validation errors.");
         }
     };
-    
+
     const isSaveButtonDisabled = !bannerText || !!bannerTextError || !!imageError || !!startDateError || !!endDateError || !startDate || !endDate || !uploadedImagePreview;
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Box p={{ xs: 2, md: 3 }}>
-                <Box display="flex" justifyContent="space-between" mb={{ xs: 2, md: 3 }}>
-                    <Box display="flex" alignItems="center" gap={1}>
-                        <ArrowBackIcon
-                            onClick={() => navigate('/admin/dashboard')}
-                            sx={{ cursor: 'pointer', mt: { xs: 0, md: 1 }, color: '#2F7A52', fontSize: { xs: '18px', md: '20px' } }}
-                        />
-                        <Typography
-                            color="#2F7A52"
-                            fontSize={{ xs: '18px', md: '20px' }}
-                            fontWeight="500"
-                            mb={-1}
-                        >
+            <MainBox>
+                <HeaderBox>
+                    <HeaderTextContainer>
+                        <ArrowIcon onClick={() => navigate('/admin/dashboard')} />
+                        <PageTitle>
                             Homepage Title
-                        </Typography>
-                    </Box>
-                </Box>
+                        </PageTitle>
+                    </HeaderTextContainer>
+                </HeaderBox>
 
-                <Box display="flex" flexDirection="column" gap={{ xs: 2, md: 4 }}>
+                <FormContainer>
                     {/* Banner Text Section */}
-                    <Stack direction={{ md: 'row', xs: 'column' }} p={1} gap={{ xs: 1, md: 3 }} alignItems="flex-start">
-                        <Box sx={{ width: { xs: "100%", md: "15%" } }} >
-                            <Typography sx={{ width: '100%', fontSize: { xs: '15px', md: '17px' },mb:1 }}>Banner Text</Typography>
-                        </Box>
-                        <Box width={{ md: "40%", xs: "100%" }}>
-                            <TextField
+                    <StackRow>
+                        <LabelBox>
+                            <LabelText>Banner Text</LabelText>
+                        </LabelBox>
+                        <TextFieldContainer>
+                            <StyledTextField
                                 size="small"
                                 value={bannerText}
                                 onChange={handleBannerTextChange}
                                 error={!!bannerTextError}
                                 helperText={bannerTextError || ' '}
-                                sx={{
-                                    width: "100%",
-                                    "& .MuiOutlinedInput-root": {
-                                        color: "#333",
-                                        "& fieldset": { borderColor: "#68b266" },
-                                        "&:hover fieldset": { borderColor: "#4CAF50" },
-                                        "&.Mui-focused fieldset": { borderColor: "#2e7d32" },
-                                    },
-                                    "& .MuiFormHelperText-root": {
-                                        minHeight: '1.25em', // This is key to prevent shifting
-                                    },
-                                }}
                             />
-                        </Box>
-                    </Stack>
+                        </TextFieldContainer>
+                    </StackRow>
 
                     {/* Duration Period Section */}
-                    <Stack direction={{ md: 'row', xs: 'column' }} p={1} gap={{ xs: 1, md: 3 }} alignItems="flex-start">
-                        <Box sx={{ width: { xs: "100%", md: "15%" } }} >
-                            <Typography sx={{ width: '100%', fontSize: { xs: '15px', md: '17px' }, mb:1 }}>Duration Period</Typography>
-                        </Box>
-                        <Box width={{ md: "40%", xs: "100%" }} display="flex" gap={2} alignItems="flex-start">
+                    <StackRow>
+                        <LabelBox>
+                            <LabelText>Duration Period</LabelText>
+                        </LabelBox>
+                        <DurationBox>
                             <DatePicker
                                 value={startDate}
                                 onChange={handleStartDateChange}
@@ -226,17 +219,16 @@ const Homepagetitle = () => {
                                         error: !!startDateError,
                                         helperText: startDateError || ' ',
                                         sx: {
-                                            "& .MuiFormHelperText-root": {
-                                                minHeight: '1.25em', // This is key
-                                            },
-                                        },
+                                          "& .MuiOutlinedInput-root fieldset": { borderColor: "#2F7A52" },
+                                          "& .MuiOutlinedInput-root.Mui-focused fieldset": { borderColor: "#2e7d32" },
+                                        }
                                     }
                                 }}
                                 minDate={today}
                             />
-                            <Typography component="span" sx={{ whiteSpace: 'nowrap', fontSize: { xs: '15px', md: '17px' }, mt:1 }}>
+                            <DurationToText component="span">
                                 To
-                            </Typography>
+                            </DurationToText>
                             <DatePicker
                                 value={endDate}
                                 onChange={handleEndDateChange}
@@ -249,27 +241,25 @@ const Homepagetitle = () => {
                                         error: !!endDateError,
                                         helperText: endDateError || ' ',
                                         sx: {
-                                            "& .MuiFormHelperText-root": {
-                                                minHeight: '1.25em', // This is key
-                                            },
-                                        },
+                                            "& .MuiOutlinedInput-root fieldset": { borderColor: "#2F7A52" },
+                                            "& .MuiOutlinedInput-root.Mui-focused fieldset": { borderColor: "#2e7d32" },
+                                        }
                                     }
                                 }}
                                 minDate={startDate || today}
                             />
-                        </Box>
-                    </Stack>
+                        </DurationBox>
+                    </StackRow>
 
                     {/* Image Upload Section */}
-                    <Stack direction={{ md: 'row', xs: 'column' }} p={1} gap={{ xs: 1, md: 3 }} alignItems="flex-start">
-                        <Box sx={{ width: { xs: "100%", md: "15%", mt: { xs: 0, md: 2 } } }} >
-                            <Typography sx={{ width: '100%', fontSize: { xs: '15px', md: '17px' }, mb:1 }}>Image</Typography>
-                            <Typography fontSize={{ xs: '10px', md: '12px' }} paddingBottom={{ xs: '5px' }}>(Upload In SVG format)</Typography>
-                        </Box>
-                        <Box display="flex" alignItems="flex-start" flexDirection="column">
-                            <Box display="flex" alignItems="center" gap={2}>
-                                <Button
-                                    sx={{ width: '100px' }}
+                    <StackRow>
+                        <ImageLabelBox>
+                            <LabelText>Image</LabelText>
+                            <Typography fontSize={{ xs: '10px', md: '12px' }} paddingBottom="5px">(Upload In SVG format)</Typography>
+                        </ImageLabelBox>
+                        <ImagePreviewContainer>
+                            <UploadButtonContainer>
+                                <UploadButton
                                     component="label"
                                     role={undefined}
                                     variant="contained"
@@ -278,47 +268,37 @@ const Homepagetitle = () => {
                                 >
                                     Upload
                                     <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
-                                </Button>
+                                </UploadButton>
                                 {uploadedImagePreview && (
-                                    <Box>
-                                        <Box
-                                            component="img"
-                                            src={uploadedImagePreview}
-                                            alt="Uploaded Preview"
-                                            sx={{ width: '80px', height: 'auto' }}
-                                        />
-                                    </Box>
+                                    <ImagePreview
+                                        component="img"
+                                        src={uploadedImagePreview}
+                                        alt="Uploaded Preview"
+                                    />
                                 )}
-                            </Box>
-                            <Box sx={{ minHeight: '1.5rem', display: 'flex', alignItems: 'center' }}>
+                            </UploadButtonContainer>
+                            <ErrorTextContainer>
                                 {imageError && (
-                                    <Typography color="error" sx={{ fontSize: '12px' }}>
+                                    <ErrorText color="error">
                                         {imageError}
-                                    </Typography>
+                                    </ErrorText>
                                 )}
-                            </Box>
-                        </Box>
-                    </Stack>
+                            </ErrorTextContainer>
+                        </ImagePreviewContainer>
+                    </StackRow>
 
                     {/* Save Button */}
-                    <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' }, paddingY: 2 }}>
-                        <Button
+                    <SaveButtonContainer>
+                        <SaveButton
                             variant="contained"
                             onClick={handleSubmit}
                             disabled={isSaveButtonDisabled}
-                            sx={{
-                                width: { xs: '100%', sm: 'auto' },
-                                marginLeft: { md: '400px' },
-                                paddingX: 5,
-                                borderRadius: '10px',
-                                textTransform: 'none'
-                            }}
                         >
                             SAVE
-                        </Button>
-                    </Box>
-                </Box>
-            </Box>
+                        </SaveButton>
+                    </SaveButtonContainer>
+                </FormContainer>
+            </MainBox>
         </LocalizationProvider>
     );
 };

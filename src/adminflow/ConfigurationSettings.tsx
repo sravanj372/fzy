@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import {
   Paper, Typography, Box, TextField, Button, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Checkbox, Radio, RadioGroup, FormControlLabel,
-  FormControl
+  TableHead, TableRow, Checkbox, Radio, RadioGroup, FormControlLabel, FormControl
 } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import EyeIcon from '../assets/eye.png';
 import { useNavigate } from 'react-router-dom';
-
-// Custom styled button for the Export button
-const ExportButton = styled(Button)(({ theme }) => ({
-  color: '#ffffff',
-  backgroundColor: '#2F7A52',
-  '&:hover': {
-    backgroundColor: '#1e5a3c',
-  },
-  borderRadius: '8px',
-  textTransform: 'none',
-  padding: '6px 12px',
-}));
+import {
+  ExportButton,
+  UncheckedRadioIconWithShadow,
+  CheckedRadioIconSolidGreen,
+  StyledTableContainer,
+  StyledTableHeadRow,
+  StyledTableCell,
+  StyledTypographyLink,
+  StyledPaper,
+  StyledTypographyLinkHeader,
+  StyledTypographyBold,
+  StyledViewAllButton
+} from '../adminstyles/ConfigurationSettings.styles';
 
 interface PartnerBankDetails {
   id: number;
@@ -57,32 +54,13 @@ const ConfigurationSettings: React.FC = () => {
     setSelectedPaymentCycle(event.target.value);
   };
 
-  // Reusable radio styles with small ring effect
-  const radioStyles = {
-    '&:hover': { backgroundColor: 'transparent' },
-    '&.Mui-checked': {
-      position: 'relative',
-      '&::after': {
-        content: '""',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        width: '13px', // ring size
-        height: '13px',
-        borderRadius: '50%',
-        transform: 'translate(-50%, -50%)',
-        boxShadow: '0 0 4px rgba(0, 0, 0, 0.6)', // subtle green glow
-      },
-    },
-  };
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2 }}>
       {/* Payment Settings Section */}
-      <Paper sx={{ padding: "10px", border: "1px solid green", borderRadius: '8px' }}>
-        <Typography mb={2} color="#2F7A52" fontWeight="bold">Payment Settings</Typography>
+      <StyledPaper>
+        <StyledTypographyBold variant="h6">Payment Settings</StyledTypographyBold>
         <Box>
-          <Typography mb={2} sx={{ textDecoration: 'underline', color: '#2F7A52' }}>Commission Settings</Typography>
+          <StyledTypographyLinkHeader>Commission Settings</StyledTypographyLinkHeader>
           <Checkbox defaultChecked size="small" />
           <Typography component="span">Use Global Comission</Typography>
           <Box display="flex" gap={2} alignItems="center" mt={1}>
@@ -91,110 +69,76 @@ const ConfigurationSettings: React.FC = () => {
           </Box>
         </Box>
         <Box mt={2}>
-          <Typography
-            sx={{ textDecoration: 'underline', color: '#2F7A52', cursor: 'pointer' }}
+          <StyledTypographyLink
             onClick={() => navigate('/admin/configsetting/paymentsettings/partner-commission')}
           >
             View Partner Commission Rule
-          </Typography>
+          </StyledTypographyLink>
         </Box>
-      </Paper>
+      </StyledPaper>
 
       {/* Payment Cycle Section */}
-      <Paper sx={{ padding: "10px", border: "1px solid green", borderRadius: '8px' }}>
-        <Typography mb={2} color="#2F7A52" fontWeight="bold">Payment Cycle</Typography>
+      <StyledPaper>
+        <StyledTypographyBold variant="h6">Payment Cycle</StyledTypographyBold>
         <FormControl>
           <RadioGroup row value={selectedPaymentCycle} onChange={handlePaymentCycleChange}>
             <FormControlLabel
               value="weekly"
-              control={
-                <Radio
-                  size="small"
-                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-                  sx={radioStyles}
-                />
-              }
+              control={<Radio size="small" icon={<UncheckedRadioIconWithShadow />} checkedIcon={<CheckedRadioIconSolidGreen />} />}
               label="Weekly"
             />
             <FormControlLabel
               value="bi-weekly"
-              control={
-                <Radio
-                  size="small"
-                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-                  sx={radioStyles}
-                />
-              }
+              control={<Radio size="small" icon={<UncheckedRadioIconWithShadow />} checkedIcon={<CheckedRadioIconSolidGreen />} />}
               label="Bi-Weekly"
             />
             <FormControlLabel
               value="monthly"
-              control={
-                <Radio
-                  size="small"
-                  icon={<RadioButtonUncheckedIcon sx={{ color: '#2F7A52' }} />}
-                  checkedIcon={<FiberManualRecordIcon sx={{ color: '#2F7A52' }} />}
-                  sx={radioStyles}
-                />
-              }
+              control={<Radio size="small" icon={<UncheckedRadioIconWithShadow />} checkedIcon={<CheckedRadioIconSolidGreen />} />}
               label="Monthly"
             />
           </RadioGroup>
         </FormControl>
-      </Paper>
+      </StyledPaper>
 
       {/* Partner Bank Details Section */}
-      <Paper sx={{ padding: "10px", border: "1px solid green", borderRadius: '8px' }}>
+      <StyledPaper>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography mb={2} color="#2F7A52" sx={{ textDecoration: 'underline' }}>Partner Bank Details</Typography>
+          <StyledTypographyLinkHeader>Partner Bank Details</StyledTypographyLinkHeader>
         </Box>
 
         <Box mt={2}>
-          <TableContainer component={Paper} sx={{ boxShadow: 'none' }}>
+          <StyledTableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow sx={{ background: "#F1F4F9" }}>
+                <StyledTableHeadRow>
                   {partnerbankheadings.map((partnerheading) => (
-                    <TableCell
-                      key={partnerheading.id}
-                      sx={{
-                        fontFamily: 'Nunito Sans',
-                        fontWeight: 700,
-                        fontSize: '14px',
-                        color: '#2F7A52',
-                        backgroundColor: '#F1F4F9'
-                      }}
-                    >
+                    <StyledTableCell key={partnerheading.id}>
                       {partnerheading.heading}
-                    </TableCell>
+                    </StyledTableCell>
                   ))}
-                </TableRow>
+                </StyledTableHeadRow>
               </TableHead>
               <TableBody>
                 {partnerbankdetails.map((partnerdetails) => (
                   <TableRow key={partnerdetails.id}>
-                    <TableCell sx={{ color: '#2F7A52' }}>
-                      <Typography
+                    <TableCell>
+                      <StyledTypographyLink
                         component="a"
                         href="#"
                         onClick={() => navigate(`/restaurant-info/${partnerdetails.id}`)}
-                        sx={{ color: '#2F7A52', textDecoration: 'underline', cursor: 'pointer' }}
                       >
                         {partnerdetails.restaurantname}
-                      </Typography>
+                      </StyledTypographyLink>
                     </TableCell>
                     <TableCell>{partnerdetails.partnername}</TableCell>
                     <TableCell>{partnerdetails.accountholdername}</TableCell>
                     <TableCell>{partnerdetails.bankname}</TableCell>
-                    <TableCell sx={{ color: '#2F7A52', textAlign: 'center' }}>{partnerdetails.accountnumber}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{partnerdetails.accountnumber}</TableCell>
                     <TableCell>{partnerdetails.date}</TableCell>
                     <TableCell>
                       <Button
-                        startIcon={
-                          <img src={EyeIcon} alt="View" style={{ width: 16, height: 12 }} />
-                        }
+                        startIcon={<img src={EyeIcon} alt="View" style={{ width: 16, height: 12 }} />}
                         sx={{ color: "black", textTransform: 'none' }}
                       >
                         View
@@ -204,25 +148,17 @@ const ConfigurationSettings: React.FC = () => {
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+          </StyledTableContainer>
           <Box display="flex" justifyContent="flex-end" mt={2}>
-            <Button
+            <StyledViewAllButton
               variant="outlined"
               onClick={() => navigate('/admin/ConfigurationSettings/paymentsettings/partner-bank-details')}
-              sx={{
-                color: '#060606ff',
-                borderColor: '#666b68ff',
-                '&:hover': {
-                  borderColor: '#1e5a3c',
-                  color: '#1e5a3c'
-                }
-              }}
             >
               View All Bank Details
-            </Button>
+            </StyledViewAllButton>
           </Box>
         </Box>
-      </Paper>
+      </StyledPaper>
     </Box>
   );
 };

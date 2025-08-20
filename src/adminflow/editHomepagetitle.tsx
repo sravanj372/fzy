@@ -1,209 +1,361 @@
+import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
+import { Box, Button, Stack, TextField, Typography, DialogContent, DialogActions } from "@mui/material";
+import Radio from '@mui/material/Radio';
+import { useLocation, useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteIcon from '../assets/1vector.png';
+import calicon from '../assets/uil_calender.png';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+dayjs.extend(isSameOrBefore);
+import upload from '../assets/Vector (1).png';
+import Christmas11 from '../assets/christmas2.png';
+
+// Import all styled components
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
+  VisuallyHiddenInput,
+  ModalOverlay,
+  ModalContent,
+  HeaderIcon,
+  HeaderText,
+  DeleteContainer,
+  DeleteImage,
+  DeleteText,
+  FormSection,
+  FormLabel,
+  FormInputContainer,
+  InputTextField,
+  DatePickerContainer,
+  ToText,
+  RadioContainer,
+  ImageUploadContainer,
+  UploadButton,
+  ImagePreview,
+  ErrorText,
+  SubmitButtonContainer,
+  SubmitButton,
+  DeleteModalTitle,
+  DeleteModalText,
+  DeleteModalActions,
+  CancelButton,
+  DeleteConfirmButton,
+} from '../adminstyles/EditHomepageTitle.styles';
 
-const UpdateEmailPopup = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const [newEmail, setNewEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+// --- Main Component ---
 
-  // This function now handles real-time, dynamic validation
-  const handleEmailChange = (event) => {
-    const value = event.target.value;
-    setNewEmail(value);
+const EditHomepageTitle = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [bannerText, setBannerText] = useState('Delicious meals, zero waste - A greener future!');
+  const [startDate, setStartDate] = useState<Dayjs | null>(dayjs('2025-02-06'));
+  const [endDate, setEndDate] = useState<Dayjs | null>(dayjs('2025-02-07'));
+  const [isFixed, setIsFixed] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [uploadedImagePreview, setUploadedImagePreview] = useState<string | null>(Christmas11);
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!value) {
-      setEmailError("Email is required.");
-    } else if (!emailRegex.test(value)) {
-      setEmailError("Enter a valid email address.");
+  const [bannerTextError, setBannerTextError] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [startDateError, setStartDateError] = useState<string | null>(null);
+  const [endDateError, setEndDateError] = useState<string | null>(null);
+  
+  const MAX_IMAGE_SIZE_BYTES = 1 * 1024 * 1024;
+  const today = dayjs().startOf('day');
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const pathname = location.pathname;
+  const path = pathname.split('/').pop();
+  
+  useEffect(() => {
+    console.log("Current pathname:", pathname);
+    console.log("Extracted path:", path);
+  }, [pathname, path]);
+
+  const handleDeleteClick = () => {
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false);
+  };
+
+  const handleConfirmDelete = () => {
+    console.log('Deleting homepage title...');
+    handleCloseDeleteModal();
+  };
+  
+  const handleBannerTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setBannerText(text);
+    if (text.length <= 5) {
+      setBannerTextError('Banner text must be greater than 5 characters.');
     } else {
-      // Clear the error if the input is valid
-      setEmailError("");
+      setBannerTextError(null);
     }
   };
 
-  const handleUpdateEmail = () => {
-    // Only proceed with the update logic if there are no errors
-    if (!emailError && newEmail) {
-      // ✅ Handle success logic here (API call, etc.)
-      console.log("Updated Email:", newEmail);
-      onClose();
+  const handleStartDateChange = (newValue: Dayjs | null) => {
+    setStartDate(newValue);
+    if (newValue) {
+      setIsFixed(false);
+    }
+    if (endDate && newValue && (endDate.isBefore(newValue, 'day') || endDate.isSame(newValue, 'day'))) {
+      setEndDateError('End date must be after the start date.');
+    } else {
+      setEndDateError(null);
     }
   };
 
-  // Define dynamic border color based on validation state
-  const emailBorderColor = emailError ? '#F93C65' : '#2F7A52';
+  const handleEndDateChange = (newValue: Dayjs | null) => {
+    setEndDate(newValue);
+    if (newValue) {
+      setIsFixed(false);
+    }
+    if (newValue && startDate && (newValue.isBefore(startDate, 'day') || newValue.isSame(startDate, 'day'))) {
+      setEndDateError('End date must be after the start date.');
+    } else {
+      setEndDateError(null);
+    }
+  };
 
-  // Conditionally disable the button if there is an error or no email
-  const isButtonDisabled = !newEmail || !!emailError;
+  const handleFixedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+    setIsFixed(checked);
+    if (checked) {
+      setStartDate(null);
+      setEndDate(null);
+      setStartDateError(null);
+      setEndDateError(null);
+    }
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > MAX_IMAGE_SIZE_BYTES) {
+        setImageError('Image must be less than 1MB.');
+        setUploadedImagePreview(null);
+        return;
+      }
+      setImageError(null);
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadedImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setUploadedImagePreview(null);
+      setImageError('An image is required.');
+    }
+  };
+  
+  const CustomCalendarIcon = () => (
+    <Box
+      component="img"
+      src={calicon}
+      alt="Calendar Icon"
+    />
+  );
+
+  const CustomUploadIcon = () => (
+    <Box
+      component="img"
+      src={upload}
+      alt="Upload Icon"
+    />
+  );
+
+  const handleSubmit = () => {
+    let isFormValid = true;
+
+    if (bannerText.length <= 5) {
+      setBannerTextError('Banner text must be greater than 5 characters.');
+      isFormValid = false;
+    }
+
+    if (!isFixed) {
+      if (!startDate) {
+        setStartDateError('Start date is required.');
+        isFormValid = false;
+      }
+      if (!endDate) {
+        setEndDateError('End date is required.');
+        isFormValid = false;
+      } else if (startDate && (endDate.isBefore(startDate, 'day') || endDate.isSame(startDate, 'day'))) {
+        setEndDateError('End date must be after the start date.');
+        isFormValid = false;
+      }
+    }
+
+    if (!uploadedImagePreview) {
+      setImageError('An image is required.');
+      isFormValid = false;
+    }
+
+    if (!isFormValid) {
+      console.log("Form has validation errors.");
+    } else {
+      console.log("Form submitted successfully!");
+    }
+  };
+
+  const isSaveButtonDisabled = 
+    (bannerText.length <= 5) || 
+    (!!bannerTextError) || 
+    (!!imageError) || 
+    (!uploadedImagePreview) ||
+    (!isFixed && (!!startDateError || !startDate || !!endDateError || !endDate));
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="xs"
-      fullWidth
-      // Added transparent backdrop to remove dimming effect
-      BackdropProps={{
-        style: {
-          backgroundColor: 'transparent',
-        },
-      }}
-      disableBackdropClick
-      PaperProps={{
-        sx: {
-          borderRadius: "20px",
-        },
-      }}
-    >
-      <DialogContent
-        sx={{
-          padding: { xs: "24px", sm: "40px" },
-          backgroundColor: "#FFFFFF",
-        }}
-      >
-        <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
-          <Typography variant="h4" color="#2F7A52" textAlign="center">
-            Update Email
-          </Typography>
-          <Typography color="#7b7d7ee5" fontSize="17.5px" textAlign="center" mb={3}>
-            Enter your new email.
-          </Typography>
-
-          {/* Email Field */}
-          <Box width="100%">
-            <Box
-              sx={{
-                // Use dynamic border color here
-                border: `1px solid ${emailBorderColor}`,
-                borderRadius: "6px",
-                height: "45px",
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: "14px",
-                width: "100%",
-              }}
-            >
-              <InputAdornment position="start" sx={{ marginRight: "8px" }}>
-                <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
-                  <MailOutlineIcon sx={{ width: "20px", height: "20px" }} />
-                </IconButton>
-              </InputAdornment>
-              <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                <Typography sx={{ color: "#333333", fontSize: "10px", marginBottom: "2px" }}>
-                  Email
-                </Typography>
-                <TextField
-                  type="email"
-                  placeholder="Enter New Email"
-                  fullWidth
-                  size="small"
-                  value={newEmail}
-                  // Changed onChange to use the new handleEmailChange function
-                  onChange={handleEmailChange}
-                  // The helper text prop from Material-UI is already used for error messaging
-                  InputProps={{
-                    sx: {
-                      height: "25px",
-                      fontSize: "14px",
-                      padding: "0",
-                      "& input": {
-                        padding: "0",
-                      },
-                    },
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      height: "25px",
-                      padding: "0",
-                      "& fieldset": {
-                        borderColor: "transparent",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "transparent",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "transparent",
-                        borderWidth: "1px",
-                      },
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-            {/* Display the error message */}
-            {emailError && (
-              <Typography
-                sx={{
-                  color: '#F93C65',
-                  fontSize: '12px',
-                  mt: 1,
-                  textAlign: 'left'
-                }}
-              >
-                {emailError}
-              </Typography>
-            )}
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Box p={{ xs: 2, md: 3 }} ref={containerRef}>
+        <Box display="flex" justifyContent="space-between">
+          <Box display="flex">
+            <ArrowBackIcon onClick={() => navigate('/admin/dashboard')} className="header-icon" />
+            <HeaderText>
+  {path === 'edit-home-title' ? "Edit Homepage Title" : "Edit Homepage Title"}
+</HeaderText>
           </Box>
-
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleUpdateEmail}
-            disabled={isButtonDisabled}
-            sx={{
-              backgroundColor: "#2F7A52",
-              color: "#FFFFFF",
-              borderRadius: "6px",
-              paddingY: "5px",
-              textTransform: "none",
-              fontWeight: "bold",
-              fontSize: "16px",
-              width: "80%",
-              marginTop: 3,
-              "&:hover": {
-                backgroundColor: "#256B45",
-              },
-            }}
-          >
-            Update
-          </Button>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton onClick={onClose} size="small" disableRipple>
-              <Box component="span" sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography component="span" sx={{
-                  color: '#7b7d7ee5',
-                  cursor: 'pointer',
-                  fontWeight: '500',
-                  fontSize: '16px'
-                }}>
-                  Back to&nbsp;
-                </Typography>
-                <Typography component="span" sx={{
-                  textDecoration: 'underline',
-                  color: '#2F7A52',
-                  cursor: 'pointer',
-                  fontWeight: '500',
-                  fontSize: '16px'
-                }}>
-                  Profile
-                </Typography>
-              </Box>
-            </IconButton>
-          </Box>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <DeleteContainer onClick={handleDeleteClick}>
+              <DeleteImage
+                component="img"
+                src={DeleteIcon}
+                alt="Delete"
+              />
+              <DeleteText variant="caption">DELETE</DeleteText>
+            </DeleteContainer>
+          </Stack>
         </Box>
-      </DialogContent>
-    </Dialog>
+        <Box display="flex" flexDirection="column" gap={2}>
+          <FormSection direction={{ md: 'row', xs: 'column' }}>
+            <FormLabel>
+              <Typography width="100%">Banner Text</Typography>
+            </FormLabel>
+            <FormInputContainer>
+              <InputTextField
+                size="small"
+                value={bannerText}
+                onChange={handleBannerTextChange}
+                error={!!bannerTextError}
+                helperText={bannerTextError || ' '}
+              />
+            </FormInputContainer>
+          </FormSection>
+          <FormSection direction={{ md: 'row', xs: 'column' }}>
+            <FormLabel>
+              <Typography width="100%">Duration Period</Typography>
+            </FormLabel>
+            <DatePickerContainer>
+              <DatePicker
+                value={startDate}
+                onChange={handleStartDateChange}
+                format="MM/DD/YYYY"
+                slots={{ openPickerIcon: CustomCalendarIcon }}
+                slotProps={{
+                  textField: { 
+                    size: 'small', 
+                    error: !!startDateError,
+                    helperText: startDateError || ' '
+                  } 
+                }}
+                disabled={isFixed}
+              />
+              <ToText component="span">To</ToText>
+              <DatePicker
+                value={endDate}
+                onChange={handleEndDateChange}
+                format="MM/DD/YYYY"
+                slots={{ openPickerIcon: CustomCalendarIcon }}
+                slotProps={{ 
+                  textField: { 
+                    size: 'small',
+                    error: !!endDateError,
+                    helperText: endDateError || ' '
+                  } 
+                }}
+                disabled={isFixed}
+              />
+            </DatePickerContainer>
+          </FormSection>
+          <FormSection direction={{ md: 'row', xs: 'column' }}>
+            <FormLabel></FormLabel>
+            <RadioContainer>
+              <Radio size="small" checked={isFixed} onChange={handleFixedChange} />
+              <Typography component="span">Fixed</Typography>
+            </RadioContainer>
+          </FormSection>
+          <FormSection direction={{ md: 'row', xs: 'column' }}>
+            <FormLabel>
+              <Typography width="100%">Image</Typography>
+              <Typography fontSize="10px" paddingBottom={1} >(Upload in SVG format)</Typography>
+            </FormLabel>
+            <ImageUploadContainer>
+              <Box display="flex" alignItems="center" gap={2}>
+                <UploadButton
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  endIcon={<CustomUploadIcon />}>
+                  Upload
+                  <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
+                </UploadButton>
+                {uploadedImagePreview && (
+                  <ImagePreview 
+                    component="img" 
+                    src={uploadedImagePreview} 
+                    alt="Uploaded Preview"
+                  />
+                )}
+              </Box>
+              <Box>
+                {imageError && (
+                  <ErrorText color="error">
+                    {imageError}
+                  </ErrorText>
+                )}
+              </Box>
+            </ImageUploadContainer>
+          </FormSection>
+          <SubmitButtonContainer>
+            <SubmitButton
+              variant="contained" 
+              onClick={handleSubmit}
+              disabled={isSaveButtonDisabled}
+            >
+              UPDATE
+            </SubmitButton>
+          </SubmitButtonContainer>
+        </Box>
+      </Box>
+      
+      {/* The custom modal and overlay */}
+      {openDeleteModal && (
+        <ModalOverlay>
+          <ModalContent>
+            <DialogContent>
+              <DeleteModalTitle variant="h6">
+                Are you sure you want to delete this homepage title?
+              </DeleteModalTitle>
+              <DeleteModalText>
+              </DeleteModalText>
+            </DialogContent>
+            <DeleteModalActions>
+              <CancelButton variant="outlined" onClick={handleCloseDeleteModal}>
+                Cancel
+              </CancelButton>
+              <DeleteConfirmButton variant="contained" onClick={handleConfirmDelete}>
+                Delete
+              </DeleteConfirmButton>
+            </DeleteModalActions>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+    </LocalizationProvider>
   );
 };
 
-export default UpdateEmailPopup;
+export default EditHomepageTitle;

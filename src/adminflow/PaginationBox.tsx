@@ -29,7 +29,7 @@ const PaginationBox = () => {
             },
           },
           '& .Mui-selected': {
-            // Use suspend pages for red background, others for green
+            
             backgroundColor: isSuspendPage ? '#FF3326' : '#2F7A52',
             color: 'white',
             '&:hover': {

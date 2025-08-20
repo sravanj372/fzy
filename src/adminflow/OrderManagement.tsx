@@ -18,14 +18,13 @@ import DownloadIcon from "@mui/icons-material/Download";
 import React from "react";
 import PaginationBox from "./PaginationBox";
 import { useNavigate } from "react-router-dom";
-import orderData from './data.json'; // Import the data here
-import Divider from "@mui/material/Divider"; // Import Divider
+import orderData from './data.json';
+import Divider from "@mui/material/Divider";
 import download from "../assets/downloadicon.png"
 
 const OrderManagement = () => {
   const navigate = useNavigate();
 
-  // Destructure the data from the imported JSON file using the new names
   const { ordermdetails, ordermheadings } = orderData;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -37,7 +36,6 @@ const OrderManagement = () => {
     setAnchorEl(null);
   };
 
-  // for export button
   const [anchorE2, setAnchorE2] = React.useState<null | HTMLElement>(null);
   const open1 = Boolean(anchorE2);
   const handleClicks1 = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,9 +44,7 @@ const OrderManagement = () => {
   const handleCloses = () => {
     setAnchorE2(null);
   };
-  // for export button end
 
-  // live orders button
   const [anchorE3, setAnchorE3] = React.useState<null | HTMLElement>(null);
   const open2 = Boolean(anchorE3);
   const handleClicks2 = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -57,46 +53,38 @@ const OrderManagement = () => {
   const handleClose1 = () => {
     setAnchorE3(null);
   };
-  // live order button end
 
-  // Common styles for menu items
   const menuItemSx = {
-    height: '24px', // Standard height for menu items
-    fontSize: '0.875rem', // Standard font size
-    color: 'black', // Default text color for menu items
-    px: '16px', // Standard horizontal padding
+    height: '24px',
+    fontSize: '0.875rem',
+    color: 'black',
+    px: '16px',
     '&:hover': {
-      backgroundColor: '#f5f5f5', // Light hover background
+      backgroundColor: '#f5f5f5',
     },
   };
 
-  // Styles for green menu items
   const greenMenuItemSx = {
-    ...menuItemSx, // Inherit common styles
-    color: '#2F7A52', // Green color for text
+    ...menuItemSx,
+    color: '#2F7A52',
   };
 
-  // Common styles for menu dividers
   const menuDividerSx = {
-    my: '4px', // Vertical margin for dividers
-    backgroundColor: '#E0E0E0' // Color for dividers
+    my: '4px',
+    backgroundColor: '#E0E0E0'
   };
 
-  // Export menu items
   const exportMenuItems = ["Week", "Month", "Year"];
-  // Live orders menu items
   const liveOrdersMenuItems = ["Scheduled Orders", "Completed Orders", "Cancelled Orders"];
-  // Actions menu items
   const actionsMenuItems = ["View Details", "Download Invoice"];
-
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px' }} >
       <Box sx={{ p: 3, background: "white", height: "auto", border: "1px solid green", borderRadius: 4, }} component={Paper}>
         <Box display="flex" justifyContent="space-between" flexWrap="wrap" >
           <Box>
-  <Typography sx={{ color: "#2F7A52", fontSize: "22px" }}>Order Details</Typography>
-</Box>
+            <Typography sx={{ color: "#2F7A52", fontSize: "22px" }}>Order Details</Typography>
+          </Box>
           <Box>
             <Box display="flex" gap={3} flexWrap="wrap">
               <Exportbutton
@@ -268,7 +256,6 @@ const OrderManagement = () => {
                               if (item === "View Details") {
                                 navigate('order-bills', { state: { orderId: order.orderid } });
                               }
-                              // Add logic for "Download Invoice" here if needed
                             }} sx={menuItemSx}>
                               {item}
                             </MenuItem>

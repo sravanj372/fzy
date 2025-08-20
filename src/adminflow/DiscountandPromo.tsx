@@ -19,128 +19,24 @@ import { useNavigate } from "react-router-dom";
 import DeleteCoupon from "./popups/DeleteCoupon";
 import PaginationBox from "./PaginationBox";
 import deleteico from "../assets/1vector.png";
-
-// --- Styled Components ---
-
-const PageContainer = styled(Box)({
-    position: 'relative',
-    height: 'auto',
-    background: 'white',
-});
-
-const ContentBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: theme.spacing(4),
-    padding: theme.spacing(1),
-}));
-
-const TableCard = styled(Box)(({ theme }) => ({
-    border: "1px solid green",
-    borderRadius: theme.spacing(4),
-    padding: theme.spacing(2),
-}));
-
-const TableControls = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-    },
-}));
-
-const TableTitle = styled(Typography)({
-    color: "#2F7A52",
-    fontWeight: 600,
-});
-
-const TableButtonsStack = styled(Stack)(({ theme }) => ({
-    flexDirection: "row",
-    gap: theme.spacing(2),
-    [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        width: '100%',
-        '& > button': {
-            width: '100%',
-        },
-    },
-}));
-
-const ActionButton = styled(Button)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    '&:hover': {
-        backgroundColor: theme.palette.primary.dark,
-    },
-}));
-
-const FilterButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.primary.main,
-    background: 'white',
-    border: '1px solid #2F7A52',
-    '&:hover': {
-        backgroundColor: 'white',
-        borderColor: theme.palette.primary.dark,
-    },
-}));
-
-const TableContainerStyled = styled(TableContainer)(({ theme }) => ({
-    boxShadow: "none",
-    marginTop: theme.spacing(2),
-    overflowX: 'auto',
-}));
-
-const TableHeadRowStyled = styled(TableRow)({
-    background: "#F1F4F9",
-});
-
-const TableCellHeader = styled(TableCell)({
-    color: "#2F7A52",
-    fontWeight: 700,
-    whiteSpace: "nowrap",
-});
-
-const TableCellContent = styled(TableCell)({
-    whiteSpace: "nowrap",
-});
-
-const StatusTypography = styled(Typography)<{ status: string }>(({ status }) => ({
-    backgroundColor: status === "In active" ? "#FF3326" : "transparent",
-    color: status === "In active" ? "white" : "#2F7A52",
-    border: `1px solid ${status === "In active" ? "#FF3326" : "#2F7A52"}`,
-    padding: status === "Active" ? "2px 16px" : "4px 11px",
-    borderRadius: "20px",
-    fontSize: "13px",
-}));
-
-const DeleteButton = styled(Button)({
-    color: "#FF3326",
-    borderColor: "#FF3326",
-    "&:hover": { borderColor: "#FF3326" },
-});
-
-const DeleteIcon = styled('img')({
-    width: "20px",
-    height: "20px",
-});
-
-const ModalOverlay = styled(Box)({
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    zIndex: 1000,
-});
-
-// --- Main Component ---
+import {
+    PageContainer,
+    ContentBox,
+    TableCard,
+    TableControls,
+    TableTitle,
+    TableButtonsStack,
+    ActionButton,
+    FilterButton,
+    TableContainerStyled,
+    TableHeadRowStyled,
+    TableCellHeader,
+    TableCellContent,
+    StatusTypography,
+    DeleteButton,
+    DeleteIcon,
+    ModalOverlay,
+} from "../adminstyles/DiscountandPromo.styles";
 
 const DiscountandPromo = () => {
     const navigate = useNavigate();
@@ -210,7 +106,7 @@ const DiscountandPromo = () => {
     ];
 
     const [deleteCoupon, setDeleteCoupon] = useState(false);
-    
+
     const deleteCouponHandler = () => {
         setDeleteCoupon(true);
     };
@@ -237,7 +133,7 @@ const DiscountandPromo = () => {
                             </FilterButton>
                         </TableButtonsStack>
                     </TableControls>
-                    
+
                     <TableContainerStyled component={Paper}>
                         <Table size="small">
                             <TableHead>
@@ -251,9 +147,14 @@ const DiscountandPromo = () => {
                             </TableHead>
                             <TableBody>
                                 {discountdetails.map((discount) => (
-                                    <TableRow key={discount.id} sx={{ backgroundColor: discount.id % 2 === 0 ? '#FFFFFF' : '#fcfcfc' }}>
-                                        <TableCellContent align="center" sx={{ color: "#2F7A52", textDecoration: "underline", cursor: "pointer" }} onClick={() => navigate("/admin/restaurant-management/restaurant-details")}>
-                                            {discount.restaurantname}
+                                    <TableRow key={discount.id}>
+                                        <TableCellContent align="center">
+                                            <Typography
+                                                sx={{ color: "#2F7A52", textDecoration: "underline", cursor: "pointer" }}
+                                                onClick={() => navigate("/admin/restaurant-management/restaurant-details")}
+                                            >
+                                                {discount.restaurantname}
+                                            </Typography>
                                         </TableCellContent>
                                         <TableCellContent align="center">{discount.couponcode}</TableCellContent>
                                         <TableCellContent align="center">{discount.description}</TableCellContent>

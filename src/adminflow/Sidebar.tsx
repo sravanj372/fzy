@@ -39,7 +39,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
     interface MenuItem {
         id: string;
         text: string;
-        icon: React.ReactElement;
+        icon: JSX.Element;
         link: string;
         subItems?: { id: string; text: string; link: string }[];
     }

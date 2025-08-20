@@ -7,12 +7,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { Logincontainer, LoginBox } from "../adminstyles/Adminstyles";
-import adminLogo from "../assets/adminLogo.png";
-import lock from "../assets/proicons_lock.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
+import {
+  LoginBox,
+  LoginContainer,
+  updatePasswordStyles,
+} from "../adminstyles/UpdatePassword.styles";
+
+
+import adminLogo from "../assets/adminLogo.png";
+import lock from "../assets/proicons_lock.png";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
@@ -26,6 +32,7 @@ const UpdatePassword = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+={}[\]:;"'<,>.?/|\-`~])(?=.{6,})/;
 
@@ -58,83 +65,47 @@ const UpdatePassword = () => {
   };
 
   return (
-    <Logincontainer
-      sx={{
-        backgroundColor: "#D3F3D2",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-      }}
-    >
-      <Box sx={{ mb: { xs: 2, sm: 4 } }}>
+    <LoginContainer sx={updatePasswordStyles.loginContainer}>
+      <Box sx={updatePasswordStyles.logoWrapper}>
         <Box
           component="img"
           alt="LOGO"
           src={adminLogo}
-          sx={{ width: { xs: '150px', sm: '210px' }, height: 'auto' }}
+          sx={updatePasswordStyles.logo}
         />
       </Box>
 
-      <LoginBox
-        sx={{
-          backgroundColor: "#FFFFFF",
-          borderRadius: "12px",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          padding: { xs: "1.5rem", sm: "2.5rem" },
-          width: "100%",
-          maxWidth: "400px",
-        }}
-      >
+      <LoginBox sx={updatePasswordStyles.loginBox}>
         <form onSubmit={handleUpdatePassword}>
-          <Box display="flex" flexDirection="column" gap={1.5}>
-            <Typography variant="h4" textAlign="center" color="#2F7A52">
+          <Box sx={updatePasswordStyles.formContent}>
+            <Typography variant="h4" sx={updatePasswordStyles.title}>
               New Password
             </Typography>
-            <Typography color="#7b7d7ee5" fontSize="17.5px" margin="auto" textAlign="center" sx={{ mb: 2 }}>
+            <Typography sx={updatePasswordStyles.subtitle}>
               Set the new password for your account so you can login.
             </Typography>
 
             {/* Create Password */}
             <Box>
               <Box
-                sx={{
-                  border: `1px solid ${
-                    newPasswordError
-                      ? "red"
-                      : newPassword.length > 0 && passwordRegex.test(newPassword)
-                      ? "#2F7A52"
-                      : "#2F7A52"
-                  }`,
-                  borderRadius: "6px",
-                  height: "45px",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingLeft: "14px",
-                }}
+                sx={updatePasswordStyles.createPasswordInputWrapper({
+                  newPassword,
+                  newPasswordError,
+                  passwordRegex,
+                })}
               >
-                <InputAdornment position="start" sx={{ marginRight: "8px" }}>
-                  <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
+                <InputAdornment position="start" sx={updatePasswordStyles.iconAdornment}>
+                  <IconButton edge="start" disableRipple sx={updatePasswordStyles.iconButton}>
                     <Box
                       component="img"
                       src={lock}
                       alt="Lock Icon"
-                      sx={{ width: "20px", height: "20px" }}
+                      sx={updatePasswordStyles.lockIcon}
                     />
                   </IconButton>
                 </InputAdornment>
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-                >
-                  <Typography
-                    sx={{
-                      color: "#333333",
-                      fontSize: "10px",
-                      marginBottom: "2px",
-                    }}
-                  >
+                <Box sx={updatePasswordStyles.inputFieldWrapper}>
+                  <Typography sx={updatePasswordStyles.inputLabel}>
                     Create Password
                   </Typography>
                   <TextField
@@ -157,59 +128,26 @@ const UpdatePassword = () => {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end" sx={{ mr: 1, height: '45px', display: 'flex', alignItems: 'center' }}>
+                        <InputAdornment position="end" sx={updatePasswordStyles.visibilityAdornment}>
                           <IconButton
                             onClick={() =>
                               setShowNewPassword((prev) => !prev)
                             }
                             edge="end"
                           >
-                            {showNewPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
+                            {showNewPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
                       ),
-                      sx: {
-                        height: "25px",
-                        fontSize: "14px",
-                        padding: "0",
-                        "& input": {
-                          padding: "0",
-                        },
-                      },
+                      sx: updatePasswordStyles.textFieldInput,
                     }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        height: "25px",
-                        padding: "0",
-                        "& fieldset": {
-                          borderColor: "transparent",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "transparent",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "transparent",
-                          borderWidth: "1px",
-                        },
-                      },
-                    }}
+                    sx={updatePasswordStyles.textFieldBase}
                   />
                 </Box>
               </Box>
-              <Box sx={{ minHeight: '15px', mt: 0.5 }}>
+              <Box sx={updatePasswordStyles.errorWrapper}>
                 {newPasswordError && (
-                  <Typography
-                    sx={{
-                      color: "red",
-                      fontSize: "11px",
-                      lineHeight: "1",
-                      ml: '4px',
-                    }}
-                  >
+                  <Typography sx={updatePasswordStyles.errorText}>
                     {newPasswordError}
                   </Typography>
                 )}
@@ -217,44 +155,26 @@ const UpdatePassword = () => {
             </Box>
 
             {/* Confirm Password */}
-            <Box sx={{ mt: 2 }}>
+            <Box sx={updatePasswordStyles.confirmPasswordWrapper}>
               <Box
-                sx={{
-                  border: `1px solid ${
-                    confirmPasswordError
-                      ? "red"
-                      : confirmPassword.length > 0 &&
-                        newPassword === confirmPassword
-                      ? "#2F7A52"
-                      : "#2F7A52"
-                  }`,
-                  borderRadius: "6px",
-                  height: "45px",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingLeft: "14px",
-                }}
+                sx={updatePasswordStyles.confirmPasswordInputWrapper({
+                  newPassword,
+                  confirmPassword,
+                  confirmPasswordError,
+                })}
               >
-                <InputAdornment position="start" sx={{ marginRight: "8px" }}>
-                  <IconButton edge="start" disableRipple sx={{ padding: "4px" }}>
+                <InputAdornment position="start" sx={updatePasswordStyles.iconAdornment}>
+                  <IconButton edge="start" disableRipple sx={updatePasswordStyles.iconButton}>
                     <Box
                       component="img"
                       src={lock}
                       alt="Lock Icon"
-                      sx={{ width: "20px", height: "20px" }}
+                      sx={updatePasswordStyles.lockIcon}
                     />
                   </IconButton>
                 </InputAdornment>
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-                >
-                  <Typography
-                    sx={{
-                      color: "#333333",
-                      fontSize: "10px",
-                      marginBottom: "2px",
-                    }}
-                  >
+                <Box sx={updatePasswordStyles.inputFieldWrapper}>
+                  <Typography sx={updatePasswordStyles.inputLabel}>
                     Confirm Password
                   </Typography>
                   <TextField
@@ -275,59 +195,26 @@ const UpdatePassword = () => {
                     }}
                     InputProps={{
                       endAdornment: (
-                        <InputAdornment position="end" sx={{ mr: 1, height: '45px', display: 'flex', alignItems: 'center' }}>
+                        <InputAdornment position="end" sx={updatePasswordStyles.visibilityAdornment}>
                           <IconButton
                             onClick={() =>
                               setShowConfirmPassword((prev) => !prev)
                             }
                             edge="end"
                           >
-                            {showConfirmPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
+                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
                       ),
-                      sx: {
-                        height: "25px",
-                        fontSize: "14px",
-                        padding: "0",
-                        "& input": {
-                          padding: "0",
-                        },
-                      },
+                      sx: updatePasswordStyles.textFieldInput,
                     }}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        height: "25px",
-                        padding: "0",
-                        "& fieldset": {
-                          borderColor: "transparent",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "transparent",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "transparent",
-                          borderWidth: "1px",
-                        },
-                      },
-                    }}
+                    sx={updatePasswordStyles.textFieldBase}
                   />
                 </Box>
               </Box>
-              <Box sx={{ minHeight: '15px', mt: 0.5 }}>
+              <Box sx={updatePasswordStyles.errorWrapper}>
                 {confirmPasswordError && (
-                  <Typography
-                    sx={{
-                      color: "red",
-                      fontSize: "11px",
-                      lineHeight: "1",
-                      ml: '4px'
-                    }}
-                  >
+                  <Typography sx={updatePasswordStyles.errorText}>
                     {confirmPasswordError}
                   </Typography>
                 )}
@@ -339,29 +226,14 @@ const UpdatePassword = () => {
               variant="contained"
               type="submit"
               fullWidth
-              sx={{
-                backgroundColor: "#2F7A52",
-                color: "#FFFFFF",
-                borderRadius: "6px",
-                paddingY: "7px",
-                textTransform: "none",
-                fontWeight: "bold",
-                fontSize: "16px",
-                width: "80%",
-                margin: "0 auto",
-                display: "block",
-                mt: 1,
-                "&:hover": {
-                  backgroundColor: "#256B45",
-                },
-              }}
+              sx={updatePasswordStyles.submitButton}
             >
               Update Password
             </Button>
           </Box>
         </form>
       </LoginBox>
-    </Logincontainer>
+    </LoginContainer>
   );
 };
 

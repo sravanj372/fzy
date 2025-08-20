@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
 import UpdatePasswordPopup from "./popups/UpdatePasswordPopup";
 import UpdateEmailPopup from "./popups/UpdateEmailPopup";
+import {
+  ProfilePaper,
+  ProfileTitle,
+  AdminTitle,
+  InfoText,
+  UpdateLink,
+  SaveButton,
+  ChangePasswordButton,
+} from "../adminstyles/ProfileStyles";
 
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState({
@@ -33,170 +41,69 @@ const Profile: React.FC = () => {
 
   return (
     <Box id="main-content">
-      <Paper
-        sx={{
-          border: "1px solid #2F7A52",
-          borderRadius: "8px",
-          padding: 3,
-        }}
-      >
-        <Typography
-          variant="h6"
-          color="#2F7A52"
-          mb={1}
-          sx={{
-            fontFamily: "Nunito Sans",
-            fontWeight: 400,
-            fontSize: "19px",
-            lineHeight: "175%",
-          }}
-        >
+      <ProfilePaper>
+        <ProfileTitle variant="h6">
           Profile
-        </Typography>
+        </ProfileTitle>
 
-        <Typography
-          fontWeight={700}
-          color="#2F7A52"
-          mt={2}
-          mb={5}
-          fontSize="24px"
-          fontFamily="Nunito Sans"
-          lineHeight="100%"
-        >
+        <AdminTitle>
           ADMIN
-        </Typography>
+        </AdminTitle>
 
         <Stack spacing={3} mb={3}>
           {/* Phone Number Row */}
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography
-              sx={{
-                color: "#090909ff",
-                fontSize: "20px",
-                fontFamily: "Nunito Sans",
-                fontWeight: 400,
-                lineHeight: "100%",
-                width: "150px",
-              }}
-            >
+            <InfoText style={{ width: "150px" }}>
               Phone Number
-            </Typography>
-            <Typography
-              sx={{
-                fontFamily: "Nunito Sans",
-                fontWeight: 400,
-                fontSize: "20px",
-                lineHeight: "100%",
-              }}
-            >
+            </InfoText>
+            <InfoText>
               {profileData.phoneNumber}
-            </Typography>
+            </InfoText>
           </Stack>
 
           {/* Email Row */}
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography
-              sx={{
-                color: "#060606ff",
-                fontSize: "20px",
-                fontFamily: "Nunito Sans",
-                fontWeight: 400,
-                lineHeight: "100%",
-                width: "150px",
-              }}
-            >
+            <InfoText style={{ width: "150px" }}>
               Email
-            </Typography>
+            </InfoText>
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography
-                sx={{
-                  fontFamily: "Nunito Sans",
-                  fontWeight: 400,
-                  fontSize: "20px",
-                  lineHeight: "100%",
-                }}
-              >
+              <InfoText>
                 {profileData.email}
-              </Typography>
-              <Typography
-                sx={{
-                  textDecoration: "underline",
-                  color: "#2F7A52",
-                  cursor: "pointer",
-                }}
-                onClick={() => setIsEmailDialogOpen(true)}
-              >
+              </InfoText>
+              <UpdateLink onClick={() => setIsEmailDialogOpen(true)}>
                 Update
-              </Typography>
+              </UpdateLink>
             </Stack>
           </Stack>
 
           {/* Password Row */}
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography
-              sx={{
-                color: "#000000ff",
-                fontSize: "20px",
-                fontFamily: "Nunito Sans",
-                fontWeight: 400,
-                lineHeight: "100%",
-                width: "150px",
-              }}
-            >
+            <InfoText style={{ width: "150px" }}>
               Password
-            </Typography>
+            </InfoText>
             <Stack direction="row" alignItems="center" spacing={3}>
-              <Typography
-                sx={{
-                  fontFamily: "Nunito Sans",
-                  fontWeight: 400,
-                  fontSize: "20px",
-                  lineHeight: "100%",
-                }}
-              >
+              <InfoText>
                 {profileData.password}
-              </Typography>
-              <Button
+              </InfoText>
+              <ChangePasswordButton
                 variant="outlined"
-                sx={{
-                  color: "#2F7A52",
-                  borderColor: "#2F7A52",
-                  textTransform: "none",
-                  borderRadius: "8px",
-                  marginLeft: "20px",
-                }}
                 onClick={() => setIsPasswordDialogOpen(true)}
               >
                 Change Password
-              </Button>
+              </ChangePasswordButton>
             </Stack>
           </Stack>
         </Stack>
 
-        <Box sx={{ mt: 4, display: "flex", justifyContent: "left " }}>
-          <Button
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "left" }}>
+          <SaveButton
             variant="contained"
-            sx={{
-              backgroundColor: "#2F7A52",
-              color: "#FFFFFF",
-              "&:hover": {
-                backgroundColor: "#2F7A52",
-              },
-              fontFamily: "Nunito Sans",
-              fontWeight: 400,
-              fontSize: "18px",
-              lineHeight: "100%",
-              textTransform: "none",
-              borderRadius: "8px",
-              padding: "11px 40px",
-              marginLeft: "500px",
-            }}
             onClick={handleSaveClick}
           >
             Save
-          </Button>
+          </SaveButton>
         </Box>
-      </Paper>
+      </ProfilePaper>
 
       {isPasswordDialogOpen && (
         <UpdatePasswordPopup open={true} onClose={handleUpdatePasswordClose} />

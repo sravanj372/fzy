@@ -62,7 +62,7 @@ const Adminroutes = () => {
         <Route path="configsetting/paymentsettings" element={<ConfigurationSettings />} />
         <Route path="ConfigurationSettings/paymentsettings/partner-bank-details" element={<PartnerBankDetailsPage />} />
         <Route path="configsetting/paymentsettings/partner-commission" element={<PartnerCommissionRule />} />
-        <Route path="/admin/configsetting/add-partner-commission-rule" element={<AddPartnerCommissionRule />} />
+        <Route path="configsetting/paymentsettings/add-partner-commission-rule" element={<AddPartnerCommissionRule />} />
         <Route path="configsetting/paymentsettings/partner-commission/addpartner" element={<PartnerCommissionRule />} />
         <Route path="configsetting/taxsettings" element={<Taxsettings />} />
         <Route path="configsetting/taxsettings/addtax" element={<AddTax />} />

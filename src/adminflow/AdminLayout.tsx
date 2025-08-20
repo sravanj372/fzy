@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import Sidebar, { drawerWidth } from './Sidebar';
+import Sidebar from './Sidebar';
+import { drawerWidth } from '../adminstyles/Sidebar.styles';
 import Header from './Header';
 
 const AdminLayout = () => {
