@@ -23,11 +23,15 @@ import UpdatePassword from "../Auth/UpdatePassword";
 import Otpverification from "../Auth/Otpverification";
 import PaginationBox from "../adminflow/PaginationBox";
 import AddPartnerCommissionRule from '../adminflow/AddPartnerCommissionRule';
-import Success from "../Auth/Success"; // ✅ Import Success
+import Success from "../Auth/success"; // ✅ Import Success
 import AdminCoupon from "../adminflow/AdminCoupon";
 import PartnerBankDetailsPage from '../adminflow/PartnerBankDetailsPage';
 import LogoutScreen from "../adminflow/logout";
-import PendingRestuarentDetails from "../adminflow/pendingrestaurantinfo"; // ✅ Import PendingRestuarentDetails
+import ProfitLayout from '../adminflow/profit';
+import BankVerificationLayout from "../adminflow/bankVerification";
+import TermsAndConditions from '../adminflow/termsConditions';
+import Cuisine from '../adminflow/cuisine';
+import PendingRestuarentDetails from "../adminflow/PendingRestaurantInfo"; // ✅ Import PendingRestuarentDetails
 const Adminroutes = () => {
   return (
     <Routes>
@@ -42,8 +46,11 @@ const Adminroutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="dashboard/home-title" element={<Homepagetitle />} />
+        <Route path="dashboard/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="dashboard/cuisine" element={<Cuisine />} />
         <Route path="dashboard/edit-home-title" element={<EditHomepagetitle />} />
         <Route path="restaurant-management" element={<RestaurantManagement />} />
+        <Route path="restaurant-management/bank-verification" element={< BankVerificationLayout/>} />
         <Route path="restaurant-management/pending-request" element={<RestaurantManagement />} />
         <Route path="restaurant-management/suspend-account" element={<RestaurantManagement />} />
         <Route path="restaurant-management/restaurant-details" element={<RestuarentDetails />} />
@@ -60,12 +67,13 @@ const Adminroutes = () => {
         <Route path="discountpromo/add-coupon" element={<Addcoupon />} />
         <Route path="configsetting" element={<ConfigurationSettings />} />
         <Route path="configsetting/paymentsettings" element={<ConfigurationSettings />} />
-        <Route path="ConfigurationSettings/paymentsettings/partner-bank-details" element={<PartnerBankDetailsPage />} />
+        <Route path="configsetting/paymentsettings/partner-bank-details" element={<PartnerBankDetailsPage />} />
         <Route path="configsetting/paymentsettings/partner-commission" element={<PartnerCommissionRule />} />
         <Route path="configsetting/paymentsettings/add-partner-commission-rule" element={<AddPartnerCommissionRule />} />
         <Route path="configsetting/paymentsettings/partner-commission/addpartner" element={<PartnerCommissionRule />} />
         <Route path="configsetting/taxsettings" element={<Taxsettings />} />
         <Route path="configsetting/taxsettings/addtax" element={<AddTax />} />
+        <Route path="profitLayout" element={<ProfitLayout />} />
         <Route path="profile" element={<Profile />} />
         <Route path="profile/update-password" element={<ProfilePasswordupdate />} />
         <Route path="logout" element={<LogoutScreen />} />

@@ -210,7 +210,7 @@ const Homepagetitle = () => {
                             <DatePicker
                                 value={startDate}
                                 onChange={handleStartDateChange}
-                                format="MM-DD-YYYY"
+                                format="MM/DD/YYYY"
                                 slots={{ openPickerIcon: CustomCalendarIcon }}
                                 slotProps={{
                                     textField: {

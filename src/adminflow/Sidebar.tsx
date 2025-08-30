@@ -7,7 +7,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-import { Box, Stack, Typography, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
+import { Box, Stack, Typography, Dialog, DialogActions, DialogContent, Button } from '@mui/material';
 import Adminlogo from '../assets/adminLogo.png';
 import Avatar from '@mui/material/Avatar';
 import Userphoto from '../assets/av1.jpg';
@@ -30,6 +30,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
+    const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
     const [isConfigOpen, setIsConfigOpen] = useState(false);
     const [logoutOpen, setLogoutOpen] = useState(false);
     const navigate = useNavigate();
@@ -46,7 +47,16 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
 
     const menuitems: MenuItem[] = [
         { id: '1', text: 'Dashboard', icon: <DashboardIcon sx={{ fontSize: 22 }} />, link: '/admin/dashboard' },
-        { id: '2', text: 'Restaurant Management', icon: <Box component="img" src={RestaurantMenuImage} sx={{ width: 22, height: 22 }} />, link: '/admin/restaurant-management' },
+        {
+            id: '2',
+            text: 'Restaurant Management',
+            icon: <Box component="img" src={RestaurantMenuImage} sx={{ width: 22, height: 22 }} />,
+            link: '/admin/restaurant-management',
+            subItems: [
+                { id: '2-1', text: 'Restaurant Details', link: '/admin/restaurant-management' },
+                { id: '2-2', text: 'Bank Verification', link: '/admin/restaurant-management/bank-verification' },
+            ],
+        },
         { id: '3', text: 'Order Management', icon: <Box component="img" src={ShoppingBagImage} sx={{ width: 22, height: 22 }} />, link: '/admin/order-management' },
         { id: '4', text: 'User Management', icon: <Box component="img" src={PersonImage} sx={{ width: 22, height: 22 }} />, link: '/admin/user-management' },
         { id: '5', text: 'Discount & Promo Reimbursements', icon: <Box component="img" src={SellImage} sx={{ width: 22, height: 22 }} />, link: '/admin/discountpromo' },
@@ -60,50 +70,35 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
                 { id: '6-2', text: 'Tax Settings', link: '/admin/configsetting/taxsettings' },
             ],
         },
+        { id: '7', text: 'Profit Layout', icon: <Box component="img" src={SellImage} sx={{ width: 22, height: 22 }} />, link: '/admin/profitLayout' },
     ];
 
-    // Updated function to check if a menu item (or its sub-items) is currently active.
     const isItemOrSubItemSelected = (item: MenuItem) => {
-        if (item.link && location.pathname.startsWith(item.link)) {
-            return true;
-        }
         if (item.subItems) {
             return item.subItems.some((sub) => location.pathname.includes(sub.link));
         }
-        return false;
+        return location.pathname.startsWith(item.link);
     };
 
-    // Effect to automatically open 'Configuration Settings' if one of its sub-items is active
+    const isRestaurantSelected = isItemOrSubItemSelected(menuitems[1]);
+    const isConfigSelected = isItemOrSubItemSelected(menuitems[5]);
+
     useEffect(() => {
-        const configSettingsItem = menuitems.find(item => item.id === '6');
-        if (configSettingsItem && configSettingsItem.subItems) {
-            const isAnyConfigSubItemSelected = configSettingsItem.subItems.some(sub => location.pathname.includes(sub.link));
-            setIsConfigOpen(isAnyConfigSubItemSelected);
-        }
-    }, [location.pathname]);
+        setIsRestaurantOpen(isRestaurantSelected);
+        setIsConfigOpen(isConfigSelected);
+    }, [location.pathname, isRestaurantSelected, isConfigSelected]);
 
     const handleMenuToggle = (item: MenuItem) => {
-        if (item.id === '6') {
-            setIsConfigOpen((prev) => !prev);
-            // If we are opening and not already on a sub-item, navigate to the first sub-item
-            if (!isConfigOpen && item.subItems && !isItemOrSubItemSelected(item)) {
-                navigate(item.subItems[0].link);
-                if (mobileOpen) handleDrawerToggle();
-            } else if (!isConfigOpen && item.subItems && isItemOrSubItemSelected(item)) {
-                // If we're opening and are already on a sub-item, just close drawer on mobile
-                if (mobileOpen) handleDrawerToggle();
-            } else if (isConfigOpen && item.subItems && !isItemOrSubItemSelected(item)) {
-                // If we're closing, and not on a sub-item, navigate to the parent link
-                navigate(item.link);
-                if (mobileOpen) handleDrawerToggle();
-            } else {
-                // Default case for closing
-                if (mobileOpen) handleDrawerToggle();
+        if (item.subItems) {
+            if (item.id === '2') {
+                setIsRestaurantOpen((prev) => !prev);
+            } else if (item.id === '6') {
+                setIsConfigOpen((prev) => !prev);
             }
         } else {
-            navigate(item.link || '');
-            if (mobileOpen) handleDrawerToggle();
+            navigate(item.link);
         }
+        if (mobileOpen) handleDrawerToggle();
     };
 
     const handleSubItemClick = (subItemLink: string) => {
@@ -139,15 +134,13 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
                         mb: '10px',
                     }}
                 />
-
-                {/* Ramesh Admin Profile Section */}
                 <Stack
                     direction="row"
                     gap={1}
                     justifyContent="flex-start"
                     alignItems="center"
                     sx={{
-                        backgroundColor: '#EDF5ED',
+                        backgroundColor: '#DEF6DB',
                         padding: '12px 15px',
                         borderRadius: '10px',
                         width: '100%',
@@ -175,13 +168,12 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
             <List sx={{ flexGrow: 1, pt: 1 }}>
                 {menuitems.map((item) => {
                     const isActiveSection = isItemOrSubItemSelected(item);
-                    const shouldHighlightParent = isActiveSection;
 
                     return (
                         <Box key={item.id}>
                             <ListItemButton
                                 onClick={() => handleMenuToggle(item)}
-                                selected={shouldHighlightParent}
+                                selected={isActiveSection}
                                 sx={{
                                     margin: '0 15px 5px 15px',
                                     width: `calc(100% - ${15 * 2}px)`,
@@ -256,13 +248,13 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
                                 <ListItemText primary={item.text} />
                             </ListItemButton>
                             {item.subItems && (
-                                <Collapse in={isConfigOpen} timeout="auto" unmountOnExit>
+                                <Collapse in={(item.id === '2' && isRestaurantOpen) || (item.id === '6' && isConfigOpen)} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
                                         {item.subItems.map((subItem) => (
                                             <ListItemButton
                                                 key={subItem.id}
                                                 onClick={() => handleSubItemClick(subItem.link)}
-                                                selected={location.pathname.includes(subItem.link)}
+                                                selected={location.pathname === subItem.link}
                                                 sx={{
                                                     pl: 8,
                                                     margin: '0 15px 5px 30px',
@@ -274,35 +266,38 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     backgroundColor: 'transparent',
+
+                                                    // Green dot
+                                                    '&::before': {
+                                                        content: '""',
+                                                        position: 'absolute',
+                                                        left: '15px',
+                                                        top: '50%',
+                                                        transform: 'translateY(-50%)',
+                                                        width: '6px',
+                                                        height: '6px',
+                                                        borderRadius: '50%',
+                                                        backgroundColor: location.pathname === subItem.link ? '#2F7A52' : '#2C2F31',
+                                                    },
+
+                                                    // No background change on hover
+                                                    '&:hover': {
+                                                        backgroundColor: 'transparent !important',
+                                                    },
+
                                                     '& .MuiListItemText-primary': {
-                                                        color: '#2C2F31',
+                                                        color: location.pathname === subItem.link ? '#2F7A52' : '#2C2F31',
                                                         fontSize: '13px',
                                                         fontWeight: 500,
-                                                        textDecoration: 'none',
+                                                        marginLeft: '15px',
                                                     },
-                                                    '&:not(.Mui-selected):hover': {
-                                                        backgroundColor: '#EDF5ED',
-                                                        '& .MuiListItemText-primary': {
-                                                            color: '#2F7A52',
-                                                            textDecoration: 'none',
-                                                        },
-                                                    },
+                                                    
+                                                    // Underline is only for selected subitem
                                                     '&.Mui-selected': {
-                                                        backgroundColor: 'transparent',
-                                                        '&::before': {
-                                                            content: 'none',
-                                                        },
+                                                        backgroundColor: 'transparent !important',
                                                         '& .MuiListItemText-primary': {
-                                                            color: '#2C2F31',
                                                             textDecoration: 'underline',
                                                         },
-                                                        '&:hover': {
-                                                            backgroundColor: '#EDF5ED',
-                                                            '& .MuiListItemText-primary': {
-                                                                color: '#2F7A52',
-                                                                textDecoration: 'underline',
-                                                            },
-                                                        }
                                                     },
                                                 }}
                                             >
@@ -406,49 +401,49 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }: SidebarProps) => {
                 {drawerContent}
             </Drawer>
 
-            {/* Logout Confirmation Dialog with blur backdrop */}
-<Dialog
-    open={logoutOpen}
-    onClose={() => setLogoutOpen(false)}
-    PaperProps={{
-        sx: {
-            borderRadius: 3,
-            p: 3, // Increase padding to make the box bigger
-            width: '100%',
-            maxWidth: '400px' // Set a max-width to control the overall size
-        }
-    }}
-    BackdropProps={{
-        sx: { backdropFilter: 'blur(0px)', backgroundColor: 'rgba(0,0,0,0.2)' }
-    }}
->
-    <DialogContent sx={{ textAlign: 'left' }}>
-        <Typography sx={{ color: '#FF3326', mb: 4, fontSize: '20px', fontWeight: 400,mt: 2 }}>
-            Are you sure you want to log out?
-        </Typography>
-    </DialogContent>
-    <DialogActions sx={{ justifyContent: 'center', p: 0 ,mb: 2}}>
-        <Button
-            variant="outlined"
-            onClick={() => setLogoutOpen(false)}
-            sx={{ color: '#FF3326', borderColor: '#FF3326', width: '130px', mr: 2 }}
-        >
-            Cancel
-        </Button>
-        <Button
-            variant="contained"
-            color="error"
-            onClick={() => {
-                setLogoutOpen(false);
-                navigate('/login');
-                if (mobileOpen) handleDrawerToggle();
-            }}
-            sx={{ width: '130px' }} // Give the button a specific width
-        >
-            Log Out
-        </Button>
-    </DialogActions>
-</Dialog>
+            {/* Logout Confirmation Dialog */}
+            <Dialog
+                open={logoutOpen}
+                onClose={() => setLogoutOpen(false)}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        p: 3,
+                        width: '100%',
+                        maxWidth: '400px'
+                    }
+                }}
+                BackdropProps={{
+                    sx: { backdropFilter: 'blur(0px)', backgroundColor: 'rgba(0,0,0,0.2)' }
+                }}
+            >
+                <DialogContent sx={{ textAlign: 'left' }}>
+                    <Typography sx={{ color: '#FF3326', mb: 4, fontSize: '20px', fontWeight: 400, mt: 2 }}>
+                        Are you sure you want to log out?
+                    </Typography>
+                </DialogContent>
+                <DialogActions sx={{ justifyContent: 'center', p: 0, mb: 2 }}>
+                    <Button
+                        variant="outlined"
+                        onClick={() => setLogoutOpen(false)}
+                        sx={{ color: '#FF3326', borderColor: '#FF3326', width: '130px', mr: 2 }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => {
+                            setLogoutOpen(false);
+                            navigate('/login');
+                            if (mobileOpen) handleDrawerToggle();
+                        }}
+                        sx={{ width: '130px' }}
+                    >
+                        Log Out
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

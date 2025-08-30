@@ -13,7 +13,7 @@ const PaginationBox = () => {
   return (
     <PaginationStack 
       path={path} 
-      sx={{ marginTop: isUserManagementPage ? 5 : 0 }}
+      sx={{ marginTop: isUserManagementPage ? 5 : 0, borderColor: isSuspendPage ? '#FF3326' : '#2F7A52' }}
     >
       <Pagination
         count={10}

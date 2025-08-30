@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Card, Divider, Typography, Select, Button, Table, TableBody, TableCell, TableHead, TableRow, MenuItem } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -59,8 +59,21 @@ import CompostIcon from '../assets/fluent_earth-leaf-20-regular.png';
 import Christmas11 from '../assets/christmas2.png';
 import EditIcon from '../assets/edit-vector.png';
 import DeleteOutlineIcon from '../assets/1vector.png';
+import whiteedit from '../assets/vectorwhite.png'
+
+// Define a type for the data to be deleted
+interface FestData {
+    id: number;
+    icon: string;
+    title: string;
+    date: string;
+}
 
 const Dashboard = () => {
+    // State for managing the delete modal with a specific type
+    const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+    const [itemToDelete, setItemToDelete] = useState<FestData | null>(null);
+
     // Data for the top section cards
     const dashboarddata = [
         { id: 1, icon: LocalDiningIcon, count: 80, label: 'Total Restaurants' },
@@ -80,8 +93,8 @@ const Dashboard = () => {
     const data = [350, 680, 820, 580, 1020, 950, 500, 500, 500, 500, 500, 500];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // Data for the "Homepage Title" list
-    const festdata = [
+    // Data for the "Homepage Title" list with explicit type
+    const festdata: FestData[] = [
         { id: 1, icon: Christmas11, title: 'Feast Festively, Waste...', date: '1 Dec - 29 Dec' },
         { id: 2, icon: Christmas11, title: 'Delicious Meals, Zero Waste...', date: '1 Sep - 19 Oct' },
         { id: 3, icon: Christmas11, title: 'Delicious Meals, Zero Waste...', date: '1 Sep - 19 Oct' },
@@ -118,22 +131,148 @@ const Dashboard = () => {
             navigate('/admin/dashboard/home-title');
         }
     }
+    function TermsandConditionNavigate() {
+        if (path === "/admin" || path === "/admin/dashboard") {
+            navigate('/admin/dashboard/terms-and-conditions');
+        }
+    }
 
     function editHomeTilte() {
         if (path === "/admin" || path === "/admin/dashboard") {
             navigate('/admin/dashboard/edit-home-title/');
         }
     }
+    
+    function CuisineNavigate() {
+        if (path === "/admin" || path === "/admin/dashboard") {
+            navigate('/admin/dashboard/cuisine');
+        }
+    }
+
+    // Modal handlers
+    const handleOpenDeleteModal = (item: FestData) => {
+        setItemToDelete(item);
+        setOpenDeleteModal(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
+        setItemToDelete(null);
+    };
+
+    const handleDeleteConfirm = () => {
+        // Here you would implement the actual deletion logic
+        console.log("Deleting item with ID:", itemToDelete?.id);
+        handleCloseDeleteModal();
+    };
+
+
+    const buttonTextStyle = {
+        fontFamily: 'Nunito Sans',
+        fontWeight: 400,
+        fontSize: '12px',
+        lineHeight: '14px',
+        letterSpacing: '0%',
+        textTransform: 'none', 
+    };
+
+    const buttonStyle = {
+        ...buttonTextStyle,
+        height: '50px',
+        paddingLeft: '32px',
+        paddingRight: '32px',
+        borderRadius: '10px',
+    };
+
+    // Modal Style
+    const modalStyle = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        borderRadius: '16px',
+        boxShadow: 24,
+        p: 4,
+        zIndex: 1001,
+    };
+    
+    // Figma-specific styles for the modal
+    const figmaModalStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 'auto',
+      minWidth: 420,
+      bgcolor: 'white',
+      borderRadius: '24px',
+      boxShadow: 24,
+      p: 4,
+      zIndex: 1001,
+      textAlign: 'center'
+    };
+    
+    const figmaTitleStyle = {
+        color: '#F44336', // Figma-specific red color
+        fontSize: '24px',
+        fontWeight: 600,
+        lineHeight: '32px',
+        mb: 4
+    };
+    
+    const figmaCancelButtonStyle = {
+        color: '#F44336',
+        borderColor: '#F44336',
+        borderWidth: '2px',
+        borderRadius: '10px',
+        textTransform: 'none',
+       
+        px: 6,
+        '&:hover': {
+            borderColor: '#D32F2F',
+            borderWidth: '2px',
+        }
+    };
+    
+    const figmaDeleteButtonStyle = {
+        bgcolor: '#F44336',
+        color: 'white',
+        borderRadius: '10px',
+        textTransform: 'none',
+        
+        py:1,
+        px: 6,
+        '&:hover': {
+            bgcolor: '#D32F2F',
+        }
+    };
 
     return (
         <DashboardContainer>
-            {/* Top section with dashboard data cards */}
+            {/* Conditional backdrop for dim effect */}
+            {openDeleteModal && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        bgcolor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 1000,
+                    }}
+                />
+            )}
+            
+            {/* The main dashboard content */}
             <TopSectionPaper>
                 <DashboardDataGrid>
                     {dashboarddata.map((data, index) => (
                         <React.Fragment key={data.id}>
                             <DashboardCard>
-                                <DashboardIcon component="img" src={data.icon} alt={data.label} />
+                                <DashboardIcon src={data.icon} alt={data.label} />
                                 <Box>
                                     <CountText>
                                         {data.count}
@@ -151,10 +290,8 @@ const Dashboard = () => {
                 </DashboardDataGrid>
             </TopSectionPaper>
 
-            {/* Middle section with delivery status cards and bar chart */}
             <MiddleSection>
                 <LeftColumn>
-                    {/* Pickup and delivery status cards */}
                     <DeliveryStatusPaper>
                         <SectionTitle>
                             Pickup and Delivery Status
@@ -173,7 +310,6 @@ const Dashboard = () => {
                         </DeliveryStatusCardsContainer>
                     </DeliveryStatusPaper>
 
-                    {/* Bar chart for total revenue */}
                     <BarChartPaper>
                         <ChartHeader>
                             <ChartTitle>
@@ -202,8 +338,6 @@ const Dashboard = () => {
                                 xAxis={[{
                                     scaleType: 'band',
                                     data: months,
-                                    disableLine: true,
-                                    disableTicks: true,
                                     paddingInner: 0.9,
                                     paddingOuter: 0.3
                                 }]}
@@ -225,8 +359,26 @@ const Dashboard = () => {
                     </BarChartPaper>
                 </LeftColumn>
 
-                {/* Right column with "Homepage Title" list */}
                 <RightColumn>
+                    <Box sx={{ display: 'flex', gap: '16px', marginBottom: '16px' }}>
+                        <AddButton
+                            variant="contained"
+                            startIcon={<img src={whiteedit} alt="Edit" style={{ height: '18px', width: '18px' }} />}
+                            onClick={CuisineNavigate}
+                            sx={buttonStyle}
+                        >
+                            Cuisine Type
+                        </AddButton>
+                        <AddButton
+                            variant="contained"
+                            startIcon={<img src={whiteedit} alt="Edit" style={{ height: '18px', width: '18px' }} />}
+                            onClick={TermsandConditionNavigate}
+                            sx={buttonStyle}
+                        >
+                            Terms Conditions <br />& Privacy Policy.
+                        </AddButton>
+                    </Box>
+
                     <HomepageTitlePaper>
                         <HomepageTitleHeader>
                             <HomepageTitleText>Homepage Title</HomepageTitleText>
@@ -241,14 +393,18 @@ const Dashboard = () => {
                         {festdata.map((data, index) => (
                             <React.Fragment key={index}>
                                 <HomepageTitleItem>
-                                    <HomepageTitleImage component="img" src={data.icon} alt="Homepage Title" />
+                                    <HomepageTitleImage src={data.icon} alt="Homepage Title" />
                                     <HomepageTitleContent>
                                         <HomepageTitleTitle>{data.title}</HomepageTitleTitle>
                                         <HomepageTitleDate>{data.date}</HomepageTitleDate>
                                     </HomepageTitleContent>
                                     <HomepageTitleActions>
-                                        <ActionIcon component="img" src={EditIcon} alt="Edit" onClick={editHomeTilte} />
-                                        <ActionIcon as="img" src={DeleteOutlineIcon} alt="Delete" />
+                                        <ActionIcon src={EditIcon} alt="Edit" onClick={editHomeTilte} />
+                                        <ActionIcon 
+                                            src={DeleteOutlineIcon} 
+                                            alt="Delete" 
+                                            onClick={() => handleOpenDeleteModal(data)} 
+                                        />
                                     </HomepageTitleActions>
                                 </HomepageTitleItem>
                                 {index < festdata.length - 1 && (
@@ -260,7 +416,6 @@ const Dashboard = () => {
                 </RightColumn>
             </MiddleSection>
 
-            {/* Bottom section with the "Highest-earning restaurants" table */}
             <TablePaper>
                 <TableHeader>
                     <TableTitle>Highest-earning restaurants </TableTitle>
@@ -310,6 +465,23 @@ const Dashboard = () => {
                     </Table>
                 </TableContainerStyled>
             </TablePaper>
+
+            {/* Custom Delete Confirmation Modal to match Figma */}
+            {openDeleteModal && (
+                <Box sx={figmaModalStyle}>
+                    <Typography id="delete-modal-title" sx={figmaTitleStyle}>
+                        Are you sure you want to delete the <br />Homepage title?
+                    </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: '48px' }}>
+                        <Button variant="outlined" onClick={handleCloseDeleteModal} sx={figmaCancelButtonStyle}>
+                            Cancel
+                        </Button>
+                        <Button variant="contained" onClick={handleDeleteConfirm} sx={figmaDeleteButtonStyle}>
+                            Delete
+                        </Button>
+                    </Box>
+                </Box>
+            )}
         </DashboardContainer>
     );
 };

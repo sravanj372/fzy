@@ -152,7 +152,7 @@ const ConfigurationSettings: React.FC = () => {
           <Box display="flex" justifyContent="flex-end" mt={2}>
             <StyledViewAllButton
               variant="outlined"
-              onClick={() => navigate('/admin/ConfigurationSettings/paymentsettings/partner-bank-details')}
+              onClick={() => navigate('/admin/configsetting/paymentsettings/partner-bank-details')}
             >
               View All Bank Details
             </StyledViewAllButton>

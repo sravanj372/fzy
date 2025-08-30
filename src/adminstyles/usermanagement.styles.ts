@@ -7,13 +7,15 @@ export const Suspendedbutton = styled(Button)({
 });
 
 export const Filterbutton = styled(Button)({
-  backgroundColor: "#E0E0E0",
+  backgroundColor: "#ffffffff",
   color: "#2F7A52",
 });
 
 export const TableHeadCell = styled(TableCell)({
   fontWeight: 700,
   whiteSpace: 'nowrap',
+  // FIX: Removed the extra space after 'center'
+  textAlign: 'center', 
 });
 
 export const UserInfoBox = styled(Box)({
@@ -22,6 +24,8 @@ export const UserInfoBox = styled(Box)({
   gap: "12px",
   cursor: "pointer",
   wordBreak: "break-word",
+  // FIX: Added justifyContent to align content to the left
+  justifyContent: 'flex-start',
 });
 
 export const StatusIcon = styled(Box)({
@@ -32,7 +36,13 @@ export const StatusIcon = styled(Box)({
 });
 
 export const StatusText = styled(Typography)({
-  fontWeight: 400,
+  color:'black',
+});
+export const ActionButton = styled(Button)({
+  border: "1px groove gray",
+  padding: '0 8px',
+  color: '#2F7A52',
+  fontWeight: 700,
 });
 
 export const ActionsButton = styled(Button)({
@@ -53,20 +63,32 @@ export const ModalContainer = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  backdropFilter: 'blur(3px)',
-  WebkitBackdropFilter: 'blur(3px)',
   zIndex: 1000,
 });
 
+// For the red background delete modal
 export const ModalPaper = styled(Box)({
   backgroundColor: '#FF3326',
   borderRadius: '8px',
-  padding: 4,
+  padding: 30,
   boxShadow: 3,
   textAlign: 'center',
+  paddingBlock: "30px",
   maxWidth: '400px',
   width: '90%',
   color: '#ffffff',
+});
+
+// For the white background confirmation modals
+export const ConfirmationModalPaper = styled(Box)({
+    backgroundColor: '#FFFFFF',
+    borderRadius: '8px',
+    padding: 30,
+    boxShadow: 3,
+    textAlign: 'center',
+    paddingBlock: "30px",
+    maxWidth: '400px',
+    width: '90%',
 });
 
 export const ModalImage = styled('img')({
@@ -79,9 +101,17 @@ export const ModalImage = styled('img')({
   margin: 'auto',
 });
 
+// Modal title for the delete modal
 export const ModalTitle = styled(Typography)({
   fontSize: '20px',
   marginBottom: '24px',
+});
+
+// Modal title for the confirmation modals
+export const ConfirmationModalTitle = styled(Typography)({
+    fontSize: '20px',
+    marginBottom: '24px',
+    color: '#FF3326', 
 });
 
 export const ModalNote = styled(Typography)({
@@ -91,6 +121,7 @@ export const ModalNote = styled(Typography)({
   letterSpacing: '-0.11px',
   textAlign: 'center',
   marginBottom: '32px',
+  marginTop: '20px',
   color: '#fcfcfc',
   opacity: 1,
 });
@@ -110,8 +141,20 @@ export const ModalCancelButton = styled(Button)({
 });
 
 export const ModalConfirmButton = styled(Button)({
+  backgroundColor: '#FF3326',
+  color: '#FFFFFF',
+  height: '30px',
+  width: '110px',
+  '&:hover': {
+    backgroundColor: '#D32F2F', 
+  },
+});
+export const ModalConfirmdButton = styled(Button)({
   backgroundColor: '#ffffffff',
   color: '#FF3326',
   height: '30px',
   width: '110px',
+  '&:hover': {
+    backgroundColor: '#D32F2F', 
+  },
 });

@@ -14,16 +14,17 @@ import {
     IconButton,
     Chip,
     Pagination,
-    Dialog,
-    DialogContent,
-    DialogActions,
+    DialogContent, // Added DialogContent to match your provided code
+    DialogActions, // Keeping this for button styling
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { useNavigate } from "react-router-dom";
 import deleteico from "../assets/1vector.png";
-import alert from '../assets/line-md_alert.png'; // Assuming this is your alert icon
+import alert from '../assets/line-md_alert.png';
+// Importing the styled components from the other file
+import { ModalOverlay, ModalContent, DeleteModalTitle, DeleteModalText, DeleteModalActions, CancelButton, DeleteConfirmButton } from '../adminstyles/EditHomepageTitle.styles';
 
 // Sample data
 const couponData = [
@@ -72,7 +73,6 @@ const couponData = [
 const DiscountPromo = () => {
     const navigate = useNavigate();
 
-    // State for managing the delete dialog
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [couponToDelete, setCouponToDelete] = useState<string | null>(null);
 
@@ -100,7 +100,6 @@ const DiscountPromo = () => {
 
     const confirmDelete = () => {
         console.log(`Confirmed deletion of coupon: ${couponToDelete}`);
-        // Here you would add the actual logic to delete the coupon
         closeDeleteModal();
     };
 
@@ -129,14 +128,7 @@ const DiscountPromo = () => {
 
     return (
         <Box p={0}>
-            {/* Main content container with dimming effect */}
-            <Box
-                sx={{
-                    filter: isModalOpen ? 'brightness(0.5)' : 'none',
-                    pointerEvents: isModalOpen ? 'none' : 'auto',
-                    transition: 'filter 0.3s ease-in-out',
-                }}
-            >
+            <Box>
                 <Box display="flex" alignItems="center" mb={0}>
                     <IconButton onClick={handleBack} sx={{ color: "#2F7A52" }}>
                         <ArrowBackIcon />
@@ -185,8 +177,7 @@ const DiscountPromo = () => {
                             </Button>
                         </Stack>
                     </Stack>
-
-                    <TableContainer>
+                    <TableContainer sx={{ position: 'relative' }}>
                         <Table>
                             <TableHead
                                 sx={{
@@ -242,95 +233,44 @@ const DiscountPromo = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-
                     <Box display="flex" justifyContent="center" mt={3} alignItems="center" spacing={1}>
                         <Pagination count={5} shape="rounded" color="primary" />
                     </Box>
                 </Paper>
             </Box>
 
-            {/* The modal dialog component */}
-            <Dialog
-                open={isModalOpen}
-                onClose={closeDeleteModal}
-                PaperProps={{
-                    sx: {
-                        borderRadius: '8px',
-                        backgroundColor: '#fff', // Changed to white as in other examples
-                        p: 4,
-                        textAlign: 'center',
-                        maxWidth: '400px',
-                        width: '90%',
-                    },
-                }}
-                BackdropProps={{
-                    sx: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.0)',
-                       // backdropFilter: 'blur(3px)',
-                        //WebkitBackdropFilter: 'blur(3px)',
-                    },
-                }}
-            >
-                <DialogContent sx={{ p: 0 }}>
-                    <Box sx={{
-                        width: '140px',
-                        height: '140px',
-                        mb: 1,
-                        mx: 'auto',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        <img src={alert} alt="Alert Icon" style={{ width: '150px', height: '150px' }} />
-                    </Box>
-                    <Typography variant="h6" sx={{ color: '#FF3326', mb: 3 }}>
-                        Are you sure you want to delete this coupon?
-                    </Typography>
-                    <Typography sx={{
-                        fontFamily: 'Nunito Sans',
-                        fontSize: '15px',
-                        lineHeight: '100%',
-                        letterSpacing: '-0.11px',
-                        textAlign: 'center',
-                        mb: 4,
-                        color: 'text.secondary',
-                        opacity: 1,
-                    }}>
-                        <Box component="span" sx={{ fontWeight: 700 }}>Note:</Box> This action is permanent. Once deleted, the <br /> coupon cannot be recovered.
-                    </Typography>
-                </DialogContent>
-                <DialogActions sx={{ justifyContent: 'center', gap: 6, p: 0 }}>
-                    <Button
-                        variant="outlined"
-                        onClick={closeDeleteModal}
-                        sx={{
-                            width: '100px',
-                            color: '#FF3326',
-                            borderColor: '#FF3326',
-                            '&:hover': {
-                                backgroundColor: 'rgba(255, 51, 38, 0.04)',
-                                borderColor: '#FF3326'
-                            },
-                        }}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={confirmDelete}
-                        sx={{
-                            width: '100px',
-                            backgroundColor: '#FF3326',
-                            color: '#FFFFFF',
-                            '&:hover': {
-                                backgroundColor: '#D32F2F',
-                            },
-                        }}
-                    >
-                        Delete
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {/* Modal using the imported styled components */}
+            {isModalOpen && (
+                <ModalOverlay>
+                    <ModalContent>
+                        <DialogContent sx={{ p: 0 }}>
+                            <Box sx={{
+                                width: '140px',
+                                
+                                mb: 1,
+                                mx: 'auto',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                               
+                            </Box>
+                            <DeleteModalTitle variant="h6">
+                                Are you sure you want to delete this coupon?
+                            </DeleteModalTitle>
+                            
+                        </DialogContent>
+                        <DeleteModalActions>
+                            <CancelButton variant="outlined" onClick={closeDeleteModal}>
+                                Cancel
+                            </CancelButton>
+                            <DeleteConfirmButton variant="contained" onClick={confirmDelete}>
+                                Delete
+                            </DeleteConfirmButton>
+                        </DeleteModalActions>
+                    </ModalContent>
+                </ModalOverlay>
+            )}
         </Box>
     );
 };

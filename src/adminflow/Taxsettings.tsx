@@ -24,6 +24,8 @@ const Taxsettings: React.FC = () => {
     const navigate = useNavigate();
     const [gstEnabled, setGstEnabled] = useState(true);
     const [serviceTaxEnabled, setServiceTaxEnabled] = useState(true);
+    const [gstTaxRate, setGstTaxRate] = useState('10');
+    const [serviceTaxRate, setServiceTaxRate] = useState('5');
 
     return (
         <Box sx={{ position: 'relative', width: '100%', height: '500px', p: 1 }}>
@@ -56,7 +58,17 @@ const Taxsettings: React.FC = () => {
                 </StyledTaxSettingsBox>
 
                 <StyledTaxRateBox>
-                    <TextField value="GST Tax Rate-10%" size="small" />
+                    {/* Corrected TextField for GST */}
+                    <TextField
+                        sx={{ flexGrow: -1 }} // Keep flexGrow for proper spacing
+                        size="small"
+                        value={gstTaxRate}
+                        onChange={(e) => setGstTaxRate(e.target.value)}
+                        InputProps={{
+                            startAdornment: <Typography sx={{ mr: 1, color: 'black', whiteSpace: 'nowrap' }}>GST Tax Rate-</Typography>,
+                            endAdornment: <Typography sx={{ ml: 1 }}>%</Typography>,
+                        }}
+                    />
                     <StyledEditBox>
                         <StyledEditIcon />
                         <StyledEditTypography>
@@ -67,10 +79,13 @@ const Taxsettings: React.FC = () => {
                 <StyledDivider />
 
                 {/* Service Tax Settings */}
+                <StyledTaxSectionTitle>
+                    Service Tax Settings
+                </StyledTaxSectionTitle>
                 <StyledTaxSettingsBox>
-                    <StyledTaxSectionTitle>
-                        Service Tax Settings
-                    </StyledTaxSectionTitle>
+                    <Typography>
+                        Enable Service Tax
+                    </Typography>
                     <GreenSwitch
                         checked={serviceTaxEnabled}
                         onChange={(e) => setServiceTaxEnabled(e.target.checked)}
@@ -78,7 +93,17 @@ const Taxsettings: React.FC = () => {
                 </StyledTaxSettingsBox>
 
                 <StyledTaxRateBox mb={3}>
-                    <TextField value="Service Tax Rate-5%" size="small" />
+                    {/* Corrected TextField for Service Tax */}
+                    <TextField
+                        sx={{ flexGrow: 0 }} // Keep flexGrow for proper spacing
+                        size="small"
+                        value={serviceTaxRate}
+                        onChange={(e) => setServiceTaxRate(e.target.value)}
+                        InputProps={{
+                            startAdornment: <Typography sx={{ mr: 1, color: 'black', whiteSpace: 'nowrap' }}>Service Tax Rate-</Typography>,
+                            endAdornment: <Typography sx={{ ml: 1 }}>%</Typography>,
+                        }}
+                    />
                     <StyledEditBox>
                         <StyledEditIcon />
                         <StyledEditTypography>

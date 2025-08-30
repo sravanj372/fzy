@@ -86,7 +86,7 @@ const PartnerCommissionRule: React.FC = () => {
 
     return (
         <PageContainer>
-           
+            
             <HeaderBox>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <ArrowBackIcon
@@ -113,21 +113,22 @@ const PartnerCommissionRule: React.FC = () => {
                         <RuleLabel>
                             Restaurant Name
                         </RuleLabel>
-                        <RuleValueBox>
-                            <Box sx={{ display: 'flex', alignItems: 'center', width: '300px', height: '40px' }}>
+                        <RuleValueBox sx={{ width: '300px' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', height: '40px', width: '100%' }}>
                                 <Typography variant="body1" sx={{ flexGrow: 1 }}>
                                     {rule.restaurantName}
                                 </Typography>
                                 <KeyboardArrowDownIcon sx={{ color: '#2f7a52' }} />
                             </Box>
-                            <DeleteButton
+                            
+                        </RuleValueBox>
+                        <DeleteButton
                                 variant="outlined"
                                 startIcon={<DeleteOutlinedIcon />}
                                 onClick={() => openDeleteModal(rule.id)}
                             >
                                 Delete
                             </DeleteButton>
-                        </RuleValueBox>
                     </RuleRow>
 
                     {/* Commission % Row */}
@@ -136,10 +137,12 @@ const PartnerCommissionRule: React.FC = () => {
                             Commission %
                         </RuleLabel>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <RuleValueBox sx={{ width: '300px', height: '40px' }}>
-                                <Typography variant="body1" sx={{ flexGrow: 1 }}>
-                                    {rule.commission}%
-                                </Typography>
+                            <RuleValueBox sx={{ width: '300px' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', height: '40px' }}>
+                                    <Typography variant="body1" sx={{ flexGrow: 1 }}>
+                                        {rule.commission}%
+                                    </Typography>
+                                </Box>
                             </RuleValueBox>
                         </Box>
                     </RuleRow>
@@ -148,7 +151,7 @@ const PartnerCommissionRule: React.FC = () => {
             ))}
 
             {/* Save Button */}
-            <Box sx={{ mt: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Box sx={{ mt: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', ml: 35 }}>
                 <SaveButton variant="contained">
                     SAVE
                 </SaveButton>

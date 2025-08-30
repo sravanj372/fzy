@@ -76,7 +76,7 @@ const AddPartnerCommissionRule = () => {
             <HeaderBox>
                 <ArrowBackIcon
                     onClick={() => navigate('/admin/configsetting/paymentsettings/partner-commission')}
-                    sx={{ cursor: 'pointer' }}
+                    sx={{ cursor: 'pointer' , color: '#2f7a52'}}
                 />
                 <HeaderTitle variant="h6" component="h1">Add Partner Commission Rule</HeaderTitle>
             </HeaderBox>
@@ -110,7 +110,7 @@ const AddPartnerCommissionRule = () => {
                     />
                 </Stack>
 
-                <Box sx={{ display: 'flex', justifyContent: { md: 'flex-start', xs: 'center' }, mt: 2, ml: { md: '216px', xs: '0' } }}>
+                <Box sx={{ display: 'flex', justifyContent: { md: 'flex-start', xs: 'center' }, mt: 2, ml: { md: '396px', xs: '0' } }}>
                     <AddButton
                         variant="contained"
                         onClick={handleAdd}

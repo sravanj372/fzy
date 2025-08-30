@@ -61,6 +61,7 @@ export const RuleRow = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     marginBottom: theme.spacing(2),
+    width: '100%',
     flexDirection: 'column',
     gap: theme.spacing(1),
     [theme.breakpoints.up('sm')]: {
@@ -85,12 +86,10 @@ export const RuleValueBox = styled(Box)(({ theme }) => ({
     width: '100%',
     gap: theme.spacing(1),
     alignItems: 'center',
-    [theme.breakpoints.up('sm')]: {
-        width: '40%',
-    },
+    
     '& .MuiBox-root': {
         height: 40,
-        width: 300,
+        width: 350,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -106,6 +105,7 @@ export const DeleteButton = styled(Button)(({ theme }) => ({
     borderColor: '#f44336',
     color: '#f44336',
     whiteSpace: 'nowrap',
+    marginLeft: '25px',
     '&:hover': {
         borderColor: '#d32f2f',
         backgroundColor: 'rgba(244, 67, 54, 0.04)',

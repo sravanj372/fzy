@@ -109,7 +109,7 @@ export const ErrorText = styled(Typography)({
   fontWeight: 400,
   fontStyle: 'normal',
   fontSize: '10px',
-  marginTop: '-35px',
+  
   lineHeight: '12px',
   letterSpacing: '0.8px',
   verticalAlign: 'middle',

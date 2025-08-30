@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import DownloadIcon from '@mui/icons-material/Download';
+import DownloadIcon from '../assets/downloadicon.png';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import {
     PageContainer,
@@ -44,16 +44,15 @@ const PartnerBankDetailsPage: React.FC = () => {
     };
 
     const partnerbankheadings = [
-        { id: 1, heading: 'Restaurant Name', headerAlign: 'left', contentAlign: 'left' },
-        { id: 2, heading: 'Partner Name', headerAlign: 'left', contentAlign: 'left' },
-        { id: 3, heading: 'Account Holder Name', headerAlign: 'left', contentAlign: 'left' },
-        { id: 4, heading: 'Bank Name', headerAlign: 'center', contentAlign: 'center' },
-        { id: 5, heading: 'Account Number', headerAlign: 'center', contentAlign: 'center' },
-        { id: 6, heading: 'Date', headerAlign: 'center', contentAlign: 'center' },
-        { id: 7, heading: 'Action', headerAlign: 'center', contentAlign: 'left' }
+        { id: 1, heading: 'Restaurant Name', headerAlign: 'left', contentAlign: 'left', width: '20%' },
+        { id: 2, heading: 'Partner Name', headerAlign: 'left', contentAlign: 'left', width: '15%' },
+        { id: 3, heading: 'Account Holder Name', headerAlign: 'left', contentAlign: 'left', width: '15%' },
+        { id: 4, heading: 'Bank Name', headerAlign: 'center', contentAlign: 'center', width: '10%' },
+        { id: 5, heading: 'Account Number', headerAlign: 'center', contentAlign: 'center', width: '15%' },
+        { id: 6, heading: 'Date', headerAlign: 'center', contentAlign: 'center', width: '15%' },
+        { id: 7, heading: 'Action', headerAlign: 'center', contentAlign: 'center', width: '10%' }
     ];
 
-    
     const partnerbankdetails: PartnerBankDetails[] = [
         { id: 1, restaurantname: 'The Urban Pantry', partnername: 'James', accountholdername: 'James Smith', bankname: 'Common Wealth', accountnumber: '****4508', date: 'May 6, 2025' },
         { id: 2, restaurantname: 'Fog Harbor Fish House', partnername: 'Sarah Williom', accountholdername: 'Sarah Williams', bankname: 'ANZ', accountnumber: '014 3615', date: 'May 4, 2025' },
@@ -78,9 +77,10 @@ const PartnerBankDetailsPage: React.FC = () => {
                     <ExportButton
                         variant="contained"
                         onClick={handleClick}
-                        startIcon={<DownloadIcon />}
+                        
                     >
                         Export
+                        {<img src={DownloadIcon} alt="Download Icon" style={{ width: 20, height: 20, marginLeft: 9 }} />}
                     </ExportButton>
                     <Menu
                         anchorEl={anchorEl}
@@ -95,13 +95,14 @@ const PartnerBankDetailsPage: React.FC = () => {
             </HeaderBox>
             <TablePaper>
                 <TableContainer component={Paper} sx={{ boxShadow: 'none' }}>
-                    <Table>
+                    <Table sx={{ tableLayout: 'fixed' }}>
                         <TableHead>
                             <StyledTableHeadRow>
                                 {partnerbankheadings.map((partnerheading) => (
                                     <StyledHeaderTableCell
                                         key={partnerheading.id}
                                         align={partnerheading.headerAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: partnerheading.width }}
                                     >
                                         {partnerheading.heading}
                                     </StyledHeaderTableCell>
@@ -111,7 +112,10 @@ const PartnerBankDetailsPage: React.FC = () => {
                         <TableBody>
                             {partnerbankdetails.map((partnerdetails) => (
                                 <TableRow key={partnerdetails.id}>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Restaurant Name')?.contentAlign as 'left' | 'center' | 'right'}>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Restaurant Name')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '20%' }}
+                                    >
                                         <Typography
                                             component="a"
                                             href="#"
@@ -121,12 +125,40 @@ const PartnerBankDetailsPage: React.FC = () => {
                                             {partnerdetails.restaurantname}
                                         </Typography>
                                     </StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Partner Name')?.contentAlign as 'left' | 'center' | 'right'}>{partnerdetails.partnername}</StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Account Holder Name')?.contentAlign as 'left' | 'center' | 'right'}>{partnerdetails.accountholdername}</StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Bank Name')?.contentAlign as 'left' | 'center' | 'right'}>{partnerdetails.bankname}</StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Account Number')?.contentAlign as 'left' | 'center' | 'right'} sx={{ color: '#2F7A52' }}>{partnerdetails.accountnumber}</StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Date')?.contentAlign as 'left' | 'center' | 'right'}>{partnerdetails.date}</StyledTableCell>
-                                    <StyledTableCell align={partnerbankheadings.find(h => h.heading === 'Action')?.contentAlign as 'left' | 'center' | 'right'}>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Partner Name')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '15%' }}
+                                    >
+                                        {partnerdetails.partnername}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Account Holder Name')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '15%' }}
+                                    >
+                                        {partnerdetails.accountholdername}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Bank Name')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '10%' }}
+                                    >
+                                        {partnerdetails.bankname}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Account Number')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ color: '#2F7A52', width: '15%' }}
+                                    >
+                                        {partnerdetails.accountnumber}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Date')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '15%' }}
+                                    >
+                                        {partnerdetails.date}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        align={partnerbankheadings.find(h => h.heading === 'Action')?.contentAlign as 'left' | 'center' | 'right'}
+                                        sx={{ width: '10%' }}
+                                    >
                                         <ViewButton
                                             startIcon={<VisibilityOutlinedIcon />}
                                             onClick={() => { }}

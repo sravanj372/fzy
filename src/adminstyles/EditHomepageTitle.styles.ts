@@ -1,6 +1,7 @@
 import { Box, Button, Stack, TextField, Typography, Paper, DialogActions } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 // --- Styled Components ---
 
 export const VisuallyHiddenInput = styled('input')({
@@ -41,14 +42,19 @@ export const ModalContent = styled(Paper)(({ theme }) => ({
 
 export const HeaderIcon = styled(ArrowBackIcon)({
     cursor: 'pointer',
-    marginTop: '1px',
-    color: '#2F7A52',
-    fontSize: '20px',
+    marginTop: "0",
+    color: '#2F7A52', // Updated color to green
+    fontSize: "18px",
+    "@media (min-width: 960px)": {
+        marginTop: "4px",
+        fontSize: "20px",
+    },
 });
 
 export const HeaderText = styled(Typography)({
-    color: '#2F7A52',
+    color: '#2F7A52', // Updated color to green
     marginBottom: '2px',
+    marginLeft: '10px',
     padding: '1px',
 });
 
@@ -67,7 +73,7 @@ export const DeleteImage = styled(Box)({
 
 export const DeleteText = styled(Typography)({
     fontSize: '10px',
-    color: '#D32F2F',
+    color: '#FF3326',
 });
 
 export const FormSection = styled(Stack)({
@@ -77,14 +83,16 @@ export const FormSection = styled(Stack)({
 
 export const FormLabel = styled(Box)({
     width: '15%',
-    marginBottom: '1px',
+    marginBottom: '0px',
+    marginTop: '15px',
     '@media (max-width: 900px)': {
         width: '100%',
     },
 });
 
 export const FormInputContainer = styled(Box)({
-    width: '40%',
+    width: '60%',
+    
     '@media (max-width: 900px)': {
         width: '100%',
     },
@@ -93,10 +101,10 @@ export const FormInputContainer = styled(Box)({
 export const InputTextField = styled(TextField)({
     width: '100%',
     '& .MuiOutlinedInput-root': {
-        color: '#333',
-        '& fieldset': { borderColor: '#68b266' },
-        '&:hover fieldset': { borderColor: '#4CAF50' },
-        '&.Mui-focused fieldset': { borderColor: '#2e7d32' },
+        color: '#2F7A52',
+        '& fieldset': { borderColor: '#2F7A52' },
+        '&:hover fieldset': { borderColor: '#2F7A52' },
+        '&.Mui-focused fieldset': { borderColor: '#2F7A52' },
     },
     '& .MuiFormHelperText-root': {
         minHeight: '1.25em',
@@ -106,8 +114,15 @@ export const InputTextField = styled(TextField)({
 export const DatePickerContainer = styled(Box)({
     width: '40%',
     display: 'flex',
+    
     gap: '3px',
     alignItems: 'flex-start',
+    '& .MuiOutlinedInput-root': {
+        color: '#2F7A52',
+        '& fieldset': { borderColor: '#2F7A52' },
+        '&:hover fieldset': { borderColor: '#2F7A52' },
+        '&.Mui-focused fieldset': { borderColor: '#2F7A52' },
+    },
     '@media (max-width: 900px)': {
         width: '100%',
     },
@@ -116,7 +131,9 @@ export const DatePickerContainer = styled(Box)({
 export const ToText = styled(Typography)({
     display: 'flex',
     alignItems: 'center',
-    marginTop: '0.5px',
+    marginTop: '15px',
+    marginLeft: '15px',
+    marginRight: '15px',
 });
 
 export const RadioContainer = styled(Box)({
@@ -156,8 +173,8 @@ export const SubmitButtonContainer = styled(Box)({
 });
 
 export const SubmitButton = styled(Button)({
-    paddingLeft: '5px',
-    paddingRight: '5px',
+    paddingLeft: '25px',
+    paddingRight: '25px',
     borderRadius: '10px',
     textTransform: 'none',
     '@media (max-width: 900px)': {

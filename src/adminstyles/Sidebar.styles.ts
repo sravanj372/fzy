@@ -154,7 +154,7 @@ export const StyledListItemButton = styled(ListItemButton)(({ theme, selected })
 
 
 export const StyledSubListItemButton = styled(ListItemButton)(({ selected }) => ({
-    paddingLeft: '64px', // pl: 8 becomes 64px
+    paddingLeft: '64px', 
     margin: '0 15px 5px 30px',
     width: `calc(100% - 45px)`,
     borderRadius: '8px',

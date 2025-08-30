@@ -380,7 +380,7 @@ export const HomepageTitleItem = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
     padding: theme.spacing(1.7,1),
-    margin: theme.spacing(0.5, 0),
+    margin: theme.spacing(0, 0),
 }));
 
 export const HomepageTitleImage = styled('img')(({ theme }) => ({
